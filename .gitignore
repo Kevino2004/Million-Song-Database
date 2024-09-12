@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Compiled class file
 *.class
 
@@ -22,4 +23,12 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
+/bin/
+=======
+~*
+._*
+.TemporaryItems
+.DS_Store
+Thumbs.db
+>>>>>>> branch 'master' of https://web-cat.cs.vt.edu/Web-CAT/WebObjects/Web-CAT.woa/git/StudentProject/7870ba93-560a-462c-a149-803a39a3fec7
 /bin/
