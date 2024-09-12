@@ -27,7 +27,7 @@ import java.util.Scanner;
  * Main for Graph project (CS3114/CS5040 Fall 2023 Project 4).
  * Usage: java GraphProject <init-hash-size> <command-file>
  *
- * @author Kevin O'Neill <ckoneill04>
+ * @author Kevin O'Neill <ckoneill04> Kavian Rahiab <kavianr22>
  * @version 9.4.2024
  *
  */

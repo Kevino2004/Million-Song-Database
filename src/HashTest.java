@@ -1,7 +1,7 @@
 import student.TestCase;
 
 /**
- * @author <Put something here>
+ * @author Kavian Rahiab <kavianr22>
  * @version <Put something here>
  */
 public class HashTest extends TestCase {

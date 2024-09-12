@@ -7,7 +7,7 @@ import java.util.Scanner;
  * {@link java.util.Scanner} objects to represent input channels
  * and {@link java.io.PrintWriter} objects to represent output channels.
  *
- * @author Stephen Edwards
+ * @author Kavian Rahiab <kavianr22>
  * @version 2023.09.15
  */
 public interface Interpreter {
