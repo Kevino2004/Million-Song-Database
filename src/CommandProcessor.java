@@ -7,7 +7,7 @@
 public class CommandProcessor
 {
     //~ Fields ................................................................
-    //Controller controller; hi
+    //Controller controller;
     // ----------------------------------------------------------
     /**
      * Main for Command Processor.
