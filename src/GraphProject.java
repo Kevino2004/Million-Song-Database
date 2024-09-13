@@ -58,9 +58,8 @@ public class GraphProject
         // Ensure file is entered correctly
         try {
             File input = new File(args[1]);
-            CommandProcessor commandProcessor = new 
-                CommandProcessor();
-            commandProcessor.process(input, controller);
+            
+            CommandProcessor.process(input, controller);
         }
         catch (FileNotFoundException e) {
             System.out.println("Error: File not found");
