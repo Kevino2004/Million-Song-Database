@@ -2,20 +2,18 @@ import student.TestCase;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-
 /**
  * This class was designed to test the GraphProject
  *
- * @author Kavian Rahiab <kavianr22>
- * @version <Put something here>
+ * @author Kevin O'Neill <ckoneill04> Kavian Rahiab <kavianr22>
+ * @version 9.13.2024
  */
-public class GraphProjectTest extends TestCase {
-    // ----------------------------------------------------------
+public class GraphProjectTest extends TestCase 
+{
     /**
      * Read contents of a file into a string
      * 
-     * @param path
-     *            File name
+     * @param path File name
      * @return the string
      * @throws IOException
      */
