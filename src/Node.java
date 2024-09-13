@@ -69,4 +69,10 @@ public class Node<E>
     public E getData() {
         return data;
     }
+
+    public DoubleLL<Node<String>> getAdjacencyList()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }
