@@ -7,14 +7,14 @@
 public class CommandProcessor
 {
     //~ Fields ................................................................
-    //Controller controller;
+    Controller controller;
     // ----------------------------------------------------------
     /**
      * Main for Command Processor.
      */
     //~ Constructors ..........................................................
     public CommandProcessor() {
-        //controller = new Controller();
+        controller = new Controller();
     }
     //~Public  Methods ........................................................
     /**
@@ -49,14 +49,14 @@ public class CommandProcessor
     // Method to handle the 'add' command
     private static void insert(String argument) {
         // You will need to implement logic for adding songs/artists
-        //controller.insert();
+        controller.insert();
         System.out.println("Add command received for: " + argument);
     }
     
     // Method to handle the 'remove' command
     private static void remove(String argument) {
         // You will need to implement logic for removing songs/artists
-        //controller.remove();
+        controller.remove();
         System.out.println("Remove command received for: " + argument);
     }
     
