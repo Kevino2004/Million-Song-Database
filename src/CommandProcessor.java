@@ -53,13 +53,16 @@ public class CommandProcessor
         String action = commandParts[0].toLowerCase(); 
         String argument = commandParts.length > 1 ? commandParts[1] : ""; 
         
-        String[] argumentParts = argument.split("<SEP>"); // Split on the <SEP> 
-        String artist = argumentParts.length > 0 ? argumentParts[0] : ""; 
-        String song = argumentParts.length > 1 ? argumentParts[1] : "";  
-        
         switch (action) {
             case "insert":
-                controller.insert(artist, song);
+                String[] parts = argument.split("<SEP>");
+                if (parts.length == 2) {
+                    String artist = parts[0].trim();
+                    String song = parts[1].trim();
+                    controller.insert(artist, song); 
+                } else {
+                    System.out.println("Error: Invalid insert format.");
+                }
                 break;
             case "remove":
                 controller.remove(artist, song);

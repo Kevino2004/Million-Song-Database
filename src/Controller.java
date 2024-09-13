@@ -67,7 +67,7 @@ public class Controller
      * @param artist is the artist
      * @param song is the song
      */
-    public void delete(String artist, String song)
+    public void remove(String artist, String song)
     {
         
     }
