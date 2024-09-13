@@ -59,7 +59,8 @@ public class GraphProject
         try {
             File input = new File(args[1]);
             CommandProcessor commandProcessor = new 
-                CommandProcessor(input, controller);
+                CommandProcessor();
+            commandProcessor.process(input, controller);
         }
         catch (FileNotFoundException e) {
             System.out.println("Error: File not found");

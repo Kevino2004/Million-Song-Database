@@ -12,35 +12,43 @@ public class CommandProcessor
     //~ Fields ................................................................
     /**
      * Main for Command Processor.
-     * @param input input file
-     * @param controller Controller object instantiated in Graph Project
-     * @throws FileNotFoundException 
      */
     //~ Constructors ..........................................................
-    public CommandProcessor(File input, Controller controller) 
+    public CommandProcessor() 
+    {
+        //Main not needed
+    }
+    //~Public  Methods ........................................................
+    /**
+     * Process method takes the command from main.
+     * @param file input file
+     * @param controller Graph Project controller
+     * @throws FileNotFoundException 
+     */
+    // Method to process a command string
+    public static void process(File file, Controller controller) 
         throws FileNotFoundException 
     {
         @SuppressWarnings("resource")
-        Scanner scanner = new Scanner(input);
+        Scanner scanner = new Scanner(file);
         
         // Read line by line from the file
         while (scanner.hasNextLine()) {
             String command = scanner.nextLine().trim();
                 if (!command.isEmpty()) {
-                    // Delegate the command to the Command Processor
-                    CommandProcessor.process(command);
+                    CommandProcessor.call(command, controller);
                 }
             }
         scanner.close();
     }
-    //~Public  Methods ........................................................
     /**
-     * Process method takes the command from main.
-     * @param command
+     * Call method.
+     * @param command String for command
+     * @param controller Graph Project controller
      */
-    // Method to process a command string
-    public static void process(String command) {
-        // Split command into parts
+    public static void call(String command, Controller controller)
+    {
+     // Split command into parts
         String[] commandParts = command.split(" ", 2);
         //"add", "remove", "print"
         String action = commandParts[0].toLowerCase(); 
@@ -49,44 +57,17 @@ public class CommandProcessor
         
         switch (action) {
             case "insert":
-                insert(argument);
+                controller.insert(argument);
                 break;
             case "remove":
-                remove(argument);
+                controller.remove(argument);
                 break;
             case "print":
-                print(argument);
+                controller.print(argument);
                 break;
             default:
                 System.out.println("Unknown command: " + command);
                 break;
-        }
-    }
-    
-    // Method to handle the 'add' command
-    private static void insert(String argument) {
-        // You will need to implement logic for adding songs/artists
-        //controller.insert();
-        System.out.println("Add command received for: " + argument);
-    }
-    
-    // Method to handle the 'remove' command
-    private static void remove(String argument) {
-        // You will need to implement logic for removing songs/artists
-        controller.remove();
-        System.out.println("Remove command received for: " + argument);
-    }
-    
-    // Method to handle the 'print' command
-    private static void print(String argument) {
-        if (argument.equalsIgnoreCase("song")) {
-            // Logic to print song-related data
-            System.out.println("Print song data");
-        } else if (argument.equalsIgnoreCase("artist")) {
-            // Logic to print artist-related data
-            System.out.println("Print artist data");
-        } else {
-            System.out.println("Unknown print command: " + argument);
         }
     }
 }
