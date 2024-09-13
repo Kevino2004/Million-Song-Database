@@ -32,19 +32,18 @@ import java.io.FileNotFoundException;
 public class GraphProject 
 {
     /**
-     * @param args
-     *            Command line parameters
+     * @param args Command line parameters
      * @throws FileNotFoundException 
      */
     public static void main(String[] args) throws FileNotFoundException {
-     // Check if correct number of arguments is passed
+        // Check if correct number of arguments is passed
         if (args.length != 2) {
             System.out.println("Usage: java GraphProject {initHashSize} "
                 + "{commandFile}");
             return;
         }
         
-     // Parse the initial hash table size and create controller.
+        // Parse the initial hash table size and create controller.
         int initHashSize;
         try {
             initHashSize = Integer.parseInt(args[0]);

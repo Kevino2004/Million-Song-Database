@@ -55,17 +55,29 @@ public class CommandProcessor
         
         switch (action) {
             case "insert":
-                String[] parts = argument.split("<SEP>");
-                if (parts.length == 2) {
-                    String artist = parts[0].trim();
-                    String song = parts[1].trim();
+                String[] parts1 = argument.split("<SEP>");
+                if (parts1.length == 2) {
+                    String artist = parts1[0].trim();
+                    String song = parts1[1].trim();
                     controller.insert(artist, song); 
-                } else {
+                } 
+                else {
                     System.out.println("Error: Invalid insert format.");
                 }
                 break;
             case "remove":
-                controller.remove(artist, song);
+                // Parse the input to determine whether it's an artist or a song
+                String[] parts2 = command.split("\\|", 2);
+                if (parts2.length != 2) {
+                    System.out.println("Invalid input format. Expected format: "
+                        + "{artist|name} or {song|name}");
+                    return;
+                }
+
+                String type = parts2[0].trim();  // either 'artist' or 'song'
+                String name = parts2[1].trim();  // the actual name of the artist or song
+
+                controller.remove(type, name);
                 break;
             case "print":
                 controller.print(artist, song);
