@@ -29,8 +29,8 @@ public class Hash {
     //~ Methods ...............................................................
     
     /**
-     * Insert a new record into the hash table. Uses quadratic probing for collision resolution.
-     * Expands the table if it's more than half full.
+     * Insert a new record into the hash table. Uses quadratic probing for 
+     * collision resolution. Expands the table if it's more than half full.
      * 
      * @param key The key (string) to insert
      * @param value The value (Node) associated with the key
@@ -43,7 +43,8 @@ public class Hash {
         int homeSlot = h(key, tableSize);
         int i = 0;
         
-        while (table[(homeSlot + i * i) % tableSize] != null && table[(homeSlot + i * i) % tableSize] != TOMBSTONE) {
+        while (table[(homeSlot + i * i) % tableSize] != null && 
+            table[(homeSlot + i * i) % tableSize] != TOMBSTONE) {
             i++;
         }
         
@@ -85,7 +86,7 @@ public class Hash {
         while (table[(homeSlot + i * i) % tableSize] != null) {
             Record current = table[(homeSlot + i * i) % tableSize];
             if (current != TOMBSTONE && current.getKey().equals(key)) {
-                table[(homeSlot + i * i) % tableSize] = TOMBSTONE;  // Mark as tombstone
+                table[(homeSlot + i * i) % tableSize] = TOMBSTONE; 
                 numRecords--;
                 return;
             }
@@ -105,7 +106,8 @@ public class Hash {
         
         for (int i = 0; i < tableSize; i++) {
             if (table[i] != null && table[i] != TOMBSTONE) {
-                System.out.println("Key: " + table[i].getKey() + ", Value: " + table[i].getValue());
+                System.out.println("Key: " + table[i].getKey() + ", Value: " 
+                    + table[i].getValue());
                 count++;
             }
         }
@@ -115,7 +117,8 @@ public class Hash {
     }
     
     /**
-     * Expand the hash table by doubling its size and re-inserting all valid records.
+     * Expand the hash table by doubling its size and re-inserting all 
+     * valid records.
      */
     private void expand() {
         int newSize = tableSize * 2;

@@ -45,7 +45,7 @@ public class Graph
 
         if (fromNode != null && toNode != null && !hasEdge(fromNode, toNode)) {
             fromNode.getAdjacencyList().add(toNode);
-            toNode.getAdjacencyList().add(fromNode);  // Since it's an undirected graph
+            toNode.getAdjacencyList().add(fromNode);  // An undirected graph
         }
     }
 

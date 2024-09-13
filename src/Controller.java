@@ -10,7 +10,6 @@ public class Controller
     private Hash artistHash;
     private Hash songHash;
     private Graph fullGraph;
-    private int tableSize;
     //~ Constructors ..........................................................
     
     // ----------------------------------------------------------
@@ -20,10 +19,9 @@ public class Controller
      */
     public Controller(int tableSize)
     {
-        this.artistHash = new Hash();
-        this.songHash = new Hash();
+        this.artistHash = new Hash(tableSize);
+        this.songHash = new Hash(tableSize);
         this.fullGraph = new Graph();
-        this.tableSize = tableSize;
     }
     
     // ----------------------------------------------------------
@@ -57,7 +55,8 @@ public class Controller
         if (!fullGraph.hasEdge(artistNode, songNode)) {
             fullGraph.addEdge(artistNode, songNode); // Create edge in the graph
         } else {
-            System.out.println("Duplicate record: Artist '" + artist + "' is already associated with Song '" + song + "'.");
+            System.out.println("Duplicate record: Artist '" + artist + 
+                "' is already associated with Song '" + song + "'.");
         }
     }
     

@@ -8,7 +8,7 @@ import java.util.Scanner;
  * and {@link java.io.PrintWriter} objects to represent output channels.
  *
  * @author Kavian Rahiab <kavianr22>
- * @version 2023.09.15
+ * @version 2024.09.13
  */
 public interface Interpreter {
     // ~ Public Methods ........................................................
