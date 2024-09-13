@@ -60,4 +60,25 @@ public class Controller
             System.out.println("Duplicate record: Artist '" + artist + "' is already associated with Song '" + song + "'.");
         }
     }
+    
+    // ----------------------------------------------------------
+    /**
+     * deletes song from hash
+     * @param artist is the artist
+     * @param song is the song
+     */
+    public void delete(String artist, String song)
+    {
+        
+    }
+    
+    /**
+     * print song from hash
+     * @param artist is the artist
+     * @param song is the song
+     */
+    public void print(String artist, String song)
+    {
+        
+    }
 }
