@@ -7,7 +7,7 @@
 public class Graph
 {
     //~ Fields ................................................................
-    private DoubleLL vertexList;  // Adjacency list as a doubly linked list
+    private DoubleLL<Node<String>> vertexList;  // Adjacency list as a DLL
     private int numberOfNodes;
     //~ Constructors ..........................................................
     
@@ -15,7 +15,7 @@ public class Graph
      * Create a new Graph object.
      */
     public Graph() {
-        this.vertexList = new DoubleLL();
+        this.vertexList = new DoubleLL<>();
         this.numberOfNodes = 0;
     }
     //~Public  Methods ........................................................
@@ -23,11 +23,10 @@ public class Graph
     /**
      * Add a new node (artist or song) to the graph.
      * 
-     * @param data The data for the new node (artist or song)
+     * @param newNode The node to be added to the graph
      */
-    public void addNode(String data) {
-        if (!containsNode(data)) {
-            Node<String> newNode = new Node(data);
+    public void addNode(Node<String> newNode) {
+        if (!containsNode(newNode.getData())) {
             vertexList.add(newNode);
             numberOfNodes++;
         }
@@ -36,16 +35,13 @@ public class Graph
     /**
      * Add an edge between two nodes (artist and song) in the graph.
      * 
-     * @param from The data of the start node (e.g., artist)
-     * @param to The data of the destination node (e.g., song)
+     * @param fromNode The starting node (artist)
+     * @param toNode The destination node (song)
      */
-    public void addEdge(String from, String to) {
-        Node<String> fromNode = getNode(from);
-        Node<String> toNode = getNode(to);
-
+    public void addEdge(Node<String> fromNode, Node<String> toNode) {
         if (fromNode != null && toNode != null && !hasEdge(fromNode, toNode)) {
             fromNode.getAdjacencyList().add(toNode);
-            toNode.getAdjacencyList().add(fromNode);  // Since it's an undirected graph
+            toNode.getAdjacencyList().add(fromNode);
         }
     }
 
@@ -56,12 +52,12 @@ public class Graph
      * @return true if the node exists, false otherwise
      */
     public boolean containsNode(String data) {
-        Node<String> current = vertexList.getHead();
+        Node<String> current = vertexList.get(0);
         while (current != null) {
             if (current.getData().equals(data)) {
                 return true;
             }
-            current = current.getNext();
+            current = current.next();
         }
         return false;
     }
@@ -86,10 +82,10 @@ public class Graph
         Node<String> toRemove = getNode(nodeToRemove);
         if (toRemove != null) {
             // Remove all edges
-            Node<String> current = toRemove.getAdjacencyList().getHead();
+            Node<String> current = toRemove.getAdjacencyList().get(0);
             while (current != null) {
                 current.getAdjacencyList().remove(toRemove);
-                current = current.getNext();
+                current = current.next();
             }
             vertexList.remove(toRemove);
             numberOfNodes--;
@@ -99,16 +95,16 @@ public class Graph
     /**
      * Get a node by its data.
      * 
-     * @param data The data of the node to retrieve
+     * @param nodeToRemove The data of the node to retrieve
      * @return The node if found, null otherwise
      */
-    public Node<String> getNode(String data) {
-        Node<String> current = vertexList.getHead();
+    public Node<String> getNode(Node<String> nodeToRemove) {
+        Node<String> current = vertexList.get(0);
         while (current != null) {
-            if (current.getData().equals(data)) {
+            if (current.getData().equals(nodeToRemove)) {
                 return current;
             }
-            current = current.getNext();
+            current = current.next();
         }
         return null;
     }
@@ -117,16 +113,16 @@ public class Graph
      * Print all the nodes and their edges.
      */
     public void printGraph() {
-        Node<String> current = vertexList.getHead();
+        Node<String> current = vertexList.get(0);
         while (current != null) {
             System.out.print(current.getData() + ": ");
-            Node<String> adjNode = current.getAdjacencyList().getHead();
+            Node<String> adjNode = current.getAdjacencyList().get(0);
             while (adjNode != null) {
                 System.out.print(adjNode.getData() + " ");
-                adjNode = adjNode.getNext();
+                adjNode = adjNode.next();
             }
             System.out.println();
-            current = current.getNext();
+            current = current.next();
         }
     }
 }

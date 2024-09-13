@@ -12,6 +12,7 @@ public class Node<E>
         private Node<E> next;
         private Node<E> previous;
         private E data;
+        private DoubleLL<Node<E>> adjacencyList;
 
         /**
          * Creates a new node with the given data
@@ -21,6 +22,7 @@ public class Node<E>
          */
         public Node(E d) {
             data = d;
+            this.adjacencyList = new DoubleLL<>();
         }
 
         /**
@@ -31,6 +33,24 @@ public class Node<E>
          */
         public void setNext(Node<E> n) {
             next = n;
+        }
+        
+        /**
+         * Gets the adjacency list of this node.
+         * 
+         * @return The adjacency list of neighboring nodes
+         */
+        public DoubleLL<Node<E>> getAdjacencyList() {
+            return adjacencyList;
+        }
+        
+        /**
+         * Sets the adjacency list for this node.
+         * 
+         * @param adjacencyList The adjacency list to set
+         */
+        public void setAdjacencyList(DoubleLL<Node<E>> adjacencyList) {
+            this.adjacencyList = adjacencyList;
         }
 
         /**

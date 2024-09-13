@@ -11,8 +11,6 @@ public class Controller
     private Hash songHash;
     private Graph fullGraph;
     //~ Constructors ..........................................................
-    
-    // ----------------------------------------------------------
     /**
      * Create a new Controller object.
      * @param tableSize size given in input for Hash table size.
@@ -23,34 +21,33 @@ public class Controller
         this.songHash = new Hash(tableSize);
         this.fullGraph = new Graph();
     }
-    
-    // ----------------------------------------------------------
+    //~Public  Methods ........................................................
     /**
-     * Find artist in hash. If not found make new node insert in artist hash
-     * Do the same for song
+     * Find artist in hash. If not found, make new node and insert in 
+     * artist hash.
+     * Do the same for song.
      * @param artist is the artist 
      * @param song is the song
      */
-    //~Public  Methods ........................................................
     public void insert(String artist, String song) {
         // 1. Search for the artist in the artist hash table
         Node<String> artistNode = artistHash.find(artist);
         if (artistNode == null) {
             // Artist not found, create new node
-            artistNode = new Node<String>(artist);
+            artistNode = new Node<>(artist);
             artistHash.insert(artist, artistNode); // Insert into artist hash
             fullGraph.addNode(artistNode); // Add the artist node to the graph
         }
-        
+
         // 2. Search for the song in the song hash table
         Node<String> songNode = songHash.find(song);
         if (songNode == null) {
             // Song not found, create new node
-            songNode = new Node(song);
+            songNode = new Node<>(song);
             songHash.insert(song, songNode); // Insert into song hash
-            fullGraph.newNode(songNode); // Add the song node to the graph
+            fullGraph.addNode(songNode); // Add the song node to the graph
         }
-        
+
         // 3. Add an edge between the artist node and song node in the graph
         if (!fullGraph.hasEdge(artistNode, songNode)) {
             fullGraph.addEdge(artistNode, songNode); // Create edge in the graph
@@ -100,11 +97,27 @@ public class Controller
     }
     
     /**
-     * print song from hash
+     * Print song, artist, or graph from hash table or graph.
      * @param type either artist, song, or graph
      */
-    public void print(String type)
-    {
-        
+    public void print(String type) {
+        switch (type.toLowerCase()) {
+            case "artist":
+                System.out.println("Printing all artists:");
+                artistHash.print();
+                break;
+            case "song":
+                System.out.println("Printing all songs:");
+                songHash.print();
+                break;
+            case "graph":
+                System.out.println("Printing the graph:");
+                fullGraph.printGraph(); // Prints the graph
+                break;
+            default:
+                System.out.println("Invalid type. Use 'artist', 'song',"
+                    + " or 'graph'.");
+                break;
+        }
     }
 }
