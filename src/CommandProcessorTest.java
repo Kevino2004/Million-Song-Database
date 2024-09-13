@@ -101,7 +101,8 @@ public class CommandProcessorTest extends TestCase {
             // Invoke main method of our Graph Project
             GraphProject.main(args);
             actualOutput = systemOut().getHistory();
-        } catch (Exception e) {
+        } 
+        catch (Exception e) {
             // Capture the exception and set actual output
             actualOutput = systemOut().getHistory();
         }
