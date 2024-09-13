@@ -37,9 +37,9 @@ public class Controller
         Node<String> artistNode = artistHash.find(artist);
         if (artistNode == null) {
             // Artist not found, create new node
-            artistNode = new Node(artist);
+            artistNode = new Node<String>(artist);
             artistHash.insert(artist, artistNode); // Insert into artist hash
-            fullGraph.newNode(artistNode); // Add the artist node to the graph
+            fullGraph.addNode(artistNode); // Add the artist node to the graph
         }
         
         // 2. Search for the song in the song hash table
