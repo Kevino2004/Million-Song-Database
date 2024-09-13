@@ -20,8 +20,6 @@
 // letter of this restriction.
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Scanner;
-
 // -------------------------------------------------------------------------
 /**
  * Main for Graph project (CS3114/CS5040 Fall 2023 Project 4).
@@ -31,25 +29,39 @@ import java.util.Scanner;
  * @version 9.4.2024
  *
  */
-public class GraphProject {
+public class GraphProject 
+{
     /**
      * @param args
      *            Command line parameters
      * @throws FileNotFoundException 
      */
-    @SuppressWarnings("resource")
     public static void main(String[] args) throws FileNotFoundException {
-        File inputFile = new File(args[0]);
-        Scanner scanner = new Scanner(inputFile);
-                
-        // Read line by line from the file
-        while (scanner.hasNextLine()) {
-            String command = scanner.nextLine().trim();
-                if (!command.isEmpty()) {
-                    // Delegate the command to the Command Processor
-                    CommandProcessor.process(command);
-                }
-            }
-        scanner.close();
+     // Check if correct number of arguments is passed
+        if (args.length != 2) {
+            System.out.println("Usage: java GraphProject {initHashSize} "
+                + "{commandFile}");
+            return;
+        }
+        
+     // Parse the initial hash table size
+        int initHashSize;
+        try {
+            initHashSize = Integer.parseInt(args[0]);
+            Controller controller = new Controller(initHashSize);
+        } 
+        catch (NumberFormatException e) {
+            System.out.println("Error: {initHashSize} must be an integer.");
+            return;
+        }
+        
+        // Ensure file is entered correctly
+        try {
+            File input = new File(args[1]);
+            CommandProcessor commandProcessor = new CommandProcessor(input);
+        }
+        catch (FileNotFoundException e) {
+            System.out.println("Error: File not found");
+        }
     }
 }

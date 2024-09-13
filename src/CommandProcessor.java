@@ -1,3 +1,6 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 /**
  * Command processor class
  *
@@ -7,14 +10,24 @@
 public class CommandProcessor
 {
     //~ Fields ................................................................
-    Controller controller;
-    // ----------------------------------------------------------
     /**
      * Main for Command Processor.
+     * @param input input file
+     * @throws FileNotFoundException 
      */
     //~ Constructors ..........................................................
-    public CommandProcessor() {
-        controller = new Controller();
+    public CommandProcessor(File input) throws FileNotFoundException {
+        Scanner scanner = new Scanner(input);
+        
+        // Read line by line from the file
+        while (scanner.hasNextLine()) {
+            String command = scanner.nextLine().trim();
+                if (!command.isEmpty()) {
+                    // Delegate the command to the Command Processor
+                    CommandProcessor.process(command);
+                }
+            }
+        scanner.close();
     }
     //~Public  Methods ........................................................
     /**
