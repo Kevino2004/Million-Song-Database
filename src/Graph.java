@@ -45,7 +45,7 @@ public class Graph
 
         if (fromNode != null && toNode != null && !hasEdge(fromNode, toNode)) {
             fromNode.getAdjacencyList().add(toNode);
-            toNode.getAdjacencyList().add(fromNode);  // An undirected graph
+            toNode.getAdjacencyList().add(fromNode);  // Since it's an undirected graph
         }
     }
 
@@ -80,10 +80,10 @@ public class Graph
     /**
      * Remove a node and all its edges from the graph.
      * 
-     * @param data The data for the node to be removed
+     * @param nodeToRemove The data for the node to be removed
      */
-    public void removeNode(String data) {
-        Node<String> toRemove = getNode(data);
+    public void removeNode(Node<String> nodeToRemove) {
+        Node<String> toRemove = getNode(nodeToRemove);
         if (toRemove != null) {
             // Remove all edges
             Node<String> current = toRemove.getAdjacencyList().getHead();

@@ -63,12 +63,47 @@ public class Controller
     // ----------------------------------------------------------
     /**
      * deletes song from hash
-     * @param artist is the artist
-     * @param song is the song
+     * @param input reads artist|song and then its name
      */
-    public void remove(String artist, String song)
+    public void remove(String input)
     {
-        
+     // Step 1: Parse the input to determine whether it's an artist or a song
+        String[] parts = input.split("\\|", 2);
+        if (parts.length != 2) {
+            System.out.println("Invalid input format. Expected format: {artist|name} or {song|name}");
+            return;
+        }
+
+        String type = parts[0].trim();  // either 'artist' or 'song'
+        String name = parts[1].trim();  // the actual name of the artist or song
+
+        // Step 2: Based on type, remove the entry from the appropriate hash table
+        Node<String> nodeToRemove = null;
+        if (type.equalsIgnoreCase("artist")) {
+            nodeToRemove = artistHash.find(name);
+            if (nodeToRemove != null) {
+                artistHash.remove(name); // Remove artist from hash table
+            }
+        } 
+        else if (type.equalsIgnoreCase("song")) {
+            nodeToRemove = songHash.find(name);
+            if (nodeToRemove != null) {
+                songHash.remove(name); // Remove song from hash table
+            }
+        } 
+        else {
+            System.out.println("Invalid type specified. Use 'artist' or 'song'.");
+            return;
+        }
+
+        // Step 3: If the node was found and removed from the hash table, remove it from the graph
+        if (nodeToRemove != null) {
+            fullGraph.removeNode(nodeToRemove); // Remove the node from the graph
+            System.out.println(type + " '" + name + "' was successfully removed.");
+        } 
+        else {
+            System.out.println(type + " '" + name + "' was not found.");
+        }
     }
     
     /**
