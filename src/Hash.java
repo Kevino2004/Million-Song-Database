@@ -35,7 +35,7 @@ public class Hash {
      * @param key The key (string) to insert
      * @param value The value (Node) associated with the key
      */
-    public void insert(String key, Node<Integer> value) {
+    public void insert(String key, Node<String> value) {
         if (numRecords >= tableSize * LOAD_FACTOR_THRESHOLD) {
             expand();
         }
@@ -58,7 +58,7 @@ public class Hash {
      * @param key The key to search for
      * @return The Node associated with the key, or null if not found
      */
-    public Node<Integer> find(String key) {
+    public Node<String> find(String key) {
         int homeSlot = h(key, tableSize);
         int i = 0;
         

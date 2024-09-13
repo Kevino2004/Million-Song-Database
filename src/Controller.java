@@ -34,7 +34,7 @@ public class Controller
     //~Public  Methods ........................................................
     public void insert(String artist, String song) {
         // 1. Search for the artist in the artist hash table
-        Node artistNode = artistHash.find(artist);
+        Node<String> artistNode = artistHash.find(artist);
         if (artistNode == null) {
             // Artist not found, create new node
             artistNode = new Node(artist);
@@ -43,7 +43,7 @@ public class Controller
         }
         
         // 2. Search for the song in the song hash table
-        Node songNode = songHash.find(song);
+        Node<String> songNode = songHash.find(song);
         if (songNode == null) {
             // Song not found, create new node
             songNode = new Node(song);
