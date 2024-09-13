@@ -17,7 +17,10 @@ public class CommandProcessor
      * @throws FileNotFoundException 
      */
     //~ Constructors ..........................................................
-    public CommandProcessor(File input, Controller controller) throws FileNotFoundException {
+    public CommandProcessor(File input, Controller controller) 
+        throws FileNotFoundException 
+    {
+        @SuppressWarnings("resource")
         Scanner scanner = new Scanner(input);
         
         // Read line by line from the file
