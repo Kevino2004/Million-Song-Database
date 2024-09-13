@@ -7,9 +7,10 @@
 public class Controller
 {
     //~ Fields ................................................................
-    private Hash artist;
-    private Hash song;
+    private Hash artistHash;
+    private Hash songHash;
     private Graph fullGraph;
+    private static final int INITIAL_HASH_SIZE = 10;
     //~ Constructors ..........................................................
     
     // ----------------------------------------------------------
@@ -18,8 +19,8 @@ public class Controller
      */
     public Controller()
     {
-        this.artist = new Hash();
-        this.song = new Hash();
+        this.artistHash = new Hash();
+        this.songHash = new Hash();
         this.fullGraph = new Graph();
     }
     
@@ -31,42 +32,30 @@ public class Controller
      * @param song is the song
      */
     //~Public  Methods ........................................................
-    public void insert(String artist, String song)
-    {
+    public void insert(String artist, String song) {
+        // 1. Search for the artist in the artist hash table
+        Node artistNode = artistHash.find(artist);
+        if (artistNode == null) {
+            // Artist not found, create new node
+            artistNode = new Node(artist);
+            artistHash.insert(artist, artistNode); // Insert into artist hash
+            fullGraph.newNode(artistNode); // Add the artist node to the graph
+        }
         
-    }
-    
-    public void remove(String type, String name) {
-        boolean removed = false;
-        if (type.equals("artist")) {
-            removed = artistTable.remove(name);
-            if (removed) {
-                graph.removeNode(name);
-                System.out.println("Removed artist: " + name);
-            }
-        } else if (type.equals("song")) {
-            removed = songTable.remove(name);
-            if (removed) {
-                graph.removeNode(name);
-                System.out.println("Removed song: " + name);
-            }
+        // 2. Search for the song in the song hash table
+        Node songNode = songHash.find(song);
+        if (songNode == null) {
+            // Song not found, create new node
+            songNode = new Node(song);
+            songHash.insert(song, songNode); // Insert into song hash
+            fullGraph.newNode(songNode); // Add the song node to the graph
         }
-
-        if (!removed) {
-            System.out.println(name + " does not exist in the " + type + " database.");
+        
+        // 3. Add an edge between the artist node and song node in the graph
+        if (!fullGraph.hasEdge(artistNode, songNode)) {
+            fullGraph.addEdge(artistNode, songNode); // Create edge in the graph
+        } else {
+            System.out.println("Duplicate record: Artist '" + artist + "' is already associated with Song '" + song + "'.");
         }
     }
-    
-    
-    public void print(String type) {
-        if (type.equals("song")) {
-            songTable.printRecords();
-        } else if (type.equals("artist")) {
-            artistTable.printRecords();
-        } else if (type.equals("graph")) {
-            graph.printGraph();
-            int connectedComponents = graph.countConnectedComponents();
-            System.out.println("Connected components: " + connectedComponents);
-            System.out.println("Size of the largest connected component: " + graph.getLargestComponentSize());
-        }
 }
