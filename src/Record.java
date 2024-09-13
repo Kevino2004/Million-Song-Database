@@ -8,7 +8,7 @@ public class Record
 {
     //~ Fields ................................................................
     private String key;
-    private Node value; 
+    private Node<Integer> value; 
     //~ Constructors ..........................................................
     /**
      * Create a new Record object.
@@ -16,7 +16,7 @@ public class Record
      * @param key The key for this record
      * @param value The value for this record (Node)
      */
-    public Record(String key, Node value) {
+    public Record(String key, Node<Integer> value) {
         this.key = key;
         this.value = value;
     }
@@ -36,7 +36,7 @@ public class Record
      * 
      * @return The value (Node)
      */
-    public Node getValue() {
+    public Node<Integer> getValue() {
         return value;
     }
     
@@ -45,7 +45,7 @@ public class Record
      * 
      * @param value The new value (Node) to set
      */
-    public void setValue(Node value) {
+    public void setValue(Node<Integer> value) {
         this.value = value;
     }
     
