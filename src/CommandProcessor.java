@@ -50,20 +50,22 @@ public class CommandProcessor
     {
      // Split command into parts
         String[] commandParts = command.split(" ", 2);
-        //"add", "remove", "print"
         String action = commandParts[0].toLowerCase(); 
-        //song/artist name
         String argument = commandParts.length > 1 ? commandParts[1] : ""; 
+        
+        String[] argumentParts = argument.split("<SEP>"); // Split on the <SEP> 
+        String artist = argumentParts.length > 0 ? argumentParts[0] : ""; 
+        String song = argumentParts.length > 1 ? argumentParts[1] : "";  
         
         switch (action) {
             case "insert":
-                controller.insert(argument);
+                controller.insert(artist, song);
                 break;
             case "remove":
-                controller.remove(argument);
+                controller.remove(artist, song);
                 break;
             case "print":
-                controller.print(argument);
+                controller.print(artist, song);
                 break;
             default:
                 System.out.println("Unknown command: " + command);
