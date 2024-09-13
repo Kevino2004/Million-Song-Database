@@ -101,10 +101,9 @@ public class Controller
     
     /**
      * print song from hash
-     * @param artist is the artist
-     * @param song is the song
+     * @param type either artist, song, or graph
      */
-    public void print(String artist, String song)
+    public void print(String type)
     {
         
     }

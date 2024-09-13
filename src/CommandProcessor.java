@@ -74,13 +74,15 @@ public class CommandProcessor
                     return;
                 }
 
-                String type = parts2[0].trim();  // either 'artist' or 'song'
-                String name = parts2[1].trim();  // the actual name of the artist or song
+                String type1 = parts2[0].trim();  // either 'artist' or 'song'
+                String name = parts2[1].trim();  // name of the artist or song
 
-                controller.remove(type, name);
+                controller.remove(type1, name);
                 break;
             case "print":
-                controller.print(artist, song);
+                // Trim string to command only
+                String type2 = argument.trim();
+                controller.print(type2);
                 break;
             default:
                 System.out.println("Unknown command: " + command);
