@@ -20,7 +20,7 @@ public class Node<E>
      *            the data to put inside the node
      */
     public Node(E d) {
-       data = d;
+        data = d;
     }
 
     /**
@@ -69,7 +69,12 @@ public class Node<E>
     public E getData() {
         return data;
     }
-
+    
+    /**
+     * get Adjacency list.
+     * 
+     * @return DoubleLL node
+     */
     public DoubleLL<Node<String>> getAdjacencyList()
     {
         // TODO Auto-generated method stub
