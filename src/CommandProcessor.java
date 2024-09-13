@@ -49,7 +49,7 @@ public class CommandProcessor
     // Method to handle the 'add' command
     private static void insert(String argument) {
         // You will need to implement logic for adding songs/artists
-        controller.insert();
+        //controller.insert();
         System.out.println("Add command received for: " + argument);
     }
     
