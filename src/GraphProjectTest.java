@@ -65,10 +65,7 @@ public class GraphProjectTest extends TestCase {
         String expectedOutput = readFile(
             "solutionTestData/P1_sampleOutput.txt");
 
-        // Compare the two outputs
-        // TODO: uncomment the following line
-        // once you have implemented your project
-        // assertFuzzyEquals(expectedOutput, actualOutput);
+        assertFuzzyEquals(expectedOutput, actualOutput);
 
     }
 }
