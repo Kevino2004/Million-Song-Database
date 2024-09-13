@@ -10,18 +10,20 @@ public class Controller
     private Hash artistHash;
     private Hash songHash;
     private Graph fullGraph;
-    private static final int INITIAL_HASH_SIZE = 10;
+    private int tableSize;
     //~ Constructors ..........................................................
     
     // ----------------------------------------------------------
     /**
      * Create a new Controller object.
+     * @param tableSize size given in input for Hash table size.
      */
-    public Controller()
+    public Controller(int tableSize)
     {
         this.artistHash = new Hash();
         this.songHash = new Hash();
         this.fullGraph = new Graph();
+        this.tableSize = tableSize;
     }
     
     // ----------------------------------------------------------
