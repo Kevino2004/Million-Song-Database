@@ -18,7 +18,7 @@ public class Hash {
     //~ Constructors ..........................................................
     /**
      * Create a new Hash object.
-     * @param initialSize
+     * @param initialSize initial size of the table
      */
     public Hash(int initialSize) {
         this.tableSize = initialSize;

@@ -33,12 +33,14 @@ public class CommandProcessor
         Scanner scanner = new Scanner(file);
         
         // Read line by line from the file
-        while (scanner.hasNextLine()) {
+        while (scanner.hasNextLine()) 
+        {
             String command = scanner.nextLine().trim();
-                if (!command.isEmpty()) {
-                    CommandProcessor.call(command, controller);
-                }
+            if (!command.isEmpty()) 
+            {
+                CommandProcessor.call(command, controller);
             }
+        }
         scanner.close();
     }
     /**
@@ -53,22 +55,26 @@ public class CommandProcessor
         String action = commandParts[0].toLowerCase(); 
         String argument = commandParts.length > 1 ? commandParts[1] : ""; 
         
-        switch (action) {
+        switch (action) 
+        {
             case "insert":
                 String[] parts1 = argument.split("<SEP>");
-                if (parts1.length == 2) {
+                if (parts1.length == 2) 
+                {
                     String artist = parts1[0].trim();
                     String song = parts1[1].trim();
                     controller.insert(artist, song); 
                 } 
-                else {
+                else 
+                {
                     System.out.println("Error: Invalid insert format.");
                 }
                 break;
             case "remove":
                 // Parse the input to determine whether it's an artist or a song
                 String[] parts2 = command.split("\\|", 2);
-                if (parts2.length != 2) {
+                if (parts2.length != 2) 
+                {
                     System.out.println("Invalid input format. Expected format: "
                         + "{artist|name} or {song|name}");
                     return;

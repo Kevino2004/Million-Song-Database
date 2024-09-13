@@ -2,9 +2,11 @@ import student.TestCase;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-
 /**
- * This class tests the CommandProcessor class.
+ * Command Processor Test class
+ *
+ * @author Kevin O'Neill <ckoneill04> Kavian Rahiab <kavianr22>
+ * @version 9.4.2024
  */
 public class CommandProcessorTest extends TestCase {
 
@@ -80,7 +82,8 @@ public class CommandProcessorTest extends TestCase {
 
     /**
      * Example 3: Testing exception handling
-     * This method runs a command sample IO file with missing file to test exception handling
+     * This method runs a command sample IO file with missing file to 
+     * test exception handling
      *
      * @throws Exception
      */
@@ -88,7 +91,7 @@ public class CommandProcessorTest extends TestCase {
         // Setting up parameters
         String[] args = new String[2];
         args[0] = "10"; // Initial hash size
-        args[1] = "testData/nonExistentFile.txt"; // Non-existent command input file
+        args[1] = "testData/nonExistentFile.txt";
 
         // Capture the system output
         String expectedOutput = "Error: File not found";
@@ -125,7 +128,8 @@ public class CommandProcessorTest extends TestCase {
         CommandProcessor.process(inputFile, controller);
 
         // Expected output based on edge cases
-        String expectedOutput = readFile("testData/expectedEdgeCasesOutput.txt");
+        String expectedOutput = 
+            readFile("testData/expectedEdgeCasesOutput.txt");
 
         // Actual output from the system console
         String actualOutput = systemOut().getHistory();
