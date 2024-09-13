@@ -16,6 +16,10 @@ public class Hash {
     private static final Record TOMBSTONE = new Record(null, null);
     
     //~ Constructors ..........................................................
+    /**
+     * Create a new Hash object.
+     * @param initialSize
+     */
     public Hash(int initialSize) {
         this.tableSize = initialSize;
         this.table = new Record[tableSize];
