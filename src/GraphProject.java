@@ -44,21 +44,22 @@ public class GraphProject
             return;
         }
         
-     // Parse the initial hash table size
+     // Parse the initial hash table size and create controller.
         int initHashSize;
         try {
             initHashSize = Integer.parseInt(args[0]);
-            Controller controller = new Controller(initHashSize);
         } 
         catch (NumberFormatException e) {
             System.out.println("Error: {initHashSize} must be an integer.");
             return;
         }
+        Controller controller = new Controller(initHashSize);
         
         // Ensure file is entered correctly
         try {
             File input = new File(args[1]);
-            CommandProcessor commandProcessor = new CommandProcessor(input);
+            CommandProcessor commandProcessor = new 
+                CommandProcessor(input, controller);
         }
         catch (FileNotFoundException e) {
             System.out.println("Error: File not found");

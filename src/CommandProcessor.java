@@ -13,10 +13,11 @@ public class CommandProcessor
     /**
      * Main for Command Processor.
      * @param input input file
+     * @param controller Controller object instantiated in Graph Project
      * @throws FileNotFoundException 
      */
     //~ Constructors ..........................................................
-    public CommandProcessor(File input) throws FileNotFoundException {
+    public CommandProcessor(File input, Controller controller) throws FileNotFoundException {
         Scanner scanner = new Scanner(input);
         
         // Read line by line from the file
