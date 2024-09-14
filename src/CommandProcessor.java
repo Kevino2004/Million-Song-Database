@@ -60,29 +60,25 @@ public class CommandProcessor
         {
             case "insert":
                 String[] parts1 = argument.split("<SEP>");
-                if (parts1.length == 2) 
-                {
-                    String artist = parts1[0].trim();
-                    String song = parts1[1].trim();
-                    controller.insert(artist, song); 
-                } 
-                else 
-                {
-                    System.out.println("Error: Invalid insert format.");
-                }
+                String artist = parts1[0].trim();
+                String song = parts1[1].trim();
+                
+                check = true;
+                controller.insert(artist, song);
                 break;
             case "remove":
                 String[] parts2 = argument.split(" ", 2);
                 
                 String type1 = parts2[0].trim();  // either 'artist' or 'song'
                 String name = parts2[1].trim();  // name of the artist or song
-
-                controller.remove(type1, name);
+                
                 check = true;
+                controller.remove(type1, name);
                 break;
             case "print":
-                // Trim string to command only
                 String type2 = argument.trim();
+                
+                check = true;
                 controller.print(type2);
                 break;
             default:

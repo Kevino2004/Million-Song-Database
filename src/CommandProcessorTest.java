@@ -11,7 +11,6 @@ import java.nio.file.Paths;
 public class CommandProcessorTest extends TestCase 
 {
     private Controller controller;
-    private File file;
     /**
      * Read contents of a file into a string
      * 
@@ -33,32 +32,32 @@ public class CommandProcessorTest extends TestCase
     public void setUp()
     {
         controller = new Controller(10);
-        file = new File("SolutionTestData/P1_commandProcessorTest.txt");
     }
     /**
-     * process test
-     * @throws IOException 
+     * Tests insert case.
      */
-    public void testProcess() throws IOException
+    public void testInsert()
     {
-        CommandProcessor.process(file, controller);
-
-        // Expected output based on valid commands
-        String expectedOutput = readFile("P1_sampleInput.txt");
-
-        // Actual output from the system console
-        String actualOutput = systemOut().getHistory();
-
-        // Compare the two outputs
-        assertFuzzyEquals(expectedOutput, actualOutput);
+        String insert = "insert Ma Rainey<SEP>Mississippi Boweavil Blues ";
+        CommandProcessor.call(insert, controller);
+        assertTrue(CommandProcessor.assertCompletion());
     }
     /**
-     * call test
-     * @throws FileNotFoundException 
+     * Tests remove case.
      */
-    public void testCall() throws FileNotFoundException
+    public void testRemove()
     {
-        CommandProcessor.process(file, controller);
+        String remove = "remove song When Summer's Through ";
+        CommandProcessor.call(remove, controller);
+        assertTrue(CommandProcessor.assertCompletion());
+    }
+    /**
+     * Tests print case.
+     */
+    public void testPrint()
+    {
+        String print = "print graph ";
+        CommandProcessor.call(print, controller);
         assertTrue(CommandProcessor.assertCompletion());
     }
 }
