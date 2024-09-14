@@ -8,9 +8,10 @@ import java.nio.file.Paths;
  * @author Kevin O'Neill <ckoneill04> Kavian Rahiab <kavianr22>
  * @version 9.4.2024
  */
-public class CommandProcessorTest extends TestCase {
-
-    // ----------------------------------------------------------
+public class CommandProcessorTest extends TestCase 
+{
+    private Controller controller;
+    private File file;
     /**
      * Read contents of a file into a string
      * 
@@ -19,44 +20,28 @@ public class CommandProcessorTest extends TestCase {
      * @return the string
      * @throws IOException
      */
-    static String readFile(String path) throws IOException {
+    static String readFile(String path) throws IOException 
+    {
         byte[] encoded = Files.readAllBytes(Paths.get(path));
         return new String(encoded);
     }
     
+    //~ Public Methods ........................................................
     /**
-     * setup method
+     * Set up method
      */
     public void setUp()
     {
-     // Setting up parameters
-        String[] args = new String[2];
-        args[0] = "10"; // Initial hash size
-        args[1] = "P1_sampleInput.txt"; // Command input file
-
-        // Create controller and process commands
-        Controller controller = new Controller(10);
-        File inputFile = new File(args[1]);
+        controller = new Controller(10);
+        file = new File("P1_commandProcessorTest.txt");
     }
-
-    //~ Public Methods ........................................................
-
     /**
-     * Example 1: Testing valid commands
-     * This method runs a command sample IO file for valid commands
-     *
-     * @throws Exception
+     * process test
+     * @throws IOException 
      */
-    public void testValidCommands() throws Exception {
-        // Setting up parameters
-        String[] args = new String[2];
-        args[0] = "10"; // Initial hash size
-        args[1] = "P1_sampleInput.txt"; // Command input file
-
-        // Create controller and process commands
-        Controller controller = new Controller(10);
-        File inputFile = new File(args[1]);
-        CommandProcessor.process(inputFile, controller);
+    public void testProcess() throws IOException
+    {
+        CommandProcessor.process(file, controller);
 
         // Expected output based on valid commands
         String expectedOutput = readFile("P1_sampleInput.txt");
@@ -66,5 +51,12 @@ public class CommandProcessorTest extends TestCase {
 
         // Compare the two outputs
         assertFuzzyEquals(expectedOutput, actualOutput);
+    }
+    /**
+     * call test
+     */
+    public void testCall()
+    {
+        //
     }
 }
