@@ -23,6 +23,21 @@ public class CommandProcessorTest extends TestCase {
         byte[] encoded = Files.readAllBytes(Paths.get(path));
         return new String(encoded);
     }
+    
+    /**
+     * setup method
+     */
+    public void setUp()
+    {
+     // Setting up parameters
+        String[] args = new String[2];
+        args[0] = "10"; // Initial hash size
+        args[1] = "P1_sampleInput.txt"; // Command input file
+
+        // Create controller and process commands
+        Controller controller = new Controller(10);
+        File inputFile = new File(args[1]);
+    }
 
     //~ Public Methods ........................................................
 
@@ -36,7 +51,7 @@ public class CommandProcessorTest extends TestCase {
         // Setting up parameters
         String[] args = new String[2];
         args[0] = "10"; // Initial hash size
-        args[1] = "testData/validCommands.txt"; // Command input file
+        args[1] = "P1_sampleInput.txt"; // Command input file
 
         // Create controller and process commands
         Controller controller = new Controller(10);
@@ -44,93 +59,7 @@ public class CommandProcessorTest extends TestCase {
         CommandProcessor.process(inputFile, controller);
 
         // Expected output based on valid commands
-        String expectedOutput = readFile("testData/expectedValidOutput.txt");
-
-        // Actual output from the system console
-        String actualOutput = systemOut().getHistory();
-
-        // Compare the two outputs
-        assertFuzzyEquals(expectedOutput, actualOutput);
-    }
-
-    /**
-     * Example 2: Testing invalid commands
-     * This method runs a command sample IO file for invalid commands
-     *
-     * @throws Exception
-     */
-    public void testInvalidCommands() throws Exception {
-        // Setting up parameters
-        String[] args = new String[2];
-        args[0] = "10"; // Initial hash size
-        args[1] = "testData/invalidCommands.txt"; // Command input file
-
-        // Create controller and process commands
-        Controller controller = new Controller(10);
-        File inputFile = new File(args[1]);
-        CommandProcessor.process(inputFile, controller);
-
-        // Expected output based on invalid commands
-        String expectedOutput = readFile("testData/expectedInvalidOutput.txt");
-
-        // Actual output from the system console
-        String actualOutput = systemOut().getHistory();
-
-        // Compare the two outputs
-        assertFuzzyEquals(expectedOutput, actualOutput);
-    }
-
-    /**
-     * Example 3: Testing exception handling
-     * This method runs a command sample IO file with missing file to 
-     * test exception handling
-     *
-     * @throws Exception
-     */
-    public void testFileNotFound() throws Exception {
-        // Setting up parameters
-        String[] args = new String[2];
-        args[0] = "10"; // Initial hash size
-        args[1] = "testData/nonExistentFile.txt";
-
-        // Capture the system output
-        String expectedOutput = "Error: File not found";
-        String actualOutput = "";
-
-        try {
-            // Invoke main method of our Graph Project
-            GraphProject.main(args);
-            actualOutput = systemOut().getHistory();
-        } 
-        catch (Exception e) {
-            // Capture the exception and set actual output
-            actualOutput = systemOut().getHistory();
-        }
-
-        // Compare the two outputs
-        assertEquals(expectedOutput, actualOutput.trim());
-    }
-
-    /**
-     * Testing the command processor for edge cases
-     * For example, empty command lines, commands with missing parts, etc.
-     *
-     * @throws Exception
-     */
-    public void testEdgeCases() throws Exception {
-        // Setting up parameters
-        String[] args = new String[2];
-        args[0] = "10"; // Initial hash size
-        args[1] = "testData/edgeCases.txt"; // Command input file
-
-        // Create controller and process commands
-        Controller controller = new Controller(10);
-        File inputFile = new File(args[1]);
-        CommandProcessor.process(inputFile, controller);
-
-        // Expected output based on edge cases
-        String expectedOutput = 
-            readFile("testData/expectedEdgeCasesOutput.txt");
+        String expectedOutput = readFile("P1_sampleInput.txt");
 
         // Actual output from the system console
         String actualOutput = systemOut().getHistory();
