@@ -33,7 +33,7 @@ public class CommandProcessorTest extends TestCase
     public void setUp()
     {
         controller = new Controller(10);
-        file = new File("P1_commandProcessorTest.txt");
+        file = new File("SolutionTestData/P1_commandProcessorTest.txt");
     }
     /**
      * process test

@@ -55,7 +55,6 @@ public class CommandProcessor
         String[] commandParts = command.split(" ", 2);
         String action = commandParts[0].toLowerCase(); 
         String argument = commandParts.length > 1 ? commandParts[1] : ""; 
-        
         switch (action) 
         {
             case "insert":
@@ -74,13 +73,7 @@ public class CommandProcessor
             case "remove":
                 // Parse the input to determine whether it's an artist or a song
                 String[] parts2 = command.split("\\|", 2);
-                if (parts2.length != 2) 
-                {
-                    System.out.println("Invalid input format. Expected format: "
-                        + "{artist|name} or {song|name}");
-                    return;
-                }
-
+                
                 String type1 = parts2[0].trim();  // either 'artist' or 'song'
                 String name = parts2[1].trim();  // name of the artist or song
 
