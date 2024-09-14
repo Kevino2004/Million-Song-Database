@@ -10,6 +10,7 @@ import java.util.Scanner;
 public class CommandProcessor
 {
     //~ Fields ................................................................
+    private static boolean check = false;
     /**
      * Main for Command Processor.
      */
@@ -84,6 +85,7 @@ public class CommandProcessor
                 String name = parts2[1].trim();  // name of the artist or song
 
                 controller.remove(type1, name);
+                check = true;
                 break;
             case "print":
                 // Trim string to command only
@@ -94,5 +96,13 @@ public class CommandProcessor
                 System.out.println("Unknown command: " + command);
                 break;
         }
+    }
+    /**
+     * Assert Completion method
+     * @return T/F based on 
+     */
+    public static boolean assertCompletion()
+    {
+        return check;
     }
 }

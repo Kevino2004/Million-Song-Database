@@ -54,9 +54,11 @@ public class CommandProcessorTest extends TestCase
     }
     /**
      * call test
+     * @throws FileNotFoundException 
      */
-    public void testCall()
+    public void testCall() throws FileNotFoundException
     {
-        //
+        CommandProcessor.process(file, controller);
+        assertTrue(CommandProcessor.assertCompletion());
     }
 }
