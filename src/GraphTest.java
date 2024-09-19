@@ -16,7 +16,10 @@ public class GraphTest extends TestCase
     public void setUp() {
         graph = new Graph(5);
     }
-
+    
+    /**
+     * Add edge test.
+     */
     public void testAddEdge() {
         graph.addEdge(0, 1, 10);
         graph.addEdge(1, 2, 20);
@@ -26,7 +29,9 @@ public class GraphTest extends TestCase
         assertFalse(graph.hasEdge(0, 2));
     }
 
-    @Test
+    /**
+     * Weight test
+     */
     public void testWeight() {
         graph.addEdge(0, 1, 15);
         graph.addEdge(1, 2, 25);
@@ -36,7 +41,9 @@ public class GraphTest extends TestCase
         assertEquals(0, graph.weight(0, 2)); // Edge does not exist
     }
 
-    @Test
+    /**
+     * Remove edge test
+     */
     public void testRemoveEdge() {
         graph.addEdge(0, 1, 10);
         graph.removeEdge(0, 1);
@@ -44,7 +51,9 @@ public class GraphTest extends TestCase
         assertFalse(graph.hasEdge(0, 1));
     }
 
-    @Test
+    /**
+     * Neighbors test
+     */
     public void testNeighbors() {
         graph.addEdge(0, 1, 10);
         graph.addEdge(0, 2, 20);
@@ -57,7 +66,9 @@ public class GraphTest extends TestCase
         assertArrayEquals(new int[]{3}, neighborsOf1);
     }
 
-    @Test
+    /**
+     * Edge count test
+     */
     public void testEdgeCount() {
         graph.addEdge(0, 1, 10);
         graph.addEdge(1, 2, 20);
@@ -69,7 +80,9 @@ public class GraphTest extends TestCase
         assertEquals(2, graph.edgeCount());
     }
 
-    @Test
+    /**
+     * Node count test
+     */
     public void testNodeCount() {
         assertEquals(5, graph.nodeCount()); // Node count should be the initial size
 
@@ -79,7 +92,9 @@ public class GraphTest extends TestCase
         assertEquals(5, graph.nodeCount());
     }
 
-    @Test
+    /**
+     * Get and set test
+     */
     public void testGetValueAndSetValue() {
         graph.setValue(0, "Node0");
         graph.setValue(1, "Node1");

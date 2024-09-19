@@ -8,6 +8,7 @@ public class Graph
 {
     private class Edge { // Doubly linked list node
         int vertex, weight;
+        @SuppressWarnings("unused")
         Edge prev, next;
 
         Edge(int v, int w, Edge p, Edge n) {
@@ -164,7 +165,8 @@ public class Graph
                 System.out.print("No edges.");
             } else {
                 while (curr != null) {
-                    System.out.print(" -> " + curr.vertex + " (Weight: " + curr.weight + ")");
+                    System.out.print(" -> " + curr.vertex + " (Weight: " + 
+                curr.weight + ")");
                     curr = curr.next;
                 }
             }
