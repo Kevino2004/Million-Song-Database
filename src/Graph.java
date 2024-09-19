@@ -129,8 +129,13 @@ public class Graph
     public boolean hasEdge(Node<String> v, Node<String> w) { 
         for (int i = 0; i < vertex.length; i++)
         {
-            if (vertex[i].contains(v)) {
-                return vertex[i].get(v).next() == w;
+            if (vertex[i].contains(v)) 
+            {
+                for (int j = 0; j < vertex[i].size(); j++)
+                {
+                    return vertex[i].get(j).next() == w;
+                }
+                
             }
         }
         return false;
