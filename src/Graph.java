@@ -89,8 +89,8 @@ public class Graph
      * @param w node
      * @return T/F
      */
-    public boolean hasEdge(int v, int w) { 
-        //
+    public boolean hasEdge(Node<String> v, Node<String> w) { 
+        
     }
 
     /**
