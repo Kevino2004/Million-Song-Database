@@ -139,25 +139,6 @@ public class Graph
         }
         return numNodes;
     }
-
-    /**
-     * Returns an array containing the indicies of the neighbors of v
-     * @param v node
-     * @return array
-     */
-    public int[] neighbors(int v) {
-        int cnt = 0;
-        DoubleLL<Node<String>> curr;
-        for (curr = vertex[v].next; curr != null; curr = curr.next) {
-            cnt++;
-        }
-        int[] temp = new int[cnt];
-        cnt = 0;
-        for (curr = vertex[v].next; curr != null; curr = curr.next) {
-            temp[cnt++] = curr.vertex;
-        }
-        return temp;
-    }
     
     /**
      * Print the graph.
@@ -179,6 +160,25 @@ public class Graph
                 System.out.println();  // New line after printing adjacency list
             }
         }
+    }
+
+    /**
+     * Returns an array containing the indicies of the neighbors of v
+     * @param v node
+     * @return array
+     */
+    public int[] neighbors(int v) {
+        int cnt = 0;
+        DoubleLL<Node<String>> curr;
+        for (curr = vertex[v].next; curr != null; curr = curr.next) {
+            cnt++;
+        }
+        int[] temp = new int[cnt];
+        cnt = 0;
+        for (curr = vertex[v].next; curr != null; curr = curr.next) {
+            temp[cnt++] = curr.vertex;
+        }
+        return temp;
     }
     
     /**
