@@ -24,7 +24,7 @@ public class GraphTest extends TestCase
         graph.addNode(nodeA);
         graph.addNode(nodeB);
 
-        assertEquals(2, graph.numberOfNodes());
+        assertEquals(2, graph.getNumberOfNodes());
         assertTrue(graph.containsNode("A"));
         assertTrue(graph.containsNode("B"));
     }
@@ -97,9 +97,9 @@ public class GraphTest extends TestCase
         for (int i = 0; i < 3; i++) {
             graph.addNode(new Node<>("Node " + i));
         }
-        assertEquals(3, graph.numberOfNodes());
+        assertEquals(3, graph.getNumberOfNodes());
         graph.addNode(new Node<>("Node 3"));  // Should trigger expansion
-        assertEquals(4, graph.numberOfNodes());
+        assertEquals(4, graph.getNumberOfNodes());
     }
 
     /**

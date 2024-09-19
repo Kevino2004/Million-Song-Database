@@ -179,4 +179,35 @@ public class Graph
             }
         }
     }
+    
+    /**
+     * Return number of nodes.
+     * @return number of nodes
+     */
+    public int getNumberOfNodes()
+    {
+        return numberOfNodes;
+    }
+    
+    /**
+     * Check if contains node
+     * @param data string
+     * @return T/F
+     */
+    public boolean containsNode(String data)
+    {
+        // Iterate over each list in the vertex array
+        for (DoubleLL<Node<String>> list : vertex) {
+            if (list != null) {  // Ensure the list is not null
+                Node<String> current = list.get(0);  // Start with the first node in the list
+                while (current != null) {  // Traverse the linked list
+                    if (current.getData().equals(data)) {  // Check if the current node's data matches
+                        return true;  // Node with the specified data is found
+                    }
+                    current = current.next();  // Move to the next node
+                }
+            }
+        }
+        return false;  // Node with the specified data was not found
+    }
 }
