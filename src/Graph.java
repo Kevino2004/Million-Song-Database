@@ -96,7 +96,8 @@ public class Graph
     public void addEdge(Node<String> v, Node<String> w) {
         for (int i = 0; i < vertex.length; i++)
         {
-            if (vertex[i].contains(v)) {
+            if (vertex[i].contains(v) && v.next() == null) 
+            {
                 v.setNext(w);
             }
         }
