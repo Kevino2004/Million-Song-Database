@@ -130,7 +130,7 @@ public class Graph
         for (int i = 0; i < vertex.length; i++)
         {
             if (vertex[i].contains(v)) {
-                return vertex[i].contains(w);
+                return vertex[i].get(v).next() == w;
             }
         }
         return false;
