@@ -29,7 +29,7 @@ public class Graph
         this.freedSlots = new boolean[init];
         this.parent = new int[init];
         this.size = new int[init];
-        this.numComponents = init;
+        this.numComponents = 0;
         
         for (int i = 0; i < init; i++) {
             parent[i] = i;  // Initialize each node to be its own parent
@@ -64,6 +64,7 @@ public class Graph
         vertex[index].add(val); 
         freedSlots[index] = true;
         numNodes++;
+        numComponents++;
     }
     
     /**
