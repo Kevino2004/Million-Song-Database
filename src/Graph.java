@@ -118,7 +118,7 @@ public class Graph
                     vertex[i].remove(w);
                 }
             }
-        } 
+        }
     }
 
     /**

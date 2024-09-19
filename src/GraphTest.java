@@ -11,12 +11,25 @@ import org.junit.Test;
 public class GraphTest extends TestCase 
 {
     private Graph graph;
+    private Node<String> a;
+    private Node<String> b;
+    private Node<String> c;
 
     /**
      * sets it up
      */
     public void setUp() {
         graph = new Graph(5);
+        a = new Node<>("0");
+        b = new Node<>("1");
+        c = new Node<>("2");
+        
+        graph.addNode(a);
+        graph.addNode(b);
+        graph.addNode(c);
+        
+        graph.addEdge(a, b);
+        graph.addEdge(b, c);
     }
     
     /**
@@ -24,23 +37,15 @@ public class GraphTest extends TestCase
      */
     public void testAddNode()
     {
-        assertEquals(0, graph.nodeCount());
-        graph.addNode(new Node<>("A"));
-        assertEquals(1, graph.nodeCount());
+        assertEquals(3, graph.nodeCount());
     }
     
     /**
      * Tests remove node
      */
     public void testRemoveNode()
-    {
-        Node<String> A = new Node<>("A");
-        graph.addNode(A);
-        graph.addNode(new Node<>("B"));
-        graph.addNode(new Node<>("C"));
-        assertEquals(3, graph.nodeCount());
-        
-        graph.removeNode(A);
+    {        
+        graph.removeNode(a);
         assertEquals(2, graph.nodeCount());
     }
     
@@ -56,41 +61,19 @@ public class GraphTest extends TestCase
     /**
      * Add edge test
      */
-    public void testAddEdge() {
-        Node<String> A = new Node<>("0");
-        Node<String> B = new Node<>("1");
-        Node<String> C = new Node<>("2");
-
-        graph.addNode(A);
-        graph.addNode(B);
-        graph.addNode(C);
-        
-        graph.addEdge(A, B);
-        graph.addEdge(B, C);
-
-        assertTrue(graph.hasEdge(A, B));
-        assertTrue(graph.hasEdge(B, C));
-        assertFalse(graph.hasEdge(A, C));
-        
+    public void testAddEdge() {      
+        assertTrue(graph.hasEdge(a, b));
+        assertTrue(graph.hasEdge(b, c));
+        assertFalse(graph.hasEdge(a, c));
     }
 
 
     /**
      * Remove edge test
      */
-    public void testRemoveEdge() {
-        Node<String> A = new Node<>("0");
-        Node<String> B = new Node<>("1");
-        
-        graph.addNode(A);
-        graph.addNode(B);
-        
-        graph.addEdge(A, B);
-        
-        assertTrue(graph.hasEdge(A, B));
-        
-        graph.removeEdge(A, B);
-        assertFalse(graph.hasEdge(A, B));
+    public void testRemoveEdge() {        
+        graph.removeEdge(a, b);
+        assertFalse(graph.hasEdge(a, b));
     }
     
 
