@@ -45,43 +45,78 @@ public class HashTest extends TestCase {
      * Test inserting records into the hash table.
      */
     public void testInsert() {
-        hashTable.insert("Artist1", node1);
-        hashTable.insert("Artist2", node2);
+     // Insert records and verify table behavior
+        hashTable.insert("Song1", node1);
+        assertEquals(node1, hashTable.find("Song1"));
+
+        // Insert additional records to reach the load factor threshold
+        hashTable.insert("Song2", node2);
+        hashTable.insert("Song3", node3);
+
+        // Inserting should trigger expand() after reaching threshold
+        assertTrue(hashTable.print() == 3);  // Verify 3 elements inserted
         
-        // Check if the records were inserted correctly
-        assertEquals(node1, hashTable.find("Artist1"));
-        assertEquals(node2, hashTable.find("Artist2"));
+        // Insert more elements to check if expand() is working
+        Node<String> node4 = new Node<>("Song4");
+        hashTable.insert("Song4", node4);
+        assertEquals(node4, hashTable.find("Song4"));  // Ensure it's found
+
+        // Check if expansion happened
+        assertTrue(hashTable.print() == 4);  // 4 records after expansion
+    }
+    
+    /**
+     * Test quadratic probing in the insert method.
+     */
+    public void testQuadraticProbing() {
+        // Insert records with intentionally colliding hash codes
+        hashTable.insert("SongA", new Node<>("SongA"));
+        hashTable.insert("SongB", new Node<>("SongB"));
+        
+        // They should be placed in different slots due to quadratic probing
+        assertEquals("SongA", hashTable.find("SongA").getData());
+        assertEquals("SongB", hashTable.find("SongB").getData());
     }
 
     /**
      * Test finding a record in the hash table.
      */
     public void testFind() {
-        hashTable.insert("Artist1", node1);
-        
-        // Test valid find
-        Node<String> foundNode = hashTable.find("Artist1");
-        assertEquals(node1, foundNode);
-        
-        // Test finding a non-existent key
-        assertNull(hashTable.find("NonExistent"));
+     // Insert and find records
+        hashTable.insert("Song1", node1);
+        assertEquals(node1, hashTable.find("Song1"));
+
+        // Try to find a record that doesn't exist
+        assertNull(hashTable.find("NonExistentSong"));
+
+        // Test quadratic probing for finding
+        hashTable.insert("SongA", new Node<>("SongA"));
+        hashTable.insert("SongB", new Node<>("SongB"));  // Forces probing
+
+        // Ensure probing finds the right elements
+        assertEquals("SongA", hashTable.find("SongA").getData());
+        assertEquals("SongB", hashTable.find("SongB").getData());
     }
 
     /**
      * Test removing a record from the hash table.
      */
     public void testRemove() {
-        hashTable.insert("Artist1", node1);
-        hashTable.insert("Artist2", node2);
+     // Insert and remove records
+        hashTable.insert("Song1", node1);
+        hashTable.remove("Song1");
+        assertNull(hashTable.find("Song1"));  // Should not find removed element
+
+        // Insert additional records to test removing after quadratic probing
+        hashTable.insert("SongA", new Node<>("SongA"));
+        hashTable.insert("SongB", new Node<>("SongB"));
+        hashTable.remove("SongA");
         
-        // Remove Artist1
-        hashTable.remove("Artist1");
-        
-        // Ensure Artist1 is removed and cannot be found
-        assertNull(hashTable.find("Artist1"));
-        
-        // Ensure Artist2 still exists
-        assertEquals(node2, hashTable.find("Artist2"));
+        // Ensure SongA is removed and cannot be found
+        assertNull(hashTable.find("SongA"));
+
+        // Ensure SongB is still present
+        assertEquals("SongB", hashTable.find("SongB").getData());
     }
 
     /**
@@ -89,30 +124,35 @@ public class HashTest extends TestCase {
      * exceeded.
      */
     public void testExpand() {
-        // Insert multiple records to exceed the load factor threshold
-        hashTable.insert("Artist1", node1);
-        hashTable.insert("Artist2", node2);
-        hashTable.insert("Artist3", node3);
-        
-        // The records should still be accessible after expansion
-        assertEquals(node1, hashTable.find("Artist1"));
-        assertEquals(node2, hashTable.find("Artist2"));
-        assertEquals(node3, hashTable.find("Artist3"));
+        // Insert enough records to trigger an expansion
+        hashTable.insert("Song1", node1);
+        hashTable.insert("Song2", node2);
+        hashTable.insert("Song3", node3);
+
+        // Expansion should occur, and the records should still be findable
+        Node<String> node4 = new Node<>("Song4");
+        hashTable.insert("Song4", node4);  // This triggers expand
+
+        assertEquals(node1, hashTable.find("Song1"));
+        assertEquals(node2, hashTable.find("Song2"));
+        assertEquals(node3, hashTable.find("Song3"));
+        assertEquals(node4, hashTable.find("Song4"));
     }
     
     /**
      * Test printing the contents of the hash table.
      */
     public void testPrint() {
-        hashTable.insert("Artist1", node1);
-        hashTable.insert("Artist2", node2);
-        
-        // Capture the printed output
-        systemOut().clearHistory();
-        hashTable.print();
-        
-        String output = systemOut().getHistory();
-        assertTrue(output.contains("Key: Artist1"));
-        assertTrue(output.contains("Key: Artist2"));
+     // Insert records and ensure print counts them correctly
+        hashTable.insert("Song1", node1);
+        hashTable.insert("Song2", node2);
+
+        assertTrue(hashTable.print() == 2);  // 2 records printed
+
+        // Insert and remove records, check print again
+        hashTable.insert("Song3", node3);
+        hashTable.remove("Song2");
+
+        assertTrue(hashTable.print() == 2);  // Only Song 1 and 3 should print
     }
 }

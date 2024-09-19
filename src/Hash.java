@@ -62,15 +62,15 @@ public class Hash {
     public Node<String> find(String key) {
         int homeSlot = h(key, tableSize);
         int i = 0;
-        
-        while (table[(homeSlot + i * i) % tableSize] != null) {
-            Record current = table[(homeSlot + i * i) % tableSize];
+
+        while (table[Math.abs((homeSlot + i * i) % tableSize)] != null) {
+            Record current = table[Math.abs((homeSlot + i * i) % tableSize)];
             if (current != TOMBSTONE && current.getKey().equals(key)) {
                 return current.getValue();
             }
             i++;
         }
-        
+
         return null;  // Key not found
     }
     
@@ -82,17 +82,17 @@ public class Hash {
     public void remove(String key) {
         int homeSlot = h(key, tableSize);
         int i = 0;
-        
-        while (table[(homeSlot + i * i) % tableSize] != null) {
-            Record current = table[(homeSlot + i * i) % tableSize];
+
+        while (table[Math.abs((homeSlot + i * i) % tableSize)] != null) {
+            Record current = table[Math.abs((homeSlot + i * i) % tableSize)];
             if (current != TOMBSTONE && current.getKey().equals(key)) {
-                table[(homeSlot + i * i) % tableSize] = TOMBSTONE; 
+                table[Math.abs((homeSlot + i * i) % tableSize)] = TOMBSTONE;
                 numRecords--;
                 return;
             }
             i++;
         }
-        
+
         System.out.println("Key not found: " + key);
     }
     
