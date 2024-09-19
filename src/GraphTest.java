@@ -71,6 +71,7 @@ public class GraphTest extends TestCase
         assertTrue(graph.hasEdge(A, B));
         assertTrue(graph.hasEdge(B, C));
         assertFalse(graph.hasEdge(A, C));
+        
     }
 
 
@@ -78,10 +79,18 @@ public class GraphTest extends TestCase
      * Remove edge test
      */
     public void testRemoveEdge() {
-        graph.addEdge(new Node<>("0"), new Node<>("1"));
-        graph.removeEdge(new Node<>("0"), new Node<>("1"));
-
-        assertFalse(graph.hasEdge(new Node<>("0"), new Node<>("1")));
+        Node<String> A = new Node<>("0");
+        Node<String> B = new Node<>("1");
+        
+        graph.addNode(A);
+        graph.addNode(B);
+        
+        graph.addEdge(A, B);
+        
+        assertTrue(graph.hasEdge(A, B));
+        
+        graph.removeEdge(A, B);
+        assertFalse(graph.hasEdge(A, B));
     }
     
 
