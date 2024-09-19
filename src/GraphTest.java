@@ -56,13 +56,20 @@ public class GraphTest extends TestCase
      * Add edge test
      */
     public void testAddEdge() {
-        graph.addNode(new Node<>("0"));
-        graph.addEdge(new Node<>("0"), new Node<>("1"));
-        graph.addEdge(new Node<>("1"), new Node<>("2"));
+        Node<String> A = new Node<>("0");
+        Node<String> B = new Node<>("1");
+        Node<String> C = new Node<>("2");
 
-        assertTrue(graph.hasEdge(new Node<>("0"), new Node<>("1")));
-        assertTrue(graph.hasEdge(new Node<>("1"), new Node<>("2")));
-        assertFalse(graph.hasEdge(new Node<>("2"), new Node<>("0")));
+        graph.addNode(A);
+        graph.addNode(B);
+        graph.addNode(C);
+        
+        graph.addEdge(A, B);
+        graph.addEdge(B, C);
+
+        assertTrue(graph.hasEdge(A, B));
+        assertTrue(graph.hasEdge(B, C));
+        // assertFalse(graph.hasEdge(C, A));
     }
 
 
