@@ -94,7 +94,14 @@ public class Graph
      * @param w node
      */
     public void addEdge(Node<String> v, Node<String> w) {
-        vertex[v].get(v).add(vertex[w].get(w);
+        for (int i = 0; i < vertex.length; i++)
+        {
+            if (vertex[i].contains(v)) {
+                if (vertex[i].contains(w)) {
+                    vertex[i].add(w);
+                }
+            }
+        }
     }
 
     
@@ -105,7 +112,14 @@ public class Graph
      * @param w node
      */
     public void removeEdge(Node<String> v, Node<String> w) {
-        //
+        for (int i = 0; i < vertex.length; i++)
+        {
+            if (vertex[i].contains(v)) {
+                if (vertex[i].contains(w)) {
+                    vertex[i].remove(w);
+                }
+            }
+        } 
     }
 
     /**
@@ -115,7 +129,13 @@ public class Graph
      * @return T/F
      */
     public boolean hasEdge(Node<String> v, Node<String> w) { 
-        
+        for (int i = 0; i < vertex.length; i++)
+        {
+            if (vertex[i].contains(v)) {
+                return vertex[i].contains(w);
+            }
+        }
+        return false;
     }
 
     /**
