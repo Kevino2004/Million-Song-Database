@@ -131,10 +131,7 @@ public class Graph
         {
             if (vertex[i].contains(v)) 
             {
-                for (int j = 0; j < vertex[i].size(); j++)
-                {
-                    return vertex[i].get(j).next() == w;
-                }
+                return v.next() == w || v.previous() == w;
                 
             }
         }
