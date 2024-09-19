@@ -52,6 +52,7 @@ public class DoubleLLTest extends TestCase
     public void testRemoveIndex() {
         list.add("A");
         list.add("B");
+        assertEquals(2, list.size());
         assertTrue(list.remove(1));
         assertEquals(1, list.size());
         list.add("B");
@@ -150,6 +151,7 @@ public class DoubleLLTest extends TestCase
         assertFalse(list.remove(null));
         list.add("A");
         list.add("B");
+        assertEquals(2, list.size());
         assertTrue( list.remove("A"));
         assertEquals( "B", list.get(0));
         assertEquals( 1, list.size());
@@ -244,6 +246,16 @@ public class DoubleLLTest extends TestCase
         assertEquals("{A, B}",
                 list.toString());
     }
+    
+    /**
+     * tests toString when it is empty
+     */
+    public void testToStringEmpty()
+    {
+        String expected = "{}";
+        String actual = list.toString();
+        assertEquals(expected, actual);
+    }
 
     /**
      * Tests removing from an empty list
@@ -273,4 +285,49 @@ public class DoubleLLTest extends TestCase
         }
         assertTrue( exception instanceof IndexOutOfBoundsException);
     }
+    
+    // ----------------------------------------------------------
+    /**
+     * tests add out of bounds
+     */
+    public void testAddException2() {
+        // Test valid case
+        list.add(0, "A");  // This should work if the list is initially empty
+
+        Exception e = null;
+        try {
+            list.add(2, "B");  // index 2 is out of bounds if size is 1
+        } catch (Exception exception) {
+            e = exception;
+        }
+        assertTrue(e instanceof IndexOutOfBoundsException);
+
+        e = null;
+        try {
+            list.add(-1, "B");  // negative index should throw exception
+        } catch (Exception exception) {
+            e = exception;
+        }
+        assertTrue(e instanceof IndexOutOfBoundsException);
+
+        e = null;
+        try {
+            list.add(1, "B");  // index 1 is valid if size is 1
+            // Test adding at the end
+            list.add(1, "C");  
+        } catch (Exception exception) {
+            e = exception;
+        }
+        assertNull(e);
+
+        // Additional case to check adding to an empty list
+        e = null;
+        try {
+            list.add(0, "D");  // index 0 should work if the list was empty
+        } catch (Exception exception) {
+            e = exception;
+        }
+        assertNull(e);
+    }
+    
 }
