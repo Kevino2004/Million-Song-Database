@@ -51,6 +51,7 @@ public class GraphTest extends TestCase
      * Add edge test.
      */
     public void testAddEdge() {
+        graph.addNode(new Node<>("0"));
         graph.addEdge(new Node<>("0"), new Node<>("1"));
         graph.addEdge(new Node<>("1"), new Node<>("2"));
 
