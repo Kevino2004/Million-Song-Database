@@ -59,30 +59,6 @@ public class CommandProcessorTest extends TestCase
         tempFile.delete();
     }
     
-    /**
-     * Tests process method.
-     * @throws IOException 
-     * @throws FileNotFoundException 
-     */
-    @SuppressWarnings("resource")
-    public void testProcessInvalid() throws IOException, FileNotFoundException 
-    {
-        // Create a temporary file with a invalid command
-        File tempFile = File.createTempFile("testProcess", ".txt");
-        PrintWriter writer = new PrintWriter(new FileWriter(tempFile));
-        writer.println("");
-        writer.close();
-
-        // Call process method on the file
-        CommandProcessor.process(tempFile, controller);
-
-        // Verify that the controller handled the valid commands
-        assertTrue(CommandProcessor.assertCompletion());
-        
-        // Clean up the temporary file
-        tempFile.delete();
-    }
-    
     
     /**
      * Tests insert case.

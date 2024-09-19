@@ -41,10 +41,6 @@ public class CommandProcessor
             {
                 CommandProcessor.call(command, controller);
             }
-            else
-            {
-                check = true;
-            }
         }
         scanner.close();
     }
