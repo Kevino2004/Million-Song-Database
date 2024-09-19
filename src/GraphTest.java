@@ -54,7 +54,12 @@ public class GraphTest extends TestCase
      */
     public void testExpand()
     {
-        // 
+        Node<String> d = new Node<>("3");
+        Node<String> e = new Node<>("4");
+        graph.addNode(d);
+        graph.addNode(e);
+        
+        assertEquals(10, graph.listLength());
     }
     
     
