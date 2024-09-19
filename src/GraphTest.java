@@ -19,27 +19,32 @@ public class GraphTest extends TestCase
         graph = new Graph(5);
     }
     
-    // ----------------------------------------------------------
     /**
-     * tests add Node
+     * Tests add node
      */
     public void testAddNode()
     {
-        // 
+        graph.addNode(new Node<>("A"));
+        assertEquals(1, graph.nodeCount());
     }
     
-    // ----------------------------------------------------------
     /**
-     * tests remove Node
+     * Tests remove node
      */
     public void testRemoveNode()
     {
-        // 
+        Node<String> A = new Node<>("A");
+        graph.addNode(A);
+        graph.addNode(new Node<>("B"));
+        graph.addNode(new Node<>("C"));
+        assertEquals(3, graph.nodeCount());
+        
+        graph.removeNode(A);
+        assertEquals(2, graph.nodeCount());
     }
     
-    // ----------------------------------------------------------
     /**
-     * tests expand
+     * Tests expand
      */
     public void testExpand()
     {
@@ -48,7 +53,7 @@ public class GraphTest extends TestCase
     
     
     /**
-     * Add edge test.
+     * Add edge test
      */
     public void testAddEdge() {
         graph.addNode(new Node<>("0"));
@@ -87,7 +92,6 @@ public class GraphTest extends TestCase
         assertArrayEquals(new int[]{3}, neighborsOf1);
     }
     
-    // ----------------------------------------------------------
     /**
      * tests print graph
      */
@@ -96,7 +100,6 @@ public class GraphTest extends TestCase
         // 
     }
     
-    // ----------------------------------------------------------
     /**
      * tests union
      */
@@ -105,7 +108,6 @@ public class GraphTest extends TestCase
         // 
     }
     
-    // ----------------------------------------------------------
     /**
      * tests find
      */
