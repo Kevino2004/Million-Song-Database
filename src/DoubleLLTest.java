@@ -297,7 +297,8 @@ public class DoubleLLTest extends TestCase
         Exception e = null;
         try {
             list.add(2, "B");  // index 2 is out of bounds if size is 1
-        } catch (Exception exception) {
+        } 
+        catch (Exception exception) {
             e = exception;
         }
         assertTrue(e instanceof IndexOutOfBoundsException);
@@ -305,7 +306,8 @@ public class DoubleLLTest extends TestCase
         e = null;
         try {
             list.add(-1, "B");  // negative index should throw exception
-        } catch (Exception exception) {
+        } 
+        catch (Exception exception) {
             e = exception;
         }
         assertTrue(e instanceof IndexOutOfBoundsException);
@@ -315,7 +317,8 @@ public class DoubleLLTest extends TestCase
             list.add(1, "B");  // index 1 is valid if size is 1
             // Test adding at the end
             list.add(1, "C");  
-        } catch (Exception exception) {
+        } 
+        catch (Exception exception) {
             e = exception;
         }
         assertNull(e);
@@ -324,7 +327,8 @@ public class DoubleLLTest extends TestCase
         e = null;
         try {
             list.add(0, "D");  // index 0 should work if the list was empty
-        } catch (Exception exception) {
+        } 
+        catch (Exception exception) {
             e = exception;
         }
         assertNull(e);

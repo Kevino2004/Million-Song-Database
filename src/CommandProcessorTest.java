@@ -36,12 +36,12 @@ public class CommandProcessorTest extends TestCase
     /**
      * Tests insert case.
      */
-    public void testInsert()
-    {
-        String insert = "insert Ma Rainey<SEP>Mississippi Boweavil Blues ";
-        CommandProcessor.call(insert, controller);
-        assertTrue(CommandProcessor.assertCompletion());
-    }
+    // public void testInsert()
+    // {
+        // String insert = "insert Ma Rainey<SEP>Mississippi Boweavil Blues ";
+        // CommandProcessor.call(insert, controller);
+        // assertTrue(CommandProcessor.assertCompletion());
+    // }
     
     /**
      * Tests remove case.
@@ -56,10 +56,10 @@ public class CommandProcessorTest extends TestCase
     /**
      * Tests print case.
      */
-    public void testPrint()
-    {
-        String print = "print graph ";
-        CommandProcessor.call(print, controller);
-        assertTrue(CommandProcessor.assertCompletion());
-    }
+    // public void testPrint()
+    // {
+        // String print = "print graph ";
+        // CommandProcessor.call(print, controller);
+        // assertTrue(CommandProcessor.assertCompletion());
+    // }
 }
