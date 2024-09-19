@@ -24,6 +24,7 @@ public class GraphTest extends TestCase
      */
     public void testAddNode()
     {
+        assertEquals(0, graph.nodeCount());
         graph.addNode(new Node<>("A"));
         assertEquals(1, graph.nodeCount());
     }
