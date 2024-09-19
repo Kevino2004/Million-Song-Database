@@ -169,7 +169,7 @@ public class Hash {
         return (int)(Math.abs(sum) % length);
     }
 
-    // ----------------------------------------------------------
+
     /**
      * gets the index of it
      * @param name is name of artist or song

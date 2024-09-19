@@ -27,7 +27,7 @@ public class Graph
      * Return the number of vertices
      * @return number of graph lists
      */
-    public int listCount() { return vertex.length; }
+    public int listLength() { return vertex.length; }
     
     /**
      * Return the current number of nodes
@@ -37,17 +37,31 @@ public class Graph
     
     /**
      * Get the value of node with index v
-     * @param v index
+     * @param v array index
+     * @param w list index
      * @return object of value
      */
-    public Object getValue(int v) { return vertex[v]; }
+    public Object getValue(int v, int w) { return vertex[v].get(w); }
     
     /**
      * Set the value of node with index v
-     * @param v index
      * @param val node
      */
-    public void setValue(int v, DoubleLL<Node<String>> val) { vertex[v] = val; }
+    public void addNode(Node<String> val) 
+    { 
+        vertex[numNodes].add(val); 
+        numNodes++;
+    }
+    
+    /**
+     * Remove the value of node with index v
+     * @param val node
+     */
+    public void removeNode(Node<String> val) 
+    { 
+        vertex[numNodes].remove(val); 
+        numNodes--;
+    }
 
     /**
      * Adds a new edge
@@ -143,19 +157,5 @@ public class Graph
         curr = array[curr];
       }
       return curr; // Now at root
-    }
-   
-    
-    // ----------------------------------------------------------
-    /**
-     * adds the node
-     * @param v is the spot
-     * @param val is the value
-     */
-    public void addNode(int v, Object val) {
-        if (v >= nodeArray.length) {
-            throw new IndexOutOfBoundsException("Index exceeds graph size.");
-        }
-        setValue(v, val); // Store node value
     }
 }
