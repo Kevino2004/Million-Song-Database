@@ -84,11 +84,11 @@ public class Graph
      * 
      */
     private Edge find(int v, int w) {
-      Edge curr = nodeArray[v];
-      while ((curr.next != null) && (curr.next.vertex < w)) {
-        curr = curr.next;
-      }
-      return curr;
+        Edge curr = nodeArray[v];
+        while ((curr.next != null) && (curr.next.vertex < w)) {
+            curr = curr.next;
+        }
+        return curr;
     }
 
     /**
@@ -98,16 +98,24 @@ public class Graph
      * @param wgt weight
      */
     public void addEdge(int v, int w, int wgt) {
-      if (wgt == 0) { return; } // Can't store weight of 0
-      Edge curr = find(v, w);
-      if ((curr.next != null) && (curr.next.vertex == w)) {
-        curr.next.weight = wgt;
-      }
-      else {
-        curr.next = new Edge(w, wgt, curr, curr.next);
-        numEdge++;
-        if (curr.next.next != null) { curr.next.next.prev = curr.next; }
-      }
+        if (wgt == 0)
+        { 
+            return; 
+        } // Can't store weight of 0
+        Edge curr = find(v, w);
+        if ((curr.next != null) && (curr.next.vertex == w)) 
+        {
+            curr.next.weight = wgt;
+        }
+        else 
+        {
+            curr.next = new Edge(w, wgt, curr, curr.next);
+            numEdge++;
+            if (curr.next.next != null) 
+            {
+                curr.next.next.prev = curr.next; 
+            }
+        }
     }
 
     /**
@@ -183,7 +191,7 @@ public class Graph
             else {
                 while (curr != null) {
                     System.out.print(" -> " + curr.vertex + " (Weight: " + 
-                    curr.weight + ")");
+                        curr.weight + ")");
                     curr = curr.next;
                 }
             }
