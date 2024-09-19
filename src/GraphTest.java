@@ -23,34 +23,23 @@ public class GraphTest extends TestCase
      * Add edge test.
      */
     public void testAddEdge() {
-        graph.addEdge(0, 1, 10);
-        graph.addEdge(1, 2, 20);
+        graph.addEdge(new Node<>("0"), new Node<>("1"));
+        graph.addEdge(new Node<>("1"), new Node<>("2"));
 
-        assertTrue(graph.hasEdge(0, 1));
-        assertTrue(graph.hasEdge(1, 2));
-        assertFalse(graph.hasEdge(0, 2));
+        assertTrue(graph.hasEdge(new Node<>("0"), new Node<>("1")));
+        assertTrue(graph.hasEdge(new Node<>("1"), new Node<>("2")));
+        assertFalse(graph.hasEdge(new Node<>("2"), new Node<>("0")));
     }
 
-    /**
-     * Weight test
-     */
-    public void testWeight() {
-        graph.addEdge(0, 1, 15);
-        graph.addEdge(1, 2, 25);
-
-        assertEquals(15, graph.weight(0, 1));
-        assertEquals(25, graph.weight(1, 2));
-        assertEquals(0, graph.weight(0, 2)); // Edge does not exist
-    }
 
     /**
      * Remove edge test
      */
     public void testRemoveEdge() {
-        graph.addEdge(0, 1, 10);
-        graph.removeEdge(0, 1);
+        graph.addEdge(new Node<>("0"), new Node<>("1"));
+        graph.removeEdge(new Node<>("0"), new Node<>("1"));
 
-        assertFalse(graph.hasEdge(0, 1));
+        assertFalse(graph.hasEdge(new Node<>("0"), new Node<>("1")));
     }
 
     /**
