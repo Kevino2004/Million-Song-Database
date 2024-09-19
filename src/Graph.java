@@ -152,6 +152,24 @@ public class Graph
       }
       return temp;
     }
-
+    
+    /**
+     * Print the graph.
+     */
+    public void printGraph() {
+        for (int i = 0; i < nodeArray.length; i++) {
+            System.out.print("Node " + i + " (Value: " + getValue(i) + "): ");
+            Edge curr = nodeArray[i].next;
+            if (curr == null) {
+                System.out.print("No edges.");
+            } else {
+                while (curr != null) {
+                    System.out.print(" -> " + curr.vertex + " (Weight: " + curr.weight + ")");
+                    curr = curr.next;
+                }
+            }
+            System.out.println();
+        }
+    }
    
 }
