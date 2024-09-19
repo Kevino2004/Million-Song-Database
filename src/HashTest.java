@@ -1,6 +1,8 @@
 import student.TestCase;
 
 /**
+ * Hash Test Class
+ * 
  * @author Kevin O'Neill <ckoneill04> Kavian Rahiab <kavianr22>
  * @version 9.18.2024
  */

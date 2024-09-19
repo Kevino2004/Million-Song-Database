@@ -19,7 +19,7 @@ public class Controller
     {
         this.artistHash = new Hash(tableSize);
         this.songHash = new Hash(tableSize);
-        this.fullGraph = new Graph();
+        this.fullGraph = new Graph(tableSize);
     }
     //~Public  Methods ........................................................
     /**

@@ -6,123 +6,177 @@
  */
 public class Graph
 {
-    //~ Fields ................................................................
-    private DoubleLL<Node<String>> vertexList;  // Adjacency list as a DLL
+    private DoubleLL<Node<String>>[] vertex;  
     private int numberOfNodes;
-    //~ Constructors ..........................................................
-    
+    private boolean[] freedSlots;
+    private int[] parent; 
+    private int[] weights;
+
     /**
-     * Create a new Graph object.
-     */
-    public Graph() {
-        this.vertexList = new DoubleLL<>();
-        this.numberOfNodes = 0;
-    }
-    //~Public  Methods ........................................................
-    
-    /**
-     * Add a new node (artist or song) to the graph.
+     * Constructor to initialize the graph with a given size.
      * 
-     * @param newNode The node to be added to the graph
+     * @param initialSize The initial size of the vertex list.
+     */
+    @SuppressWarnings("unchecked")
+    public Graph(int initialSize) {
+        this.vertex = new DoubleLL[initialSize];
+        this.numberOfNodes = 0;
+        this.freedSlots = new boolean[initialSize];
+        this.parent = new int[initialSize];
+        this.weights = new int[initialSize];
+
+        // Initialize union-find structure
+        for (int i = 0; i < initialSize; i++) {
+            this.parent[i] = i;
+            this.weights[i] = 1;
+        }
+    }
+
+    /**
+     * Add a new node to the graph
+     * @param newNode new node.
      */
     public void addNode(Node<String> newNode) {
-        if (!containsNode(newNode.getData())) {
-            vertexList.add(newNode);
-            numberOfNodes++;
+        if (numberOfNodes >= vertex.length * 0.5) {
+            expand();
+        }
+        int index = findFreeSlot();
+        vertex[index] = new DoubleLL<>();
+        vertex[index].add(newNode);
+        numberOfNodes++;
+    }
+
+    /**
+     * Add an edge between two nodes
+     * @param fromIndex integer
+     * @param toIndex integer
+     */
+    public void addEdge(int fromIndex, int toIndex) {
+        if (!hasEdge(fromIndex, toIndex)) {
+            vertex[fromIndex].add(new Node<>(vertex[toIndex].get(0).getData()));
+            vertex[toIndex].add(new Node<>(vertex[fromIndex].get(0).getData()));
         }
     }
 
     /**
-     * Add an edge between two nodes (artist and song) in the graph.
-     * 
-     * @param fromNode The starting node (artist)
-     * @param toNode The destination node (song)
+     * Check if an edge exists
+     * @param fromIndex integer
+     * @param toIndex integer
+     * @return T/F
      */
-    public void addEdge(Node<String> fromNode, Node<String> toNode) {
-        if (fromNode != null && toNode != null && !hasEdge(fromNode, toNode)) {
-            fromNode.getAdjacencyList().add(toNode);
-            toNode.getAdjacencyList().add(fromNode);
-        }
+    public boolean hasEdge(int fromIndex, int toIndex) {
+        return vertex[fromIndex].contains(new Node<>(vertex[toIndex].get(0)
+            .getData()));
     }
 
     /**
-     * Check if a node exists in the graph.
-     * 
-     * @param data The data to check
-     * @return true if the node exists, false otherwise
+     * Remove an edge
+     * @param fromIndex integer
+     * @param toIndex integer
      */
-    public boolean containsNode(String data) {
-        Node<String> current = vertexList.get(0);
-        while (current != null) {
-            if (current.getData().equals(data)) {
-                return true;
+    public void removeEdge(int fromIndex, int toIndex) {
+        vertex[fromIndex].remove(new Node<>(vertex[toIndex].get(0).getData()));
+        vertex[toIndex].remove(new Node<>(vertex[fromIndex].get(0).getData()));
+    }
+
+    /**
+     * Remove a node and its edges
+     * @param index integer
+     */
+    public void removeNode(int index) {
+        for (int i = 0; i < vertex.length; i++) {
+            if (hasEdge(index, i)) {
+                removeEdge(index, i);
             }
-            current = current.next();
         }
-        return false;
+        vertex[index] = null;
+        numberOfNodes--;
+        freedSlots[index] = true;
     }
 
     /**
-     * Check if an edge exists between two nodes.
-     * 
-     * @param fromNode The starting node
-     * @param toNode The destination node
-     * @return true if an edge exists, false otherwise
+     * Expand the graph when it becomes half full
      */
-    public boolean hasEdge(Node<String> fromNode, Node<String> toNode) {
-        return fromNode.getAdjacencyList().contains(toNode);
+    @SuppressWarnings("unchecked")
+    private void expand() {
+        int newSize = vertex.length * 2;
+        DoubleLL<Node<String>>[] newVertex = new DoubleLL[newSize];
+        boolean[] newFreedSlots = new boolean[newSize];
+        int[] newParent = new int[newSize];
+        int[] newWeights = new int[newSize];
+
+        System.arraycopy(vertex, 0, newVertex, 0, vertex.length);
+        System.arraycopy(freedSlots, 0, newFreedSlots, 0, freedSlots.length);
+        System.arraycopy(parent, 0, newParent, 0, parent.length);
+        System.arraycopy(weights, 0, newWeights, 0, weights.length);
+
+        this.vertex = newVertex;
+        this.freedSlots = newFreedSlots;
+        this.parent = newParent;
+        this.weights = newWeights;
     }
 
     /**
-     * Remove a node and all its edges from the graph.
-     * 
-     * @param nodeToRemove The data for the node to be removed
+     * Find the next free slot in the adjacency list
      */
-    public void removeNode(Node<String> nodeToRemove) {
-        Node<String> toRemove = getNode(nodeToRemove);
-        if (toRemove != null) {
-            // Remove all edges
-            Node<String> current = toRemove.getAdjacencyList().get(0);
-            while (current != null) {
-                current.getAdjacencyList().remove(toRemove);
-                current = current.next();
+    private int findFreeSlot() {
+        for (int i = 0; i < freedSlots.length; i++) {
+            if (freedSlots[i]) {
+                freedSlots[i] = false;
+                return i;
             }
-            vertexList.remove(toRemove);
-            numberOfNodes--;
         }
+        return numberOfNodes;
     }
 
     /**
-     * Get a node by its data.
-     * 
-     * @param nodeToRemove The data of the node to retrieve
-     * @return The node if found, null otherwise
+     * Union operation for union-find
+     * @param a integer
+     * @param b integer
      */
-    public Node<String> getNode(Node<String> nodeToRemove) {
-        Node<String> current = vertexList.get(0);
-        while (current != null) {
-            if (current.getData().equals(nodeToRemove)) {
-                return current;
+    public void union(int a, int b) {
+        int root1 = find(a);
+        int root2 = find(b);
+        if (root1 != root2) {
+            if (weights[root2] > weights[root1]) {
+                parent[root1] = root2;
+                weights[root2] += weights[root1];
+            } else {
+                parent[root2] = root1;
+                weights[root1] += weights[root2];
             }
-            current = current.next();
         }
-        return null;
     }
 
     /**
-     * Print all the nodes and their edges.
+     * Find operation for union-find (path compression)
+     * @param a int to find
+     * @return found
+     */
+    public int find(int a) {
+        if (parent[a] != a) {
+            parent[a] = find(parent[a]);  // Path compression
+        }
+        return parent[a];
+    }
+
+    /**
+     * Print the graph.
      */
     public void printGraph() {
-        Node<String> current = vertexList.get(0);
-        while (current != null) {
-            System.out.print(current.getData() + ": ");
-            Node<String> adjNode = current.getAdjacencyList().get(0);
-            while (adjNode != null) {
-                System.out.print(adjNode.getData() + " ");
-                adjNode = adjNode.next();
+        for (int i = 0; i < vertex.length; i++) {
+            if (vertex[i] != null && vertex[i].size() > 0) {
+                System.out.print("Node " + i + " (" + vertex[i].get(0).
+                    getData() + "): ");
+
+                // Manually iterate over the adjacency list
+                Node<String> current = vertex[i].get(0);  // Get the first node in the adjacency list
+                while (current != null) {
+                    System.out.print(current.getData() + " ");
+                    current = current.next();  // Move to the next node in the adjacency list
+                }
+                System.out.println();  // New line after printing adjacency list
             }
-            System.out.println();
-            current = current.next();
         }
     }
 }
