@@ -57,8 +57,9 @@ public class Graph
             expand();
         }
         
-        vertex[numNodes].add(val); 
-        freedSlots[numNodes] = false;
+        int index = findFreeSlot();
+        vertex[index].add(val); 
+        freedSlots[index] = true;
         numNodes++;
     }
     
@@ -136,6 +137,20 @@ public class Graph
             }
         }
         return false;
+    }
+    
+    /**
+     * Find the next free slot in the adjacency list
+     * @return next available slot
+     */
+    private int findFreeSlot() {
+        for (int i = 0; i < freedSlots.length; i++) {
+            if (freedSlots[i]) {
+                freedSlots[i] = false;
+                return i;
+            }
+        }
+        return numNodes;
     }
 
     /**
