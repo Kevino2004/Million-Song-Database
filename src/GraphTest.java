@@ -12,7 +12,9 @@ public class GraphTest extends TestCase
 {
     private Graph graph;
 
-    // Setup method for test initialization
+    /**
+     * sets it up
+     */
     public void setUp() {
         graph = new Graph(5);
     }
@@ -84,7 +86,7 @@ public class GraphTest extends TestCase
      * Node count test
      */
     public void testNodeCount() {
-        assertEquals(5, graph.nodeCount()); // Node count should be the initial size
+        assertEquals(5, graph.nodeCount()); 
 
         // Testing adding more edges but node count remains unchanged
         graph.addEdge(0, 1, 10);

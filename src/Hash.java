@@ -168,7 +168,22 @@ public class Hash {
 
         return (int)(Math.abs(sum) % length);
     }
-    
-    
+
+    // ----------------------------------------------------------
+    /**
+     * gets the index of it
+     * @param name is name of artist or song
+     * @return int is integer
+     */
+    public int getIndex(String name) {
+        // Loop through the hash table to find the index of the record 
+        for (int i = 0; i < table.length; i++) {
+            Record record = table[i];
+            if (record != null && record.getKey().equals(name)) {
+                return i;  // Return the index if the name matches
+            }
+        }
+        return -1;  // If not found, return -1
+    }
     
 }

@@ -7,17 +7,22 @@
 public class Graph
 {
     private class Edge { // Doubly linked list node
-        int vertex, weight;
+        private int vertex;
+        private int weight;
+        
         @SuppressWarnings("unused")
-        Edge prev, next;
+        
+        private Edge prev;
+        private Edge next;
 
         Edge(int v, int w, Edge p, Edge n) {
-          vertex = v;
-          weight = w;
-          prev = p;
-          next = n;
+            vertex = v;
+            weight = w;
+            prev = p;
+            next = n;
         }
-      }
+    }
+    
     private Edge[] nodeArray;
     private Object[] nodeValues;
     private int numEdge;
@@ -39,10 +44,13 @@ public class Graph
     public void init(int n) {
         nodeArray = new Edge[n];
         // List headers;
-        for (int i=0; i<n; i++) { nodeArray[i] = new Edge(-1, -1, null, null); }
+        for (int i = 0; i < n; i++) 
+        { 
+            nodeArray[i] = new Edge(-1, -1, null, null); 
+        }
         nodeValues = new Object[n];
         numEdge = 0;
-      }
+    }
     
     /**
      * Return the number of vertices
@@ -75,7 +83,7 @@ public class Graph
      * one with w (or where it would be)
      * 
      */
-    private Edge find (int v, int w) {
+    private Edge find(int v, int w) {
       Edge curr = nodeArray[v];
       while ((curr.next != null) && (curr.next.vertex < w)) {
         curr = curr.next;
@@ -109,9 +117,12 @@ public class Graph
      * @return int
      */
     public int weight(int v, int w) {
-      Edge curr = find(v, w);
-      if ((curr.next == null) || (curr.next.vertex != w)) { return 0; }
-    return curr.next.weight;
+        Edge curr = find(v, w);
+        if ((curr.next == null) || (curr.next.vertex != w)) 
+        { 
+            return 0; 
+        }
+        return curr.next.weight;
     }
 
     /**
@@ -120,11 +131,16 @@ public class Graph
      * @param w node
      */
     public void removeEdge(int v, int w) {
-      Edge curr = find(v, w);
-      if ((curr.next == null) || curr.next.vertex != w) { return; }
-    curr.next = curr.next.next;
-    if (curr.next != null) { curr.next.prev = curr; }
-      numEdge--;
+        Edge curr = find(v, w);
+        if ((curr.next == null) || curr.next.vertex != w) 
+        {
+            return; 
+        }
+        curr.next = curr.next.next;
+        if (curr.next != null) { 
+            curr.next.prev = curr;
+        }
+        numEdge--;
     }
 
     /**
@@ -141,17 +157,17 @@ public class Graph
      * @return array
      */
     public int[] neighbors(int v) {
-      int cnt = 0;
-      Edge curr;
-      for (curr = nodeArray[v].next; curr != null; curr = curr.next) {
-        cnt++;
-      }
-      int[] temp = new int[cnt];
-      cnt = 0;
-      for (curr = nodeArray[v].next; curr != null; curr = curr.next) {
-        temp[cnt++] = curr.vertex;
-      }
-      return temp;
+        int cnt = 0;
+        Edge curr;
+        for (curr = nodeArray[v].next; curr != null; curr = curr.next) {
+            cnt++;
+        }
+        int[] temp = new int[cnt];
+        cnt = 0;
+        for (curr = nodeArray[v].next; curr != null; curr = curr.next) {
+            temp[cnt++] = curr.vertex;
+        }
+        return temp;
     }
     
     /**
@@ -163,10 +179,11 @@ public class Graph
             Edge curr = nodeArray[i].next;
             if (curr == null) {
                 System.out.print("No edges.");
-            } else {
+            } 
+            else {
                 while (curr != null) {
                     System.out.print(" -> " + curr.vertex + " (Weight: " + 
-                curr.weight + ")");
+                    curr.weight + ")");
                     curr = curr.next;
                 }
             }
@@ -174,4 +191,17 @@ public class Graph
         }
     }
    
+    
+    // ----------------------------------------------------------
+    /**
+     * adds the node
+     * @param v is the spot
+     * @param val is the value
+     */
+    public void addNode(int v, Object val) {
+        if (v >= nodeArray.length) {
+            throw new IndexOutOfBoundsException("Index exceeds graph size.");
+        }
+        setValue(v, val); // Store node value
+    }
 }
