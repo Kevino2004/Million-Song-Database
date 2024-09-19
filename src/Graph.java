@@ -8,6 +8,8 @@ public class Graph
 {
     private DoubleLL<Node<String>>[] vertex;
     private int numNodes;
+    private static final double LOAD_FACTOR_THRESHOLD = 0.5;
+    private boolean freedSlots[];
 
     /**
      * Constructor to initialize the graph with a given size.
@@ -20,7 +22,8 @@ public class Graph
         for (int i = 0; i < init; i++) {
             vertex[i] = new DoubleLL<>();
         }
-        this.numNodes = 0;     
+        this.numNodes = 0;  
+        this.freedSlots = new boolean[init];
     }
     
     /**
@@ -49,7 +52,13 @@ public class Graph
      */
     public void addNode(Node<String> val) 
     { 
+        if (numNodes >= vertex.length * LOAD_FACTOR_THRESHOLD)
+        {
+            expand();
+        }
+        
         vertex[numNodes].add(val); 
+        freedSlots[numNodes] = false;
         numNodes++;
     }
     
@@ -62,13 +71,29 @@ public class Graph
         vertex[numNodes].remove(val); 
         numNodes--;
     }
+    
+    /**
+     * Expand the graph when it becomes half full
+     */
+    @SuppressWarnings("unchecked")
+    private void expand() {
+        int newSize = vertex.length * 2;
+        DoubleLL<Node<String>>[] newVertex = new DoubleLL[newSize];
+        boolean[] newFreedSlots = new boolean[newSize];
+
+        System.arraycopy(vertex, 0, newVertex, 0, vertex.length);
+        System.arraycopy(freedSlots, 0, newFreedSlots, 0, freedSlots.length);
+
+        this.vertex = newVertex;
+        this.freedSlots = newFreedSlots;
+    }
 
     /**
      * Adds a new edge
      * @param v node
      * @param w node
      */
-    public void addEdge(int v, int w) {
+    public void addEdge(Node<String> v, Node<String> w) {
         vertex[v].get(v).add(vertex[w].get(w);
     }
 
@@ -79,7 +104,7 @@ public class Graph
      * @param v node
      * @param w node
      */
-    public void removeEdge(int v, int w) {
+    public void removeEdge(Node<String> v, Node<String> w) {
         //
     }
 
