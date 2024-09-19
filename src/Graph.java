@@ -6,50 +6,21 @@
  */
 public class Graph
 {
-    private class Edge { // Doubly linked list node
-        private int vertex;
-        private int weight;
-        
-        @SuppressWarnings("unused")
-        
-        private Edge prev;
-        private Edge next;
-
-        Edge(int v, int w, Edge p, Edge n) {
-            vertex = v;
-            weight = w;
-            prev = p;
-            next = n;
-        }
-    }
-    
-    private Edge[] nodeArray;
-    private Object[] nodeValues;
-    private int numEdge;
+    private DoubleLL<Node<String>>[] vertex;
+    private int numNodes;
 
     /**
      * Constructor to initialize the graph with a given size.
      * 
      * @param init The initial size of the vertex list.
      */
+    @SuppressWarnings("unchecked")
     public Graph(int init) {
-        init(init);
-        
-    }
-    
-    /**
-     * Initialize
-     * @param n size
-     */
-    public void init(int n) {
-        nodeArray = new Edge[n];
-        // List headers;
-        for (int i = 0; i < n; i++) 
-        { 
-            nodeArray[i] = new Edge(-1, -1, null, null); 
+        this.vertex = new DoubleLL[init];
+        for (int i = 0; i < init; i++) {
+            vertex[i] = new DoubleLL<>();
         }
-        nodeValues = new Object[n];
-        numEdge = 0;
+        this.numNodes = 0;     
     }
     
     /**
@@ -97,11 +68,7 @@ public class Graph
      * @param w node
      * @param wgt weight
      */
-    public void addEdge(int v, int w, int wgt) {
-        if (wgt == 0)
-        { 
-            return; 
-        } // Can't store weight of 0
+    public void addEdge(int v, int w) {
         Edge curr = find(v, w);
         if ((curr.next != null) && (curr.next.vertex == w)) 
         {
@@ -118,20 +85,7 @@ public class Graph
         }
     }
 
-    /**
-     * Get the weight value for an edge
-     * @param v node
-     * @param w node
-     * @return int
-     */
-    public int weight(int v, int w) {
-        Edge curr = find(v, w);
-        if ((curr.next == null) || (curr.next.vertex != w)) 
-        { 
-            return 0; 
-        }
-        return curr.next.weight;
-    }
+    
 
     /**
      * Removes the edge from the graph.
