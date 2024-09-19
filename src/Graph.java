@@ -25,64 +25,37 @@ public class Graph
     
     /**
      * Return the number of vertices
-     * @return number of nodes
+     * @return number of graph lists
      */
-    public int nodeCount() { return nodeArray.length; }
+    public int listCount() { return vertex.length; }
     
     /**
-     * Return the current number of edges
-     * @return number of edges
+     * Return the current number of nodes
+     * @return number of nodes
      */
-    public int edgeCount() { return numEdge; }
+    public int nodeCount() { return numNodes; }
     
     /**
      * Get the value of node with index v
      * @param v index
      * @return object of value
      */
-    public Object getValue(int v) { return nodeValues[v]; }
+    public Object getValue(int v) { return vertex[v]; }
     
     /**
      * Set the value of node with index v
      * @param v index
      * @param val node
      */
-    public void setValue(int v, Object val) { nodeValues[v] = val; }
-    
-    /**
-     * Return the link in v's neighbor list that preceeds the
-     * one with w (or where it would be)
-     * 
-     */
-    private Edge find(int v, int w) {
-        Edge curr = nodeArray[v];
-        while ((curr.next != null) && (curr.next.vertex < w)) {
-            curr = curr.next;
-        }
-        return curr;
-    }
+    public void setValue(int v, DoubleLL<Node<String>> val) { vertex[v] = val; }
 
     /**
-     * Adds a new edge from node v to node w with weight wgt
+     * Adds a new edge
      * @param v node
      * @param w node
-     * @param wgt weight
      */
     public void addEdge(int v, int w) {
-        Edge curr = find(v, w);
-        if ((curr.next != null) && (curr.next.vertex == w)) 
-        {
-            curr.next.weight = wgt;
-        }
-        else 
-        {
-            curr.next = new Edge(w, wgt, curr, curr.next);
-            numEdge++;
-            if (curr.next.next != null) 
-            {
-                curr.next.next.prev = curr.next; 
-            }
-        }
+        //
     }
 
     
@@ -93,16 +66,7 @@ public class Graph
      * @param w node
      */
     public void removeEdge(int v, int w) {
-        Edge curr = find(v, w);
-        if ((curr.next == null) || curr.next.vertex != w) 
-        {
-            return; 
-        }
-        curr.next = curr.next.next;
-        if (curr.next != null) { 
-            curr.next.prev = curr;
-        }
-        numEdge--;
+        //
     }
 
     /**
@@ -111,7 +75,9 @@ public class Graph
      * @param w node
      * @return T/F
      */
-    public boolean hasEdge(int v, int w) { return weight(v, w) != 0; }
+    public boolean hasEdge(int v, int w) { 
+        //
+    }
 
     /**
      * Returns an array containing the indicies of the neighbors of v
@@ -120,13 +86,13 @@ public class Graph
      */
     public int[] neighbors(int v) {
         int cnt = 0;
-        Edge curr;
-        for (curr = nodeArray[v].next; curr != null; curr = curr.next) {
+        DoubleLL<Node<String>> curr;
+        for (curr = vertex[v].next; curr != null; curr = curr.next) {
             cnt++;
         }
         int[] temp = new int[cnt];
         cnt = 0;
-        for (curr = nodeArray[v].next; curr != null; curr = curr.next) {
+        for (curr = vertex[v].next; curr != null; curr = curr.next) {
             temp[cnt++] = curr.vertex;
         }
         return temp;
@@ -136,21 +102,47 @@ public class Graph
      * Print the graph.
      */
     public void printGraph() {
-        for (int i = 0; i < nodeArray.length; i++) {
-            System.out.print("Node " + i + " (Value: " + getValue(i) + "): ");
-            Edge curr = nodeArray[i].next;
-            if (curr == null) {
-                System.out.print("No edges.");
-            } 
-            else {
-                while (curr != null) {
-                    System.out.print(" -> " + curr.vertex + " (Weight: " + 
-                        curr.weight + ")");
-                    curr = curr.next;
+        for (int i = 0; i < vertex.length; i++) {
+            if (vertex[i] != null && vertex[i].size() > 0) {
+                System.out.print("Node " + i + " (" + vertex[i].get(0).
+                    getData() + "): ");
+
+                // Manually iterate over the adjacency list
+                Node<String> current = vertex[i].get(0);  
+                // Get the first node in the adjacency list
+                while (current != null) {
+                    System.out.print(current.getData() + " ");
+                    current = current.next();  
+                    // Move to the next node in the adjacency list
                 }
+                System.out.println();  // New line after printing adjacency list
             }
-            System.out.println();
         }
+    }
+    
+    /**
+     * Merge two subtrees if they are different
+     * @param a key for node a
+     * @param b key for node b
+     */
+    public void UNION(int a, int b) {
+      int root1 = FIND(a);     // Find root of node a
+      int root2 = FIND(b);     // Find root of node b
+      if (root1 != root2) {          // Merge two trees
+        vertex[root1] = root2;
+      }
+    }
+
+    /**
+     *  Return the root of curr's tree
+     *  @param curr tree
+     *  @return int
+     */
+    public int FIND(int curr) {
+      while (array[curr] != -1) {
+        curr = array[curr];
+      }
+      return curr; // Now at root
     }
    
     

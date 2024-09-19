@@ -70,4 +70,7 @@ public class Node<E>
         return data;
     }
     
+    /**
+     * Index of node
+     */
 }
