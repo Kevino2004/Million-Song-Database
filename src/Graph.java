@@ -55,7 +55,7 @@ public class Graph
      * @param w node
      */
     public void addEdge(int v, int w) {
-        //
+        vertex[v].get(v).add(vertex[w].get(w);
     }
 
     
