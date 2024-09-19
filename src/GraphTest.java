@@ -1,4 +1,7 @@
 import student.TestCase;
+import static org.junit.Assert.*;
+import org.junit.Before;
+import org.junit.Test;
 /**
  * Graph Test Class
  * 
@@ -14,101 +17,74 @@ public class GraphTest extends TestCase
         graph = new Graph(5);
     }
 
-    /**
-     * Test adding nodes
-     */
-    public void testAddNode() {
-        Node<String> nodeA = new Node<>("A");
-        Node<String> nodeB = new Node<>("B");
-
-        graph.addNode(nodeA);
-        graph.addNode(nodeB);
-
-        assertEquals(2, graph.getNumberOfNodes());
-        assertTrue(graph.containsNode("A"));
-        assertTrue(graph.containsNode("B"));
-    }
-
-    /**
-     * Test adding edges between nodes
-     */
     public void testAddEdge() {
-        Node<String> nodeA = new Node<>("A");
-        Node<String> nodeB = new Node<>("B");
-
-        graph.addNode(nodeA);
-        graph.addNode(nodeB);
-        graph.addEdge(0, 1);
+        graph.addEdge(0, 1, 10);
+        graph.addEdge(1, 2, 20);
 
         assertTrue(graph.hasEdge(0, 1));
-        assertTrue(graph.hasEdge(1, 0));
+        assertTrue(graph.hasEdge(1, 2));
+        assertFalse(graph.hasEdge(0, 2));
     }
 
-    /**
-     * Test removing edges
-     */
-    public void testRemoveEdge() {
-        Node<String> nodeA = new Node<>("A");
-        Node<String> nodeB = new Node<>("B");
+    @Test
+    public void testWeight() {
+        graph.addEdge(0, 1, 15);
+        graph.addEdge(1, 2, 25);
 
-        graph.addNode(nodeA);
-        graph.addNode(nodeB);
-        graph.addEdge(0, 1);
+        assertEquals(15, graph.weight(0, 1));
+        assertEquals(25, graph.weight(1, 2));
+        assertEquals(0, graph.weight(0, 2)); // Edge does not exist
+    }
+
+    @Test
+    public void testRemoveEdge() {
+        graph.addEdge(0, 1, 10);
         graph.removeEdge(0, 1);
 
         assertFalse(graph.hasEdge(0, 1));
-        assertFalse(graph.hasEdge(1, 0));
     }
 
-    /**
-     * Test removing nodes and their edges
-     */
-    public void testRemoveNode() {
-        Node<String> nodeA = new Node<>("A");
-        Node<String> nodeB = new Node<>("B");
-        graph.addNode(nodeA);
-        graph.addNode(nodeB);
-        graph.addEdge(0, 1);
+    @Test
+    public void testNeighbors() {
+        graph.addEdge(0, 1, 10);
+        graph.addEdge(0, 2, 20);
+        graph.addEdge(1, 3, 30);
 
-        graph.removeNode(nodeA);
-        assertFalse(graph.containsNode("A"));
-        assertFalse(graph.hasEdge(0, 1));
+        int[] neighborsOf0 = graph.neighbors(0);
+        assertArrayEquals(new int[]{1, 2}, neighborsOf0);
+
+        int[] neighborsOf1 = graph.neighbors(1);
+        assertArrayEquals(new int[]{3}, neighborsOf1);
     }
 
-    /**
-     * Test the union-find functionality
-     */
-    public void testUnionFind() {
-        graph.union(0, 1);
-        assertEquals(graph.find(0), graph.find(1));
+    @Test
+    public void testEdgeCount() {
+        graph.addEdge(0, 1, 10);
+        graph.addEdge(1, 2, 20);
+        graph.addEdge(2, 3, 30);
 
-        graph.union(2, 3);
-        assertEquals(graph.find(2), graph.find(3));
+        assertEquals(3, graph.edgeCount());
 
-        graph.union(1, 3);
-        assertEquals(graph.find(0), graph.find(3));
+        graph.removeEdge(1, 2);
+        assertEquals(2, graph.edgeCount());
     }
 
-    /**
-     * Test graph expansion when half full
-     */
-    public void testExpand() {
-        for (int i = 0; i < 3; i++) {
-            graph.addNode(new Node<>("Node " + i));
-        }
-        assertEquals(3, graph.getNumberOfNodes());
-        graph.addNode(new Node<>("Node 3"));  // Should trigger expansion
-        assertEquals(4, graph.getNumberOfNodes());
+    @Test
+    public void testNodeCount() {
+        assertEquals(5, graph.nodeCount()); // Node count should be the initial size
+
+        // Testing adding more edges but node count remains unchanged
+        graph.addEdge(0, 1, 10);
+        graph.addEdge(1, 2, 20);
+        assertEquals(5, graph.nodeCount());
     }
 
-    /**
-     * Test printing the graph
-     */
-    public void testPrintGraph() {
-        graph.addNode(new Node<>("A"));
-        graph.addNode(new Node<>("B"));
-        graph.addEdge(0, 1);
+    @Test
+    public void testGetValueAndSetValue() {
+        graph.setValue(0, "Node0");
+        graph.setValue(1, "Node1");
 
-        graph.printGraph();  // Check output manually
+        assertEquals("Node0", graph.getValue(0));
+        assertEquals("Node1", graph.getValue(1));
     }
 }

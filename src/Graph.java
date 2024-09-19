@@ -6,218 +6,152 @@
  */
 public class Graph
 {
-    private DoubleLL<Node<String>>[] vertex;  
-    private int numberOfNodes;
-    private boolean[] freedSlots;
-    private int[] parent; 
-    private int[] weights;
+    private class Edge { // Doubly linked list node
+        int vertex, weight;
+        Edge prev, next;
+
+        Edge(int v, int w, Edge p, Edge n) {
+          vertex = v;
+          weight = w;
+          prev = p;
+          next = n;
+        }
+      }
+    private Edge[] nodeArray;
+    private Object[] nodeValues;
+    private int numEdge;
 
     /**
      * Constructor to initialize the graph with a given size.
      * 
-     * @param initialSize The initial size of the vertex list.
+     * @param init The initial size of the vertex list.
      */
-    @SuppressWarnings("unchecked")
-    public Graph(int initialSize) {
-        this.vertex = new DoubleLL[initialSize];
-        this.numberOfNodes = 0;
-        this.freedSlots = new boolean[initialSize];
-        this.parent = new int[initialSize];
-        this.weights = new int[initialSize];
-
-        // Initialize union-find structure
-        for (int i = 0; i < initialSize; i++) {
-            this.parent[i] = i;
-            this.weights[i] = 1;
-        }
-    }
-
-    /**
-     * Add a new node to the graph
-     * @param newNode new node.
-     */
-    public void addNode(Node<String> newNode) {
-        if (numberOfNodes >= vertex.length * 0.5) {
-            expand();
-        }
-        int index = findFreeSlot();
-        vertex[index] = new DoubleLL<>();
-        vertex[index].add(newNode);
-        numberOfNodes++;
-    }
-
-    /**
-     * Add an edge between two nodes
-     * @param fromIndex integer
-     * @param toIndex integer
-     */
-    public void addEdge(int fromIndex, int toIndex) {
-        if (!hasEdge(fromIndex, toIndex)) {
-            vertex[fromIndex].add(new Node<>(vertex[toIndex].get(0).getData()));
-            vertex[toIndex].add(new Node<>(vertex[fromIndex].get(0).getData()));
-        }
-    }
-
-    /**
-     * Check if an edge exists
-     * @param fromIndex integer
-     * @param toIndex integer
-     * @return T/F
-     */
-    public boolean hasEdge(int fromIndex, int toIndex) {
-        return vertex[fromIndex].contains(new Node<>(vertex[toIndex].get(0)
-            .getData()));
-    }
-
-    /**
-     * Remove an edge
-     * @param fromIndex integer
-     * @param toIndex integer
-     */
-    public void removeEdge(int fromIndex, int toIndex) {
-        vertex[fromIndex].remove(new Node<>(vertex[toIndex].get(0).getData()));
-        vertex[toIndex].remove(new Node<>(vertex[fromIndex].get(0).getData()));
-    }
-
-    /**
-     * Remove a node and its edges
-     * @param nodeToRemove node to remove
-     */
-    public void removeNode(Node<String> nodeToRemove) {
-        int index = hash(nodeToRemove.getData()); // Use hash to determine the index
-        if (vertex[index] != null) { // Check if the index is valid
-            // Remove all edges
-            Node<String> current = nodeToRemove.getAdjacencyList().get(0);
-            while (current != null) {
-                current.getAdjacencyList().remove(nodeToRemove);
-                current = current.next();
-            }
-            vertex[index].remove(nodeToRemove); // Remove the node from the adjacency list
-            numberOfNodes--;
-        }
+    public Graph(int init) {
+        init(init);
+        
     }
     
     /**
-     * hash data for graph
+     * Initialize
+     * @param n size
      */
-    private int hash(String data) {
-        return Math.abs(data.hashCode() % vertex.length);
-    }
-
-    /**
-     * Expand the graph when it becomes half full
-     */
-    @SuppressWarnings("unchecked")
-    private void expand() {
-        int newSize = vertex.length * 2;
-        DoubleLL<Node<String>>[] newVertex = new DoubleLL[newSize];
-        boolean[] newFreedSlots = new boolean[newSize];
-        int[] newParent = new int[newSize];
-        int[] newWeights = new int[newSize];
-
-        System.arraycopy(vertex, 0, newVertex, 0, vertex.length);
-        System.arraycopy(freedSlots, 0, newFreedSlots, 0, freedSlots.length);
-        System.arraycopy(parent, 0, newParent, 0, parent.length);
-        System.arraycopy(weights, 0, newWeights, 0, weights.length);
-
-        this.vertex = newVertex;
-        this.freedSlots = newFreedSlots;
-        this.parent = newParent;
-        this.weights = newWeights;
-    }
-
-    /**
-     * Find the next free slot in the adjacency list
-     */
-    private int findFreeSlot() {
-        for (int i = 0; i < freedSlots.length; i++) {
-            if (freedSlots[i]) {
-                freedSlots[i] = false;
-                return i;
-            }
-        }
-        return numberOfNodes;
-    }
-
-    /**
-     * Union operation for union-find
-     * @param a integer
-     * @param b integer
-     */
-    public void union(int a, int b) {
-        int root1 = find(a);
-        int root2 = find(b);
-        if (root1 != root2) {
-            if (weights[root2] > weights[root1]) {
-                parent[root1] = root2;
-                weights[root2] += weights[root1];
-            } else {
-                parent[root2] = root1;
-                weights[root1] += weights[root2];
-            }
-        }
-    }
-
-    /**
-     * Find operation for union-find (path compression)
-     * @param a int to find
-     * @return found
-     */
-    public int find(int a) {
-        if (parent[a] != a) {
-            parent[a] = find(parent[a]);  // Path compression
-        }
-        return parent[a];
-    }
-
-    /**
-     * Print the graph.
-     */
-    public void printGraph() {
-        for (int i = 0; i < vertex.length; i++) {
-            if (vertex[i] != null && vertex[i].size() > 0) {
-                System.out.print("Node " + i + " (" + vertex[i].get(0).
-                    getData() + "): ");
-
-                // Manually iterate over the adjacency list
-                Node<String> current = vertex[i].get(0);  // Get the first node in the adjacency list
-                while (current != null) {
-                    System.out.print(current.getData() + " ");
-                    current = current.next();  // Move to the next node in the adjacency list
-                }
-                System.out.println();  // New line after printing adjacency list
-            }
-        }
-    }
+    public void init(int n) {
+        nodeArray = new Edge[n];
+        // List headers;
+        for (int i=0; i<n; i++) { nodeArray[i] = new Edge(-1, -1, null, null); }
+        nodeValues = new Object[n];
+        numEdge = 0;
+      }
     
     /**
-     * Return number of nodes.
+     * Return the number of vertices
      * @return number of nodes
      */
-    public int getNumberOfNodes()
-    {
-        return numberOfNodes;
-    }
+    public int nodeCount() { return nodeArray.length; }
     
     /**
-     * Check if contains node
-     * @param data string
+     * Return the current number of edges
+     * @return number of edges
+     */
+    public int edgeCount() { return numEdge; }
+    
+    /**
+     * Get the value of node with index v
+     * @param v index
+     * @return object of value
+     */
+    public Object getValue(int v) { return nodeValues[v]; }
+    
+    /**
+     * Set the value of node with index v
+     * @param v index
+     * @param val node
+     */
+    public void setValue(int v, Object val) { nodeValues[v] = val; }
+    
+    /**
+     * Return the link in v's neighbor list that preceeds the
+     * one with w (or where it would be)
+     * 
+     */
+    private Edge find (int v, int w) {
+      Edge curr = nodeArray[v];
+      while ((curr.next != null) && (curr.next.vertex < w)) {
+        curr = curr.next;
+      }
+      return curr;
+    }
+
+    /**
+     * Adds a new edge from node v to node w with weight wgt
+     * @param v node
+     * @param w node
+     * @param wgt weight
+     */
+    public void addEdge(int v, int w, int wgt) {
+      if (wgt == 0) { return; } // Can't store weight of 0
+      Edge curr = find(v, w);
+      if ((curr.next != null) && (curr.next.vertex == w)) {
+        curr.next.weight = wgt;
+      }
+      else {
+        curr.next = new Edge(w, wgt, curr, curr.next);
+        numEdge++;
+        if (curr.next.next != null) { curr.next.next.prev = curr.next; }
+      }
+    }
+
+    /**
+     * Get the weight value for an edge
+     * @param v node
+     * @param w node
+     * @return int
+     */
+    public int weight(int v, int w) {
+      Edge curr = find(v, w);
+      if ((curr.next == null) || (curr.next.vertex != w)) { return 0; }
+    return curr.next.weight;
+    }
+
+    /**
+     * Removes the edge from the graph.
+     * @param v node
+     * @param w node
+     */
+    public void removeEdge(int v, int w) {
+      Edge curr = find(v, w);
+      if ((curr.next == null) || curr.next.vertex != w) { return; }
+    curr.next = curr.next.next;
+    if (curr.next != null) { curr.next.prev = curr; }
+      numEdge--;
+    }
+
+    /**
+     * Returns true iff the graph has the edge
+     * @param v node
+     * @param w node
      * @return T/F
      */
-    public boolean containsNode(String data)
-    {
-        // Iterate over each list in the vertex array
-        for (DoubleLL<Node<String>> list : vertex) {
-            if (list != null) {  // Ensure the list is not null
-                Node<String> current = list.get(0);  // Start with the first node in the list
-                while (current != null) {  // Traverse the linked list
-                    if (current.getData().equals(data)) {  // Check if the current node's data matches
-                        return true;  // Node with the specified data is found
-                    }
-                    current = current.next();  // Move to the next node
-                }
-            }
-        }
-        return false;  // Node with the specified data was not found
+    public boolean hasEdge(int v, int w) { return weight(v, w) != 0; }
+
+    /**
+     * Returns an array containing the indicies of the neighbors of v
+     * @param v node
+     * @return array
+     */
+    public int[] neighbors(int v) {
+      int cnt = 0;
+      Edge curr;
+      for (curr = nodeArray[v].next; curr != null; curr = curr.next) {
+        cnt++;
+      }
+      int[] temp = new int[cnt];
+      cnt = 0;
+      for (curr = nodeArray[v].next; curr != null; curr = curr.next) {
+        temp[cnt++] = curr.vertex;
+      }
+      return temp;
     }
+
+   
 }
