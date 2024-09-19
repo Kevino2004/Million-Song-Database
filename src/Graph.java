@@ -152,8 +152,7 @@ public class Graph
      */
     private int findFreeSlot() {
         for (int i = 0; i < freedSlots.length; i++) {
-            if (freedSlots[i]) {
-                freedSlots[i] = false;
+            if (!freedSlots[i]) {
                 return i;
             }
         }
