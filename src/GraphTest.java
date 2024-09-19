@@ -19,6 +19,34 @@ public class GraphTest extends TestCase
         graph = new Graph(5);
     }
     
+    // ----------------------------------------------------------
+    /**
+     * Place a description of your method here.
+     */
+    public void testAddNode()
+    {
+        // 
+    }
+    
+    // ----------------------------------------------------------
+    /**
+     * Place a description of your method here.
+     */
+    public void testRemoveNode()
+    {
+        // 
+    }
+    
+    // ----------------------------------------------------------
+    /**
+     * Place a description of your method here.
+     */
+    public void testExpand()
+    {
+        // 
+    }
+    
+    
     /**
      * Add edge test.
      */
@@ -41,6 +69,7 @@ public class GraphTest extends TestCase
 
         assertFalse(graph.hasEdge(new Node<>("0"), new Node<>("1")));
     }
+    
 
     /**
      * Neighbors test
@@ -55,5 +84,24 @@ public class GraphTest extends TestCase
 
         int[] neighborsOf1 = graph.neighbors(1);
         assertArrayEquals(new int[]{3}, neighborsOf1);
+    }
+    
+    // ----------------------------------------------------------
+    /**
+     * Place a description of your method here.
+     */
+    public void testPrintGraph()
+    {
+        // 
+    }
+    
+    public void testUnion()
+    {
+        // 
+    }
+    
+    public void testFind()
+    {
+        // 
     }
 }
