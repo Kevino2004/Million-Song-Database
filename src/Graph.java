@@ -26,26 +26,7 @@ public class Graph
         this.freedSlots = new boolean[init];
     }
     
-    /**
-     * Return the number of vertices
-     * @return number of graph lists
-     */
-    public int listLength() { return vertex.length; }
-    
-    /**
-     * Return the current number of nodes
-     * @return number of nodes
-     */
-    public int nodeCount() { return numNodes; }
-    
-    /**
-     * Get the value of node with index v
-     * @param v array index
-     * @param w list index
-     * @return object of value
-     */
-    public Object getValue(int v, int w) { return vertex[v].get(w); }
-    
+ 
     /**
      * Set the value of node with index v
      * @param val node
