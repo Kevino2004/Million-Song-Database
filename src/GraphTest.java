@@ -81,28 +81,14 @@ public class GraphTest extends TestCase
         assertFalse(graph.hasEdge(a, b));
     }
     
-
-    /**
-     * Neighbors test
-     */
-    public void testNeighbors() {
-        graph.addEdge(new Node<>("0"), new Node<>("1"));
-        graph.addEdge(new Node<>("0"), new Node<>("2"));
-        graph.addEdge(new Node<>("1"), new Node<>("3"));
-
-        int[] neighborsOf0 = graph.neighbors(0);
-        assertArrayEquals(new int[]{1, 2}, neighborsOf0);
-
-        int[] neighborsOf1 = graph.neighbors(1);
-        assertArrayEquals(new int[]{3}, neighborsOf1);
-    }
-    
     /**
      * tests print graph
      */
     public void testPrintGraph()
     {
-        // 
+        graph.printGraph();
+        assertEquals(3, graph.connectedComponents());
+        assertEquals(2, graph.largestComponentSize());
     }
     
     /**
@@ -110,7 +96,9 @@ public class GraphTest extends TestCase
      */
     public void testUnion()
     {
-        // 
+        graph.UNION(0, 1);
+        graph.UNION(1, 2);
+        assertEquals(1, graph.connectedComponents());
     }
     
     /**
@@ -118,6 +106,8 @@ public class GraphTest extends TestCase
      */
     public void testFind()
     {
-        // 
+        assertEquals(0, graph.FIND(0));
+        graph.UNION(0, 1);
+        assertEquals(0, graph.FIND(1));
     }
 }

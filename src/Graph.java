@@ -7,7 +7,10 @@
 public class Graph
 {
     private DoubleLL<Node<String>>[] vertex;
+    private int[] parent; // To track parent of each node
+    private int[] size;   // To track size of each component
     private int numNodes;
+    private int numComponents;
     private static final double LOAD_FACTOR_THRESHOLD = 0.5;
     private boolean freedSlots[];
 
@@ -24,6 +27,14 @@ public class Graph
         }
         this.numNodes = 0;  
         this.freedSlots = new boolean[init];
+        this.parent = new int[init];
+        this.size = new int[init];
+        this.numComponents = init;
+        
+        for (int i = 0; i < init; i++) {
+            parent[i] = i;  // Initialize each node to be its own parent
+            size[i] = 1;    // Initially, each component has size 1
+        }
     }
     
     /**
@@ -153,68 +164,79 @@ public class Graph
     }
     
     /**
-     * Print the graph.
+     * Prints the graph along with connected components information.
      */
     public void printGraph() {
         for (int i = 0; i < vertex.length; i++) {
             if (vertex[i] != null && vertex[i].size() > 0) {
-                System.out.print("Node " + i + " (" + vertex[i].get(0).
-                    getData() + "): ");
-
-                // Manually iterate over the adjacency list
-                Node<String> current = vertex[i].get(0);  
-                // Get the first node in the adjacency list
+                System.out.print("Node " + i + " (" + vertex[i].get(0)
+                    .getData() + "): ");
+                Node<String> current = vertex[i].get(0);
                 while (current != null) {
                     System.out.print(current.getData() + " ");
-                    current = current.next();  
-                    // Move to the next node in the adjacency list
+                    current = current.next();
                 }
-                System.out.println();  // New line after printing adjacency list
+                System.out.println();
             }
         }
-    }
-
-    /**
-     * Returns an array containing the indicies of the neighbors of v
-     * @param v node
-     * @return array
-     */
-    public int[] neighbors(int v) {
-        int cnt = 0;
-        DoubleLL<Node<String>> curr;
-        for (curr = vertex[v].next; curr != null; curr = curr.next) {
-            cnt++;
-        }
-        int[] temp = new int[cnt];
-        cnt = 0;
-        for (curr = vertex[v].next; curr != null; curr = curr.next) {
-            temp[cnt++] = curr.vertex;
-        }
-        return temp;
+        System.out.println("Number of connected components: " 
+            + connectedComponents());
+        System.out.println("Size of the largest connected component: " 
+            + largestComponentSize());
     }
     
     /**
-     * Merge two subtrees if they are different
+     * Returns the size of the largest connected component.
+     * @return largest component size
+     */
+    public int largestComponentSize() {
+        int largest = 0;
+        for (int i = 0; i < size.length; i++) {
+            if (size[i] > largest) {
+                largest = size[i];
+            }
+        }
+        return largest;
+    }
+
+    /**
+     * Computes and returns the number of connected components.
+     * @return number of connected components.
+     */
+    public int connectedComponents() {
+        return numComponents;
+    }
+    
+    /**
+     * Merge two subtrees if they are different.
      * @param a key for node a
      * @param b key for node b
      */
     public void UNION(int a, int b) {
-      int root1 = FIND(a);     // Find root of node a
-      int root2 = FIND(b);     // Find root of node b
-      if (root1 != root2) {          // Merge two trees
-        vertex[root1] = root2;
-      }
+        int rootA = FIND(a);
+        int rootB = FIND(b);
+        
+        if (rootA != rootB) {
+            if (size[rootA] < size[rootB]) {
+                parent[rootA] = rootB;
+                size[rootB] += size[rootA];
+            } else {
+                parent[rootB] = rootA;
+                size[rootA] += size[rootB];
+            }
+            numComponents--;  // Decrease the number of components
+        }
     }
 
     /**
-     *  Return the root of curr's tree
-     *  @param curr tree
+     *  Find the root of the component that contains node v.
+     *  @param v tree
      *  @return int
      */
-    public int FIND(int curr) {
-      while (array[curr] != -1) {
-        curr = array[curr];
-      }
-      return curr; // Now at root
+    public int FIND(int v) {
+        if (parent[v] != v) {
+            parent[v] = FIND(parent[v]); // Path compression
+        }
+        return parent[v];
     }
 }
