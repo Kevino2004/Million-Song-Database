@@ -42,6 +42,7 @@ public class CommandProcessorTest extends TestCase
         CommandProcessor.call(insert, controller);
         assertTrue(CommandProcessor.assertCompletion());
     }
+    
     /**
      * Tests remove case.
      */
@@ -51,6 +52,7 @@ public class CommandProcessorTest extends TestCase
         CommandProcessor.call(remove, controller);
         assertTrue(CommandProcessor.assertCompletion());
     }
+    
     /**
      * Tests print case.
      */
