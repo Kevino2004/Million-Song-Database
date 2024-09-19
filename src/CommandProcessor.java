@@ -41,6 +41,10 @@ public class CommandProcessor
             {
                 CommandProcessor.call(command, controller);
             }
+            else
+            {
+                check = true;
+            }
         }
         scanner.close();
     }
@@ -51,7 +55,7 @@ public class CommandProcessor
      */
     public static void call(String command, Controller controller)
     {
-     // Split command into parts
+        // Split command into parts
         String[] commandParts = command.split(" ", 2);
         String action = commandParts[0].toLowerCase(); 
         String argument = commandParts[1];
