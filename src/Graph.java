@@ -115,7 +115,7 @@ public class Graph
         {
             if (vertex[i].contains(v)) {
                 if (v.next() == w || v.previous() == w) {
-                    vertex[i].remove(w);
+                    v.setNext(null);
                 }
             }
         }
