@@ -21,7 +21,7 @@ public class GraphTest extends TestCase
     
     // ----------------------------------------------------------
     /**
-     * Place a description of your method here.
+     * tests add Node
      */
     public void testAddNode()
     {
@@ -30,7 +30,7 @@ public class GraphTest extends TestCase
     
     // ----------------------------------------------------------
     /**
-     * Place a description of your method here.
+     * tests remove Node
      */
     public void testRemoveNode()
     {
@@ -39,7 +39,7 @@ public class GraphTest extends TestCase
     
     // ----------------------------------------------------------
     /**
-     * Place a description of your method here.
+     * tests expand
      */
     public void testExpand()
     {
@@ -88,18 +88,26 @@ public class GraphTest extends TestCase
     
     // ----------------------------------------------------------
     /**
-     * Place a description of your method here.
+     * tests print graph
      */
     public void testPrintGraph()
     {
         // 
     }
     
+    // ----------------------------------------------------------
+    /**
+     * tests union
+     */
     public void testUnion()
     {
         // 
     }
     
+    // ----------------------------------------------------------
+    /**
+     * tests find
+     */
     public void testFind()
     {
         // 
