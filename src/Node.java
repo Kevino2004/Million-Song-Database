@@ -70,14 +70,4 @@ public class Node<E>
         return data;
     }
     
-    /**
-     * get Adjacency list.
-     * 
-     * @return DoubleLL node
-     */
-    public DoubleLL<Node<String>> getAdjacencyList()
-    {
-        // TODO Auto-generated method stub
-        return null;
-    }
 }

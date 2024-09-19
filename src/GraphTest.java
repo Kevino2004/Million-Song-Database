@@ -66,12 +66,11 @@ public class GraphTest extends TestCase
     public void testRemoveNode() {
         Node<String> nodeA = new Node<>("A");
         Node<String> nodeB = new Node<>("B");
-
         graph.addNode(nodeA);
         graph.addNode(nodeB);
         graph.addEdge(0, 1);
-        graph.removeNode(0);
 
+        graph.removeNode(nodeA);
         assertFalse(graph.containsNode("A"));
         assertFalse(graph.hasEdge(0, 1));
     }

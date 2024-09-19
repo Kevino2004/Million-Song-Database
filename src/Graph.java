@@ -81,17 +81,27 @@ public class Graph
 
     /**
      * Remove a node and its edges
-     * @param index integer
+     * @param nodeToRemove node to remove
      */
-    public void removeNode(int index) {
-        for (int i = 0; i < vertex.length; i++) {
-            if (hasEdge(index, i)) {
-                removeEdge(index, i);
+    public void removeNode(Node<String> nodeToRemove) {
+        int index = hash(nodeToRemove.getData()); // Use hash to determine the index
+        if (vertex[index] != null) { // Check if the index is valid
+            // Remove all edges
+            Node<String> current = nodeToRemove.getAdjacencyList().get(0);
+            while (current != null) {
+                current.getAdjacencyList().remove(nodeToRemove);
+                current = current.next();
             }
+            vertex[index].remove(nodeToRemove); // Remove the node from the adjacency list
+            numberOfNodes--;
         }
-        vertex[index] = null;
-        numberOfNodes--;
-        freedSlots[index] = true;
+    }
+    
+    /**
+     * hash data for graph
+     */
+    private int hash(String data) {
+        return Math.abs(data.hashCode() % vertex.length);
     }
 
     /**
