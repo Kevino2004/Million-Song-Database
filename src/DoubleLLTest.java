@@ -53,8 +53,12 @@ public class DoubleLLTest extends TestCase
         list.add("A");
         list.add("B");
         assertEquals(2, list.size());
+
+        // Remove element at index 1
         assertTrue(list.remove(1));
         assertEquals(1, list.size());
+
+        // Remove element at index 0
         list.add("B");
         assertTrue(list.remove(0));
         assertEquals(1, list.size());
@@ -80,13 +84,35 @@ public class DoubleLLTest extends TestCase
      */
     public void testAddIndex() {
         list.add("B");
-        list.add(0, "A");
+        list.add(0, "A"); // Insert at index 0
         assertEquals("A", list.get(0));
         assertEquals(2, list.size());
+
+        // Inserting at the end
         list.add(2, "D");
         assertEquals("D", list.get(2));
+        assertEquals(3, list.size());
+
+        // Inserting in between
         list.add(2, "C");
         assertEquals("C", list.get(2));
+        assertEquals(4, list.size());
+
+        // Test adding at invalid index (-1) and expect an exception
+        try {
+            list.add(-1, "X");
+            fail("Expected IndexOutOfBoundsException for index -1.");
+        } catch (IndexOutOfBoundsException e) {
+            // Exception is expected
+        }
+
+        // Test adding at invalid index (greater than size)
+        try {
+            list.add(5, "Y");
+            fail("Expected IndexOutOfBoundsException for index 5.");
+        } catch (IndexOutOfBoundsException e) {
+            // Exception is expected
+        }
     }
 
     /**
@@ -148,16 +174,25 @@ public class DoubleLLTest extends TestCase
      * remove the first and last elements
      */
     public void testRemoveObj() {
-        assertFalse(list.remove(null));
+        assertFalse(list.remove(null)); // Null removal check
+
         list.add("A");
         list.add("B");
         assertEquals(2, list.size());
-        assertTrue( list.remove("A"));
-        assertEquals( "B", list.get(0));
-        assertEquals( 1, list.size());
+
+        // Remove by object
+        assertTrue(list.remove("A"));
+        assertEquals("B", list.get(0)); // Check if "B" is at index 0
+        assertEquals(1, list.size());
+
         list.add("C");
-        assertTrue(list.remove("C"));
+        assertTrue(list.remove("C")); // Check removal of last element
         assertEquals("B", list.get(0));
+        assertEquals(1, list.size());
+
+        // Attempt to remove non-existing element
+        assertFalse(list.remove("X"));
+        assertEquals(1, list.size());
     }
 
     /**
@@ -237,14 +272,21 @@ public class DoubleLLTest extends TestCase
      * Tests the toString when there are 0, 1, and 2 objects in the list
      */
     public void testToString() {
-        assertEquals("{}",
-                list.toString());
+        // Empty list check
+        assertEquals("{}", list.toString());
+
+        // Add single element
         list.add("A");
-        assertEquals("{A}",
-                list.toString());
+        assertEquals("{A}", list.toString());
+
+        // Add second element
         list.add("B");
-        assertEquals("{A, B}",
-                list.toString());
+        assertEquals("{A, B}", list.toString());
+
+        // Clear the list and check empty again
+        list.remove(0);
+        list.remove(0);
+        assertEquals("{}", list.toString());
     }
     
     /**
