@@ -34,10 +34,12 @@ public class Hash {
      * 
      * @param key The key (string) to insert
      * @param value The value (Node) associated with the key
+     * @param type artist or song
      */
-    public void insert(String key, Node<String> value) {
+    public void insert(String key, Node<String> value, String type) {
         if (numRecords >= tableSize * LOAD_FACTOR_THRESHOLD) {
-            expand();
+            expand(type);
+            System.out.println(type + " hash table size doubled.");
         }
         
         int homeSlot = h(key, tableSize);
@@ -106,8 +108,7 @@ public class Hash {
         
         for (int i = 0; i < tableSize; i++) {
             if (table[i] != null && table[i] != TOMBSTONE) {
-                System.out.println("Key: " + table[i].getKey() + ", Value: " 
-                    + table[i].getValue());
+                System.out.println(count + ": |" + table[i].getKey() + "|");
                 count++;
             }
         }
@@ -118,8 +119,9 @@ public class Hash {
     /**
      * Expand the hash table by doubling its size and re-inserting all 
      * valid records.
+     * @param type artist or song
      */
-    private void expand() {
+    private void expand(String type) {
         int newSize = tableSize * 2;
         Record[] oldTable = table;
         table = new Record[newSize];
@@ -129,7 +131,7 @@ public class Hash {
         // Re-insert records from old table into the new table
         for (int i = 0; i < oldTable.length; i++) {
             if (oldTable[i] != null && oldTable[i] != TOMBSTONE) {
-                insert(oldTable[i].getKey(), oldTable[i].getValue());
+                insert(oldTable[i].getKey(), oldTable[i].getValue(), type);
             }
         }
     }

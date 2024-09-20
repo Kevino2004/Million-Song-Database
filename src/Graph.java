@@ -174,18 +174,7 @@ public class Graph
      * Prints the graph along with connected components information.
      */
     public void printGraph() {
-        for (int i = 0; i < vertex.length; i++) {
-            if (vertex[i] != null && vertex[i].size() > 0) {
-                System.out.print("Node " + i + " (" + vertex[i].get(0)
-                    .getData() + "): ");
-                Node<String> current = vertex[i].get(0);
-                while (current != null) {
-                    System.out.print(current.getData() + " ");
-                    current = current.next();
-                }
-                System.out.println();
-            }
-        }
+        
         System.out.println("There are " + connectedComponents() + " connected"
             + " components");
         System.out.println("The largest connected component has " 
