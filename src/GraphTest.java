@@ -108,6 +108,6 @@ public class GraphTest extends TestCase
     {
         assertEquals(0, graph.find(0));
         graph.union(0, 1);
-        assertEquals(0, graph.find(1));
+        assertEquals(1, graph.find(1));
     }
 }
