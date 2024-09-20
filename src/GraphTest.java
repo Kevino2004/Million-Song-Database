@@ -93,6 +93,16 @@ public class GraphTest extends TestCase
     }
     
     /**
+     * tests addEdge if next is null
+     */
+    public void testAddEdgeNextNotNull()
+    {
+        Node<String> d = new Node<>("3");
+        graph.addEdge(b, d);
+        assertFalse(graph.hasEdge(b, d));
+    }
+    
+    /**
      * tests print graph
      */
     public void testPrintGraph()
