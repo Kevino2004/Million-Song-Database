@@ -221,7 +221,6 @@ public class DoubleLL<E>
     /**
      * Returns a string representation of the list If a list contains A, B, and
      * C, the following should be returned "{A, B, C}" (Without the quotations)
-     *
      * @return a string representing the list
      */
     @Override
