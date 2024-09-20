@@ -108,8 +108,11 @@ public class Hash {
         
         for (int i = 0; i < tableSize; i++) {
             if (table[i] != null && table[i] != TOMBSTONE) {
-                System.out.println(count + ": |" + table[i].getKey() + "|");
+                System.out.println(i + ": |" + table[i].getKey() + "|");
                 count++;
+            } 
+            else if (table[i] == TOMBSTONE) {
+                System.out.println(i + ": TOMBSTONE");
             }
         }
         
