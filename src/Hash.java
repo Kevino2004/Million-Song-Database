@@ -131,8 +131,7 @@ public class Hash {
             }
             i++;
         }
-
-        System.out.println("Key not found: " + key);
+        return;
     }
     
     /**

@@ -83,18 +83,12 @@ public class Controller
         if (type.equalsIgnoreCase("artist")) 
         {
             nodeToRemove = artistHash.find(name);
-            if (nodeToRemove != null) 
-            {
-                artistHash.remove(name); // Remove artist from hash table
-            }
+            artistHash.remove(name); // Remove artist from hash table
         } 
         else
         {
             nodeToRemove = songHash.find(name);
-            if (nodeToRemove != null) 
-            {
-                songHash.remove(name); // Remove song from hash table
-            }
+            songHash.remove(name); // Remove song from hash table
         } 
 
         // Step 3: If the node was found and removed from the hash table, 
