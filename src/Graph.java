@@ -93,8 +93,14 @@ public class Graph
         DoubleLL<Node<String>>[] newVertex = new DoubleLL[newSize];
         boolean[] newFreedSlots = new boolean[newSize];
 
+        // Copy existing elements
         System.arraycopy(vertex, 0, newVertex, 0, vertex.length);
         System.arraycopy(freedSlots, 0, newFreedSlots, 0, freedSlots.length);
+
+        // Initialize new slots
+        for (int i = vertex.length; i < newSize; i++) {
+            newVertex[i] = new DoubleLL<>();  // Initialize new lists
+        }
 
         this.vertex = newVertex;
         this.freedSlots = newFreedSlots;
