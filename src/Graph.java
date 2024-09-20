@@ -212,15 +212,10 @@ public class Graph
         int rootA = find(a);
         int rootB = find(b);
         
-        if (rootA != rootB) {
-            if (size[rootA] < size[rootB]) {
-                parent[rootA] = rootB;
-                size[rootB] += size[rootA];
-            } 
-            else {
-                parent[rootB] = rootA;
-                size[rootA] += size[rootB];
-            }
+        if (rootA != rootB) 
+        {
+            parent[rootA] = rootB;
+            size[rootA] += size[rootB];
             numComponents--;  // Decrease the number of components
         }
     }
