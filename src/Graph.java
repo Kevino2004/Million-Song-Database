@@ -7,8 +7,8 @@
 public class Graph
 {
     private DoubleLL<Node<String>>[] vertex;
-    private int[] parent; // To track parent of each node
-    private int[] size;   // To track size of each component
+    private int[] parent;
+    private int[] size;
     private int numNodes;
     private int numComponents;
     private static final double LOAD_FACTOR_THRESHOLD = 0.5;
@@ -32,8 +32,8 @@ public class Graph
         this.numComponents = 0;
         
         for (int i = 0; i < init; i++) {
-            parent[i] = i;  // Initialize each node to be its own parent
-            size[i] = 0;    // Initially, each component has size 1
+            parent[i] = i;
+            size[i] = 0;
         }
     }
     
@@ -78,7 +78,7 @@ public class Graph
                 vertex[i].clear();
                 freedSlots[i] = false;
                 numNodes--;
-                numComponents--; // Reduce the component count as this node is r
+                numComponents--;
                 break;
             }
         }
@@ -99,7 +99,7 @@ public class Graph
 
         // Initialize new slots
         for (int i = vertex.length; i < newSize; i++) {
-            newVertex[i] = new DoubleLL<>();  // Initialize new lists
+            newVertex[i] = new DoubleLL<>(); 
         }
 
         this.vertex = newVertex;
@@ -219,7 +219,7 @@ public class Graph
         {
             parent[rootA] = rootB;
             size[rootA] += size[rootB];
-            numComponents--;  // Decrease the number of components
+            numComponents--;
         }
     }
 
@@ -230,7 +230,7 @@ public class Graph
      */
     public int find(int v) {
         if (parent[v] != v) {
-            parent[v] = find(parent[v]); // Path compression
+            parent[v] = find(parent[v]); 
         }
         return parent[v];
     }
