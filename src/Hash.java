@@ -7,12 +7,10 @@
 
 public class Hash {
 
-    private Record[] table;  // The hash table array
-    private int numRecords;  // Number of records in the table
-    private int tableSize;   // Size of the hash table
+    private Record[] table;  
+    private int numRecords;
+    private int tableSize;   
     private static final double LOAD_FACTOR_THRESHOLD = 0.5;
-    
-    // Tombstone to mark removed slots
     private static final Record TOMBSTONE = new Record(null, null);
     
     //~ Constructors ..........................................................
@@ -22,39 +20,12 @@ public class Hash {
      */
     public Hash(int initialSize) {
         this.tableSize = initialSize;
-        this.table = new Record[tableSize];
+        this.table = new Record[initialSize];
         this.numRecords = 0;
     }
     
     //~ Methods ...............................................................
-    
-    /**
-     * Insert a new record into the hash table. Uses quadratic probing for 
-     * collision resolution. Expands the table if it's more than half full.
-     * 
-     * @param key The key (string) to insert
-     * @param value The value (Node) associated with the key
-     * @param type artist or song
-     */
-    public void insert(String key, Node<String> value, String type) {
-        if (numRecords >= tableSize * LOAD_FACTOR_THRESHOLD) {
-            expand(type);
-            System.out.println(type + " hash table size doubled.");
-        }
-        
-        int homeSlot = h(key, tableSize);
-        int i = 0;
-        
-        while (table[(homeSlot + i * i) % tableSize] != null && 
-            table[(homeSlot + i * i) % tableSize] != TOMBSTONE) {
-            i++;
-        }
-        
-        int insertSlot = (homeSlot + i * i) % tableSize;
-        table[insertSlot] = new Record(key, value);
-        numRecords++;
-    }
-    
+
     /**
      * gets the table size
      * @return the tables size
@@ -65,18 +36,60 @@ public class Hash {
     }
     
     /**
-     * Find a record in the hash table using quadratic probing.
+     * gets the table size
+     * @return the tables size
+     */
+    public int getNumRecords()
+    {
+        return numRecords; 
+    }
+    
+    /**
+     * Insert a new record into the hash table.
+     * Expands the table if it's more than half full.
+     * 
+     * @param key The key (string) to insert
+     * @param value The value (Node) associated with the key
+     * @param type artist or song
+     */
+    public void insert(String key, Node<String> value, String type) 
+    {
+        if (numRecords >= tableSize * LOAD_FACTOR_THRESHOLD) 
+        {
+            expand(type);
+            System.out.println(type + " hash table size doubled.");
+        }
+        
+        int homeSlot = h(key, tableSize);
+        int i = 0;
+        
+        while (table[(homeSlot + i * i) % tableSize] != null && 
+            table[(homeSlot + i * i) % tableSize] != TOMBSTONE) 
+        {
+            i++;
+        }
+        
+        int insertSlot = (homeSlot + i * i) % tableSize;
+        table[insertSlot] = new Record(key, value);
+        numRecords++;
+    }
+    
+    /**
+     * Find a record in the hash table.
      * 
      * @param key The key to search for
      * @return The Node associated with the key, or null if not found
      */
-    public Node<String> find(String key) {
+    public Node<String> find(String key) 
+    {
         int homeSlot = h(key, tableSize);
         int i = 0;
 
-        while (table[Math.abs((homeSlot + i * i) % tableSize)] != null) {
+        while (table[Math.abs((homeSlot + i * i) % tableSize)] != null) 
+        {
             Record current = table[Math.abs((homeSlot + i * i) % tableSize)];
-            if (current != TOMBSTONE && current.getKey().equals(key)) {
+            if (current != TOMBSTONE && current.getKey().equals(key)) 
+            {
                 return current.getValue();
             }
             i++;
@@ -90,13 +103,16 @@ public class Hash {
      * 
      * @param key The key to remove
      */
-    public void remove(String key) {
+    public void remove(String key) 
+    {
         int homeSlot = h(key, tableSize);
         int i = 0;
 
-        while (table[Math.abs((homeSlot + i * i) % tableSize)] != null) {
+        while (table[Math.abs((homeSlot + i * i) % tableSize)] != null) 
+        {
             Record current = table[Math.abs((homeSlot + i * i) % tableSize)];
-            if (current != TOMBSTONE && current.getKey().equals(key)) {
+            if (current != TOMBSTONE && current.getKey().equals(key)) 
+            {
                 table[Math.abs((homeSlot + i * i) % tableSize)] = TOMBSTONE;
                 numRecords--;
                 return;

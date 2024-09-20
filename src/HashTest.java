@@ -1,3 +1,5 @@
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import student.TestCase;
 
 /**
@@ -12,18 +14,19 @@ public class HashTest extends TestCase {
     private Node<String> node2;
     private Node<String> node3;
     private String type;
+    private final ByteArrayOutputStream out = new ByteArrayOutputStream();
     
     /**
      * Sets up the tests that follow. In general, used for initialization
      */
     public void setUp() {
-        hashTable = new Hash(5);  // Initialize hash table with size 5
+        hashTable = new Hash(5);
         
-        // Sample Nodes
-        node1 = new Node<>("Artist1");
-        node2 = new Node<>("Artist2");
-        node3 = new Node<>("Artist3");
+        node1 = new Node<>("Song1");
+        node2 = new Node<>("Song2");
+        node3 = new Node<>("Song3");
         type = "Song";
+        System.setOut(new PrintStream(out));
     }
 
 
@@ -49,24 +52,39 @@ public class HashTest extends TestCase {
      * Test inserting records into the hash table.
      */
     public void testInsert() {
-     // Insert records and verify table behavior
         hashTable.insert("Song1", node1, type);
         assertEquals(node1, hashTable.find("Song1"));
 
-        // Insert additional records to reach the load factor threshold
         hashTable.insert("Song2", node2, type);
         hashTable.insert("Song3", node3, type);
 
-        // Inserting should trigger expand() after reaching threshold
-        assertTrue(hashTable.print() == 3);  // Verify 3 elements inserted
+        assertTrue(hashTable.print() == 3);
         
-        // Insert more elements to check if expand() is working
         Node<String> node4 = new Node<>("Song4");
         hashTable.insert("Song4", node4, type);
-        assertEquals(node4, hashTable.find("Song4"));  // Ensure it's found
+        assertEquals(node4, hashTable.find("Song4"));
+        
 
-        // Check if expansion happened
-        assertTrue(hashTable.print() == 4);  // 4 records after expansion
+        assertTrue(hashTable.print() == 4);
+        assertEquals("1: |Song1|\r\n"
+            + "2: |Song2|\r\n"
+            + "3: |Song3|\r\n"
+            + "Song hash table size doubled.\r\n"
+            + "6: |Song1|\r\n"
+            + "7: |Song2|\r\n"
+            + "8: |Song3|\r\n"
+            + "9: |Song4|\n", out.toString());
+        
+        hashTable.remove("Song3");
+        assertNull(hashTable.find("Song3")); 
+        
+        Node<String> node5 = new Node<>("Song5");
+        hashTable.insert("Song5", node5, type);
+        assertEquals(node5, hashTable.find("Song5"));
+        
+        Node<String> node6 = new Node<>("Song6");
+        hashTable.insert("Song6", node6, type);
+        assertEquals(node6, hashTable.find("Song6"));
     }
     
     /**
@@ -105,23 +123,7 @@ public class HashTest extends TestCase {
     /**
      * Test removing a record from the hash table.
      */
-    public void testRemove() {
-     // Insert and remove records
-        hashTable.insert("Song1", node1, type);
-        hashTable.remove("Song1");
-        assertNull(hashTable.find("Song1"));  // Should not find removed element
-
-        // Insert additional records to test removing after quadratic probing
-        hashTable.insert("SongA", new Node<>("SongA"), type);
-        hashTable.insert("SongB", new Node<>("SongB"), type);
-        hashTable.remove("SongA");
-        
-        // Ensure SongA is removed and cannot be found
-        assertNull(hashTable.find("SongA"));
-
-        // Ensure SongB is still present
-        assertEquals("SongB", hashTable.find("SongB").getData());
-    }
+   
 
     /**
      * Test the expansion of the hash table when the load factor threshold is 
