@@ -47,6 +47,11 @@ public class GraphTest extends TestCase
     {        
         graph.removeNode(a);
         assertEquals(2, graph.nodeCount());
+        assertEquals(2, graph.connectedComponents());
+        
+        Node<String> d = new Node<>("3");
+        graph.removeNode(d);
+        assertEquals(2, graph.nodeCount());
     }
     
     /**
@@ -70,6 +75,13 @@ public class GraphTest extends TestCase
         assertTrue(graph.hasEdge(a, b));
         assertTrue(graph.hasEdge(b, c));
         assertFalse(graph.hasEdge(a, c));
+        
+        Node<String> d = new Node<>("3");
+        graph.addNode(d);
+        graph.addEdge(a, d); 
+
+        assertTrue(graph.hasEdge(a, b)); 
+        assertFalse(graph.hasEdge(a, d));
     }
 
 
@@ -79,17 +91,44 @@ public class GraphTest extends TestCase
     public void testRemoveEdge() {        
         graph.removeEdge(a, b);
         assertFalse(graph.hasEdge(a, b));
+        
+        assertTrue(graph.hasEdge(b, c));
+        
+        graph.removeEdge(a, c); 
+        assertFalse(graph.hasEdge(a, c));
+        
+        b.setPrevious(a); 
+        graph.addEdge(a, b); 
+        graph.removeEdge(b, a); 
+        assertFalse(graph.hasEdge(b, a));
     }
     
     /**
-     * tests has edge if it does not contain v
+     * tests has edge 
      */
     public void testHasEdge()
     {
+     // Case 1: Nodes not in the graph
         Node<String> d = new Node<>("2");
         Node<String> e = new Node<>("2");
+        assertFalse(graph.hasEdge(d, e)); 
+
+        // Case 2: Node is in the graph but no edges exist
+        graph.addNode(d);
+        assertFalse(graph.hasEdge(d, e)); 
+
+        // Case 3: Node has edges, but not to the target node
+        Node<String> f = new Node<>("3");
+        graph.addNode(f);
+        d.setNext(f); 
+        assertFalse(graph.hasEdge(d, e)); 
         
-        assertFalse(graph.hasEdge(d, e));
+        // Case 4: Node has the correct edge
+        assertTrue(graph.hasEdge(d, f)); 
+
+        // Case 5: Node is connected through previous pointer
+        d.setPrevious(e); 
+        assertTrue(graph.hasEdge(d, e));
     }
     
     /**
@@ -110,6 +149,14 @@ public class GraphTest extends TestCase
         graph.printGraph();
         assertEquals(3, graph.connectedComponents());
         assertEquals(0, graph.largestComponentSize());
+    }
+    
+    /**
+     * tests largest component size
+     */
+    public void testLargestComponentSize()
+    {
+        assertEquals(3, graph.largestComponentSize()); 
     }
     
     /**

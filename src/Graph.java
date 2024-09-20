@@ -77,11 +77,11 @@ public class Graph
             if (vertex[i].contains(val)) {
                 vertex[i].clear();
                 freedSlots[i] = false;
+                numNodes--;
                 numComponents--; // Reduce the component count as this node is r
                 break;
             }
         }
-        numNodes--;
     }
     
     /**
@@ -132,8 +132,11 @@ public class Graph
         for (int i = 0; i < vertex.length; i++)
         {
             if (vertex[i].contains(v)) {
-                if (v.next() == w || v.previous() == w) {
+                if (v.next() == w) {
                     v.setNext(null);
+                }
+                else if (v.previous() == w) {
+                    v.setPrevious(null);
                 }
             }
         }
