@@ -57,9 +57,8 @@ public class DoubleLLTest extends TestCase
         assertTrue(list.remove(1));
         assertEquals(1, list.size());
 
-        list.add("B");
         assertTrue(list.remove(0));
-        assertEquals(1, list.size());
+        assertEquals(0, list.size());
     }
 
     /**
@@ -185,8 +184,9 @@ public class DoubleLLTest extends TestCase
         assertEquals("B", list.get(0));
         assertEquals(1, list.size());
 
+        list.remove("B");
         assertFalse(list.remove("X"));
-        assertEquals(1, list.size());
+        assertEquals(0, list.size());
     }
 
     /**
