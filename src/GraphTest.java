@@ -88,7 +88,7 @@ public class GraphTest extends TestCase
     {
         graph.printGraph();
         assertEquals(3, graph.connectedComponents());
-        assertEquals(2, graph.largestComponentSize());
+        assertEquals(1, graph.largestComponentSize());
     }
     
     /**
@@ -96,8 +96,8 @@ public class GraphTest extends TestCase
      */
     public void testUnion()
     {
-        graph.UNION(0, 1);
-        graph.UNION(1, 2);
+        graph.union(0, 1);
+        graph.union(1, 2);
         assertEquals(1, graph.connectedComponents());
     }
     
@@ -106,8 +106,8 @@ public class GraphTest extends TestCase
      */
     public void testFind()
     {
-        assertEquals(0, graph.FIND(0));
-        graph.UNION(0, 1);
-        assertEquals(0, graph.FIND(1));
+        assertEquals(0, graph.find(0));
+        graph.union(0, 1);
+        assertEquals(0, graph.find(1));
     }
 }

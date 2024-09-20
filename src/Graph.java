@@ -12,7 +12,7 @@ public class Graph
     private int numNodes;
     private int numComponents;
     private static final double LOAD_FACTOR_THRESHOLD = 0.5;
-    private boolean freedSlots[];
+    private boolean[] freedSlots;
 
     /**
      * Constructor to initialize the graph with a given size.
@@ -108,7 +108,7 @@ public class Graph
     public void addEdge(Node<String> v, Node<String> w) {
         for (int i = 0; i < vertex.length; i++)
         {
-            if (vertex[i].contains(v) && v.next() == null) 
+            if (vertex[i].contains(v)) 
             {
                 v.setNext(w);
             }
@@ -213,15 +213,16 @@ public class Graph
      * @param a key for node a
      * @param b key for node b
      */
-    public void UNION(int a, int b) {
-        int rootA = FIND(a);
-        int rootB = FIND(b);
+    public void union(int a, int b) {
+        int rootA = find(a);
+        int rootB = find(b);
         
         if (rootA != rootB) {
             if (size[rootA] < size[rootB]) {
                 parent[rootA] = rootB;
                 size[rootB] += size[rootA];
-            } else {
+            } 
+            else {
                 parent[rootB] = rootA;
                 size[rootA] += size[rootB];
             }
@@ -234,9 +235,9 @@ public class Graph
      *  @param v tree
      *  @return int
      */
-    public int FIND(int v) {
+    public int find(int v) {
         if (parent[v] != v) {
-            parent[v] = FIND(parent[v]); // Path compression
+            parent[v] = find(parent[v]); // Path compression
         }
         return parent[v];
     }
