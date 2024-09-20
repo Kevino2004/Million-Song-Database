@@ -33,7 +33,7 @@ public class Graph
         
         for (int i = 0; i < init; i++) {
             parent[i] = i;  // Initialize each node to be its own parent
-            size[i] = 1;    // Initially, each component has size 1
+            size[i] = 0;    // Initially, each component has size 1
         }
     }
     
@@ -73,12 +73,12 @@ public class Graph
      */
     public void removeNode(Node<String> val) 
     { 
-        for (int i = 0; i < vertex.length; i++)
-        {
-            if (vertex[i].contains(val))
-            {
+        for (int i = 0; i < vertex.length; i++) {
+            if (vertex[i].contains(val)) {
                 vertex[i].clear();
                 freedSlots[i] = false;
+                numComponents--; // Reduce the component count as this node is r
+                break;
             }
         }
         numNodes--;

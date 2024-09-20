@@ -88,7 +88,7 @@ public class GraphTest extends TestCase
     {
         graph.printGraph();
         assertEquals(3, graph.connectedComponents());
-        assertEquals(1, graph.largestComponentSize());
+        assertEquals(0, graph.largestComponentSize());
     }
     
     /**

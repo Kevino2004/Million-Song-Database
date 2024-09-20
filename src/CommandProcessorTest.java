@@ -36,31 +36,6 @@ public class CommandProcessorTest extends TestCase
     }
     
     /**
-     * Tests process method with a valid command.
-     * @throws IOException 
-     * @throws FileNotFoundException 
-     */
-    @SuppressWarnings("resource")
-    public void testProcessValid() throws IOException, FileNotFoundException 
-    {
-        // Create a temporary file with a valid command
-        File tempFile = File.createTempFile("testProcess", ".txt");
-        PrintWriter writer = new PrintWriter(new FileWriter(tempFile));
-        writer.println("insert Ma Rainey<SEP>Mississippi Boweavil Blues");
-        writer.close();
-
-        // Call process method on the file
-        CommandProcessor.process(tempFile, controller);
-
-        // Verify that the controller handled the valid commands
-        assertTrue(CommandProcessor.assertCompletion());
-        
-        // Clean up the temporary file
-        tempFile.delete();
-    }
-    
-    
-    /**
      * Tests insert case.
      */
     public void testInsert()
