@@ -90,14 +90,20 @@ public class HashTest extends TestCase {
     /**
      * Test quadratic probing in the insert method.
      */
-    public void testQuadraticProbing() {
-        // Insert records with intentionally colliding hash codes
-        hashTable.insert("SongA", new Node<>("SongA"), type);
-        hashTable.insert("SongB", new Node<>("SongB"), type);
+    public void testGetNextSlot() {
         
-        // They should be placed in different slots due to quadratic probing
-        assertEquals("SongA", hashTable.find("SongA").getData());
-        assertEquals("SongB", hashTable.find("SongB").getData());
+        int homeSlot = 2;
+        
+        assertEquals(2, hashTable.getNextSlot(homeSlot, 0));  
+        // i = 0, (2 + 0 * 0) % 5 = 2
+        assertEquals(3, hashTable.getNextSlot(homeSlot, 1));  
+        // i = 1, (2 + 1 * 1) % 5 = 3
+        assertEquals(1, hashTable.getNextSlot(homeSlot, 2));  
+        // i = 2, (2 + 2 * 2) % 5 = 1
+        assertEquals(1, hashTable.getNextSlot(homeSlot, 3));  
+        // i = 3, (2 + 3 * 3) % 5 = 1
+        assertEquals(3, hashTable.getNextSlot(homeSlot, 4));  
+        // i = 4, (2 + 4 * 4) % 5 = 3
     }
 
     /**
@@ -123,7 +129,18 @@ public class HashTest extends TestCase {
     /**
      * Test removing a record from the hash table.
      */
-   
+    public void testRemove() {
+        hashTable.insert("Song1", node1, type);
+        hashTable.remove("Song1");      
+        assertNull(hashTable.find("Song1"));    
+               
+        hashTable.insert("SongA", new Node<>("SongA"), type);  
+        hashTable.insert("SongB", new Node<>("SongB"), type);   
+        hashTable.remove("SongA");
+        
+        assertNull(hashTable.find("SongA"));    
+        assertEquals("SongB", hashTable.find("SongB").getData());
+    }
 
     /**
      * Test the expansion of the hash table when the load factor threshold is 

@@ -45,6 +45,17 @@ public class Hash {
     }
     
     /**
+     * Probing method
+     * @param homeSlot homeslot
+     * @param i index
+     * @return proper slot
+     */
+    public int getNextSlot(int homeSlot, int i) 
+    {
+        return (homeSlot + i * i) % tableSize;
+    }
+    
+    /**
      * Insert a new record into the hash table.
      * Expands the table if it's more than half full.
      * 
@@ -63,13 +74,12 @@ public class Hash {
         int homeSlot = h(key, tableSize);
         int i = 0;
         
-        while (table[(homeSlot + i * i) % tableSize] != null && 
-            table[(homeSlot + i * i) % tableSize] != TOMBSTONE) 
+        while (table[getNextSlot(homeSlot, i)] != null) 
         {
             i++;
         }
         
-        int insertSlot = (homeSlot + i * i) % tableSize;
+        int insertSlot = getNextSlot(homeSlot, i);
         table[insertSlot] = new Record(key, value);
         numRecords++;
     }
@@ -85,9 +95,9 @@ public class Hash {
         int homeSlot = h(key, tableSize);
         int i = 0;
 
-        while (table[Math.abs((homeSlot + i * i) % tableSize)] != null) 
+        while (table[Math.abs(getNextSlot(homeSlot, i))] != null) 
         {
-            Record current = table[Math.abs((homeSlot + i * i) % tableSize)];
+            Record current = table[Math.abs(getNextSlot(homeSlot, i))];
             if (current != TOMBSTONE && current.getKey().equals(key)) 
             {
                 return current.getValue();
@@ -108,12 +118,12 @@ public class Hash {
         int homeSlot = h(key, tableSize);
         int i = 0;
 
-        while (table[Math.abs((homeSlot + i * i) % tableSize)] != null) 
+        while (table[Math.abs(getNextSlot(homeSlot, i))] != null) 
         {
-            Record current = table[Math.abs((homeSlot + i * i) % tableSize)];
+            Record current = table[Math.abs(getNextSlot(homeSlot, i))];
             if (current != TOMBSTONE && current.getKey().equals(key)) 
             {
-                table[Math.abs((homeSlot + i * i) % tableSize)] = TOMBSTONE;
+                table[Math.abs(getNextSlot(homeSlot, i))] = TOMBSTONE;
                 numRecords--;
                 return;
             }
