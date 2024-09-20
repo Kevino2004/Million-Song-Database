@@ -82,6 +82,17 @@ public class GraphTest extends TestCase
     }
     
     /**
+     * tests has edge if it does not contain v
+     */
+    public void testHasEdge()
+    {
+        Node<String> d = new Node<>("2");
+        Node<String> e = new Node<>("2");
+        
+        assertFalse(graph.hasEdge(d, e));
+    }
+    
+    /**
      * tests print graph
      */
     public void testPrintGraph()

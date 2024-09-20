@@ -128,6 +128,7 @@ public class HashTest extends TestCase {
      * exceeded.
      */
     public void testExpand() {
+        assertEquals(5, hashTable.getTableSize());
         // Insert enough records to trigger an expansion
         hashTable.insert("Song1", node1, type);
         hashTable.insert("Song2", node2, type);
@@ -141,6 +142,10 @@ public class HashTest extends TestCase {
         assertEquals(node2, hashTable.find("Song2"));
         assertEquals(node3, hashTable.find("Song3"));
         assertEquals(node4, hashTable.find("Song4"));
+        
+        assertEquals(10, hashTable.getTableSize());
+        
+        assertTrue(hashTable.print() == 4);
     }
     
     /**

@@ -56,6 +56,15 @@ public class Hash {
     }
     
     /**
+     * gets the table size
+     * @return the tables size
+     */
+    public int getTableSize()
+    {
+        return tableSize; 
+    }
+    
+    /**
      * Find a record in the hash table using quadratic probing.
      * 
      * @param key The key to search for
