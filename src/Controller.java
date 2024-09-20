@@ -9,7 +9,7 @@ public class Controller
     //~ Fields ................................................................
     private Hash artistHash;
     private Hash songHash;
-    private Graph fullGraph;
+    private Graph graph;
     //~ Constructors ..........................................................
     /**
      * Create a new Controller object.
@@ -19,7 +19,7 @@ public class Controller
     {
         this.artistHash = new Hash(tableSize);
         this.songHash = new Hash(tableSize);
-        this.fullGraph = new Graph(tableSize);
+        this.graph = new Graph(tableSize);
     }
     //~Public  Methods ........................................................
     /**
@@ -38,7 +38,9 @@ public class Controller
             // Artist not found, create new node
             artistNode = new Node<>(artist);
             artistHash.insert(artist, artistNode); // Insert into artist hash
-            fullGraph.addNode(artistNode); // Add the artist node to the graph
+            graph.addNode(artistNode); // Add the artist node to the graph
+            System.out.println("|" + artist + "|" + " is added to the Artist "
+                + "database.");
         }
 
         // 2. Search for the song in the song hash table
@@ -48,18 +50,20 @@ public class Controller
             // Song not found, create new node
             songNode = new Node<>(song);
             songHash.insert(song, songNode); // Insert into song hash
-            fullGraph.addNode(songNode); // Add the song node to the graph
+            graph.addNode(songNode); // Add the song node to the graph
+            System.out.println("|" + song + "|" + " is added to the Song "
+                + "database.");
         }
 
         // 3. Add an edge between the artist node and song node in the graph
-        if (!fullGraph.hasEdge(artistNode, songNode)) 
+        if (!graph.hasEdge(artistNode, songNode)) 
         {
-            fullGraph.addEdge(artistNode, songNode); // Create edge in the graph
+            graph.addEdge(artistNode, songNode); // Create edge in the graph
         } 
         else 
         {
-            System.out.println("Duplicate record: Artist '" + artist + 
-                "' is already associated with Song '" + song + "'.");
+            System.out.println("|" + artist + "<SEP>" + song + "| duplicates a "
+                + "record already in the database.");
         }
     }
     
@@ -99,13 +103,14 @@ public class Controller
         // remove it from the graph
         if (nodeToRemove != null) 
         {
-            fullGraph.removeNode(nodeToRemove); // Remove the node from graph
+            graph.removeNode(nodeToRemove); // Remove the node from graph
             System.out.println(type + " '" + name + "' "
                 + "was successfully removed.");
         } 
         else 
         {
-            System.out.println(type + " '" + name + "' was not found.");
+            System.out.println("|" + name + "| does not exist in the " + type 
+                + " database.");
         }
     }
     
@@ -118,16 +123,13 @@ public class Controller
         switch (type.toLowerCase()) 
         {
             case "artist":
-                System.out.println("Printing all artists:");
-                artistHash.print();
+                System.out.println("total artists: " + artistHash.print());
                 break;
             case "song":
-                System.out.println("Printing all songs:");
-                songHash.print();
+                System.out.println("total songs: " + songHash.print());
                 break;
             case "graph":
-                System.out.println("Printing the graph:");
-                fullGraph.printGraph(); // Prints the graph
+                graph.printGraph();
                 break;
             default:
                 System.out.println("Invalid type. Use 'artist', 'song',"

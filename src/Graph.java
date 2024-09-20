@@ -108,7 +108,7 @@ public class Graph
     public void addEdge(Node<String> v, Node<String> w) {
         for (int i = 0; i < vertex.length; i++)
         {
-            if (vertex[i].contains(v)) 
+            if (vertex[i].contains(v) && v.next() == null) 
             {
                 v.setNext(w);
             }
@@ -180,10 +180,10 @@ public class Graph
                 System.out.println();
             }
         }
-        System.out.println("Number of connected components: " 
-            + connectedComponents());
-        System.out.println("Size of the largest connected component: " 
-            + largestComponentSize());
+        System.out.println("There are " + connectedComponents() + " connected"
+            + " components");
+        System.out.println("The largest connected component has " 
+            + largestComponentSize() + " elements");
     }
     
     /**

@@ -112,7 +112,6 @@ public class Hash {
             }
         }
         
-        System.out.println("Total records printed: " + count);
         return count;
     }
     
