@@ -74,7 +74,9 @@ public class Hash {
         int homeSlot = h(key, tableSize);
         int i = 0;
         
-        while (table[getNextSlot(homeSlot, i)] != null) 
+        while (table[getNextSlot(homeSlot, i)] != null &&
+            table[(homeSlot + i * i) % tableSize] != TOMBSTONE) 
+            
         {
             i++;
         }
