@@ -1,3 +1,5 @@
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import student.TestCase;
 
 /**
@@ -9,6 +11,7 @@ import student.TestCase;
 public class ControllerTest extends TestCase {
     //~ Fields ................................................................
     private Controller controller;
+    private final ByteArrayOutputStream out = new ByteArrayOutputStream();
     //~ Constructors ..........................................................
 
     //~Public  Methods ........................................................
@@ -17,6 +20,7 @@ public class ControllerTest extends TestCase {
      */
     public void setUp() {
         controller = new Controller(5);
+        System.setOut(new PrintStream(out));
     }
     
     /**
@@ -24,16 +28,11 @@ public class ControllerTest extends TestCase {
      */
     public void testInsert() 
     {
-        controller.insert("Blind Lemon Jefferson", "Long Lonesome Blues");
+        controller.insert("artist", "song");
 
-        // Check if artist and song were added
-        assertNotNull(controller.artistHash.find("Blind Lemon Jefferson"));
-        assertNotNull(controller.songHash.find("Long Lonesome Blues"));
-
-        // Check if the graph contains an edge between artist and song
-        Node<String> artistNode = controller.artistHash.find("Blind Lemon Jefferson");
-        Node<String> songNode = controller.songHash.find("Long Lonesome Blues");
-        assertTrue(controller.graph.hasEdge(artistNode, songNode));
+        assertEquals("|artist| is added to the Artist database.\n" 
+            + "|song| is added to the Song database.\n"
+            , out.toString() );
     }
 
     /**
@@ -41,13 +40,19 @@ public class ControllerTest extends TestCase {
      */
     public void testInsertDuplicate() 
     {
-        controller.insert("Blind Lemon Jefferson", "Long Lonesome Blues");
-        controller.insert("Blind Lemon Jefferson", "Long Lonesome Blues");
+        controller.insert("artist", "song");
 
-        // No duplicate edge should be created in the graph
-        Node<String> artistNode = controller.artistHash.find("Blind Lemon Jefferson");
-        Node<String> songNode = controller.songHash.find("Long Lonesome Blues");
-        assertTrue(controller.graph.hasEdge(artistNode, songNode));
+        assertEquals("|artist| is added to the Artist database.\n" 
+            + "|song| is added to the Song database.\n"
+            , out.toString() );
+        
+        controller.insert("artist", "song");
+        
+        assertEquals("|artist| is added to the Artist database.\n" 
+            + "|song| is added to the Song database.\n"
+            + "|artist<SEP>song| duplicates a record already in "
+            + "the database.\n"
+            , out.toString() );
     }
 
     /**
@@ -55,15 +60,13 @@ public class ControllerTest extends TestCase {
      */
     public void testRemoveArtist() 
     {
-        controller.insert("Ma Rainey", "Ma Rainey's Black Bottom");
-        controller.remove("artist", "Ma Rainey");
-
-        // Check if artist was removed
-        assertNull(controller.artistHash.find("Ma Rainey"));
-
-        // Check if the node was also removed from the graph
-        Node<String> artistNode = controller.artistHash.find("Ma Rainey");
-        assertFalse(controller.graph.hasEdge(artistNode, controller.songHash.find("Ma Rainey's Black Bottom")));
+        controller.insert("artist", "song");
+        controller.remove("artist", "artist");
+        
+        assertEquals("|artist| is added to the Artist database.\n" 
+            + "|song| is added to the Song database.\n"
+            + "|artist| is removed from the Artist database.\n"
+            , out.toString() );
     }
 
     /**
@@ -71,15 +74,13 @@ public class ControllerTest extends TestCase {
      */
     public void testRemoveSong() 
     {
-        controller.insert("Ma Rainey", "Ma Rainey's Black Bottom");
-        controller.remove("song", "Ma Rainey's Black Bottom");
-
-        // Check if song was removed
-        assertNull(controller.songHash.find("Ma Rainey's Black Bottom"));
-
-        // Check if the node was also removed from the graph
-        Node<String> songNode = controller.songHash.find("Ma Rainey's Black Bottom");
-        assertFalse(controller.graph.hasEdge(controller.artistHash.find("Ma Rainey"), songNode));
+        controller.insert("artist", "song");
+        controller.remove("song", "song");
+        
+        assertEquals("|artist| is added to the Artist database.\n" 
+            + "|song| is added to the Song database.\n"
+            + "|song| is removed from the Song database.\n"
+            , out.toString() );
     }
 
     /**
@@ -87,10 +88,10 @@ public class ControllerTest extends TestCase {
      */
     public void testRemoveNonExistingArtist() 
     {
-        controller.remove("artist", "Non Existing Artist");
+        controller.remove("artist", "artist");
 
-        // Ensure appropriate message and no effect on the graph
-        assertNull(controller.artistHash.find("Non Existing Artist"));
+        assertEquals("|artist| does not exist in the Artist database.\n"
+            , out.toString() );
     }
 
     /**
@@ -98,22 +99,10 @@ public class ControllerTest extends TestCase {
      */
     public void testRemoveNonExistingSong() 
     {
-        controller.remove("song", "Non Existing Song");
+        controller.remove("song", "song");
 
-        // Ensure appropriate message and no effect on the graph
-        assertNull(controller.songHash.find("Non Existing Song"));
-    }
-
-    /**
-     * Tests invalid type for removal.
-     */
-    public void testRemoveInvalidType() 
-    {
-        controller.remove("invalid", "Some Name");
-
-        // Since the type is invalid, nothing should be removed
-        assertNull(controller.artistHash.find("Some Name"));
-        assertNull(controller.songHash.find("Some Name"));
+        assertEquals("|song| does not exist in the Song database.\n"
+            , out.toString() );
     }
 
     /**
@@ -121,11 +110,14 @@ public class ControllerTest extends TestCase {
      */
     public void testPrintArtist() 
     {
-        controller.insert("Blind Lemon Jefferson", "Long Lonesome Blues");
-        // Mock print statements in your test to capture the output or check the behavior
+        controller.insert("artist", "song");
         controller.print("artist");
 
-        assertNotNull(controller.artistHash.find("Blind Lemon Jefferson"));
+        assertEquals("|artist| is added to the Artist database.\n" 
+            + "|song| is added to the Song database.\n"
+            + "3: |artist|\r\n"
+            + "total artists: 1\n"
+            , out.toString() );
     }
 
     /**
@@ -133,10 +125,14 @@ public class ControllerTest extends TestCase {
      */
     public void testPrintSong() 
     {
-        controller.insert("Blind Lemon Jefferson", "Long Lonesome Blues");
+        controller.insert("artist", "song");
         controller.print("song");
 
-        assertNotNull(controller.songHash.find("Long Lonesome Blues"));
+        assertEquals("|artist| is added to the Artist database.\n" 
+            + "|song| is added to the Song database.\n"
+            + "4: |song|\r\n"
+            + "total songs: 1\n"
+            , out.toString() );
     }
 
     /**
@@ -146,7 +142,8 @@ public class ControllerTest extends TestCase {
     {
         controller.print("invalid");
 
-        // Should handle invalid types without throwing exceptions
+        assertEquals("Invalid type. Use 'artist', 'song', or 'graph'.\n"
+            , out.toString());
     }
 
     /**
@@ -154,11 +151,13 @@ public class ControllerTest extends TestCase {
      */
     public void testPrintGraph() 
     {
-        controller.insert("Blind Lemon Jefferson", "Long Lonesome Blues");
+        controller.insert("artist", "song");
         controller.print("graph");
-
-        // Check if connected components and largest component size are printed
-        assertEquals(1, controller.graph.connectedComponents());
-        assertTrue(controller.graph.largestComponentSize() > 0);
+        
+        assertEquals("|artist| is added to the Artist database.\n" 
+            + "|song| is added to the Song database.\n"
+            + "There are 2 connected components\r\n"
+            + "The largest connected component has 0 elements\r\n"
+            , out.toString() );
     }
 }

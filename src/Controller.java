@@ -88,7 +88,7 @@ public class Controller
                 artistHash.remove(name); // Remove artist from hash table
             }
         } 
-        else if (type.equalsIgnoreCase("song")) 
+        else
         {
             nodeToRemove = songHash.find(name);
             if (nodeToRemove != null) 
@@ -96,12 +96,6 @@ public class Controller
                 songHash.remove(name); // Remove song from hash table
             }
         } 
-        else 
-        {
-            System.out.println("Invalid type specified. Use 'artist' "
-                + "or 'song'.");
-            return;
-        }
 
         // Step 3: If the node was found and removed from the hash table, 
         // remove it from the graph
