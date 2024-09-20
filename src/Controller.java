@@ -38,7 +38,8 @@ public class Controller
             String typeArtist = new String("Artist");
             // Artist not found, create new node
             artistNode = new Node<>(artist);
-            artistHash.insert(artist, artistNode, typeArtist); // Insert into artist hash
+            // Insert into artist hash
+            artistHash.insert(artist, artistNode, typeArtist); 
             graph.addNode(artistNode); // Add the artist node to the graph
             System.out.println("|" + artist + "|" + " is added to the Artist "
                 + "database.");
@@ -51,7 +52,8 @@ public class Controller
             String typeSong = new String("Song");
             // Song not found, create new node
             songNode = new Node<>(song);
-            songHash.insert(song, songNode, typeSong); // Insert into song hash
+            // Insert into song hash
+            songHash.insert(song, songNode, typeSong); 
             graph.addNode(songNode); // Add the song node to the graph
             System.out.println("|" + song + "|" + " is added to the Song "
                 + "database.");
@@ -107,13 +109,13 @@ public class Controller
         {
             graph.removeNode(nodeToRemove); // Remove the node from graph
             System.out.println("|" + name + "| is removed from the " + 
-                type.substring(0,1).toUpperCase() + type.substring(1) 
+                type.substring(0, 1).toUpperCase() + type.substring(1) 
                 + " database.");
         } 
         else 
         {
             System.out.println("|" + name + "| does not exist in the " + 
-                type.substring(0,1).toUpperCase() + type.substring(1)  
+                type.substring(0, 1).toUpperCase() + type.substring(1)  
                 + " database.");
         }
     }
