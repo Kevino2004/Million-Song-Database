@@ -156,8 +156,8 @@ public class ControllerTest extends TestCase {
         
         assertEquals("|artist| is added to the Artist database.\n" 
             + "|song| is added to the Song database.\n"
-            + "There are 2 connected components\r\n"
-            + "The largest connected component has 0 elements\r\n"
+            + "There are 1 connected components\r\n"
+            + "The largest connected component has 2 elements\r\n"
             , out.toString() );
     }
 }
