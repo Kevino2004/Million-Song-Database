@@ -65,7 +65,7 @@ public class Graph
         {
             if (vertex[i].contains(val))
             {
-                if (vertex[i].get(find(val)) == val)
+                if (vertex[i].get(find(val, i)) == val)
                 {
                     return;
                 }
@@ -132,13 +132,13 @@ public class Graph
 
     /**
      * Adds a new edge
-     * @param v Parent Node
-     * @param w Edge Node
+     * @param v node
+     * @param w node
      */
     public void addEdge(Node<String> v, Node<String> w) {
         for (int i = 0; i < vertex.length; i++)
         {
-            if (vertex[i].get(find(v)) == v) 
+            if (vertex[i].get(find(v, i)) == v) 
             {
                 vertex[i].add(w);
             }
@@ -149,13 +149,13 @@ public class Graph
 
     /**
      * Removes the edge from the graph.
-     * @param v Parent node
-     * @param w Child node
+     * @param v node
+     * @param w node
      */
     public void removeEdge(Node<String> v, Node<String> w) {
         for (int i = 0; i < vertex.length; i++)
         {
-            if (vertex[i].get(find(v)) == v) {
+            if (vertex[i].contains(v)) {
                 vertex[i].remove(w);
             }
         }
@@ -163,14 +163,14 @@ public class Graph
 
     /**
      * Returns true iff the graph has the edge
-     * @param v Parent node
-     * @param w Child node
+     * @param v node
+     * @param w node
      * @return T/F
      */
     public boolean hasEdge(Node<String> v, Node<String> w) { 
         for (int i = 0; i < vertex.length; i++)
         {
-            if (vertex[i].get(find(v)) == v) 
+            if (vertex[i].contains(v)) 
             {
                 if (vertex[i].contains(w)) {
                     return true;
@@ -256,30 +256,16 @@ public class Graph
     /**
      *  Find the root of the component that contains node v.
      *  @param node Node<String> instance.
+     *  @param i index
      *  @return int
      */
-    public int find(Node<String> node) {
-        // Find the index of the node in the vertex array
-        int nodeIndex = getNodeIndex(node);
+    public int find(Node<String> node, int i) {
         
         // Path compression to find the root of the component
-        if (parent[nodeIndex] != nodeIndex) {
-            parent[nodeIndex] = find(vertex[parent[nodeIndex]].get(0));
+        if (parent[i] != i) {
+            parent[i] = find(vertex[parent[i]].get(0), i);
         }
-        return parent[nodeIndex];
+        return parent[i];
     }
     
-    /**
-     * Helper method to find the index of a node in the vertex array.
-     * @param node Node<String> instance.
-     * @return int - index of the node in the vertex array.
-     */
-    private int getNodeIndex(Node<String> node) {
-        for (int i = 0; i < vertex.length; i++) {
-            if (vertex[i].contains(node)) {
-                return i;
-            }
-        }
-        throw new IllegalArgumentException("Node not found in graph.");
-    }
 }
