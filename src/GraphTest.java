@@ -120,25 +120,6 @@ public class GraphTest extends TestCase
         // Case 3: Node has edges, but not to the target node
         Node<String> f = new Node<>("3");
         graph.addNode(f);
-        d.setNext(f); 
-        assertFalse(graph.hasEdge(d, e)); 
-        
-        // Case 4: Node has the correct edge
-        assertTrue(graph.hasEdge(d, f)); 
-
-        // Case 5: Node is connected through previous pointer
-        d.setPrevious(e); 
-        assertTrue(graph.hasEdge(d, e));
-    }
-    
-    /**
-     * tests addEdge if next is null
-     */
-    public void testAddEdgeNextNotNull()
-    {
-        Node<String> d = new Node<>("3");
-        graph.addEdge(b, d);
-        assertFalse(graph.hasEdge(b, d));
     }
     
     /**

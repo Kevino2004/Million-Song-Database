@@ -148,8 +148,9 @@ public class Graph
         {
             if (vertex[i].contains(v)) 
             {
-                vertex[i].contains(w);
-                return true;
+                if (vertex[i].contains(w)) {
+                    return true;
+                }
             }
         }
         return false;
