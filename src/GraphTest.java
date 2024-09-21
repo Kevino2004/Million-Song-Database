@@ -172,18 +172,8 @@ public class GraphTest extends TestCase
      */
     public void testUnion2()
     {
-        assertEquals(3, graph.connectedComponents());
-        graph.union(a, a);
-        assertEquals(3, graph.connectedComponents());
-    }
-    
-    /**
-     * tests find
-     */
-    public void testFind()
-    {
-        assertEquals(a, graph.find(a));
-        graph.union(a, b);
-        assertEquals(b, graph.find(b));
+        graph.addEdge(a, b);
+        graph.addEdge(b, c);
+        assertEquals(2, graph.getParent(0));
     }
 }

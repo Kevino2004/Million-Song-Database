@@ -273,6 +273,7 @@ public class Graph
         
         if (rootA != rootB) {
             parent[rootA] = rootB;
+            size[rootA] += size[rootB];
         }
     }
 
