@@ -81,7 +81,7 @@ public class GraphTest extends TestCase
         graph.addEdge(a, d); 
 
         assertTrue(graph.hasEdge(a, b)); 
-        assertFalse(graph.hasEdge(a, d));
+        assertTrue(graph.hasEdge(a, d));
     }
 
 

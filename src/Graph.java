@@ -132,7 +132,7 @@ public class Graph
         for (int i = 0; i < vertex.length; i++)
         {
             if (vertex[i].contains(v)) {
-                vertex[i].get(v).remove(w);
+                vertex[i].remove(w);
             }
         }
     }
