@@ -33,7 +33,7 @@ public class Graph
         
         for (int i = 0; i < init; i++) {
             parent[i] = i;
-            size[i] = 1;
+            size[i] = 0;
         }
     }
     
@@ -75,6 +75,7 @@ public class Graph
         int index = findFreeSlot();
         vertex[index].add(val); 
         slotTaken[index] = true;
+        size[index]++;
         numNodes++;
         numComponents++;
     }
@@ -90,6 +91,7 @@ public class Graph
             {
                 vertex[i].clear();
                 slotTaken[i] = false;
+                size[i] = 0;
                 numNodes--;
                 numComponents--;
                 break;
@@ -212,6 +214,11 @@ public class Graph
      * @return number of connected components.
      */
     public int connectedComponents() {
+        int count = 0;
+        for (int i = 0; i < vertex.length; i++)
+        {
+            //if (vertex)
+        }
         return numComponents;
     }
     
