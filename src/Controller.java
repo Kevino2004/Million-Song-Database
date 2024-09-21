@@ -60,7 +60,8 @@ public class Controller
         }
 
         // 3. Add an edge between the artist node and song node in the graph
-        if (!graph.hasEdge(artistNode, songNode)) 
+        if (!graph.hasEdge(artistNode, songNode) || 
+            !graph.hasEdge(songNode, artistNode)) 
         {
             graph.addEdge(artistNode, songNode);
             graph.addEdge(songNode, artistNode);

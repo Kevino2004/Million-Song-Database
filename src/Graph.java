@@ -10,7 +10,6 @@ public class Graph
     private int[] parent;
     private int[] size;
     private int numNodes;
-    private int numComponents;
     private static final double LOAD_FACTOR_THRESHOLD = 0.5;
     private boolean[] slotTaken;
 
@@ -29,7 +28,6 @@ public class Graph
         this.slotTaken = new boolean[init];
         this.parent = new int[init];
         this.size = new int[init];
-        this.numComponents = 0;
         
         for (int i = 0; i < init; i++) {
             parent[i] = i;
@@ -99,7 +97,6 @@ public class Graph
                 slotTaken[i] = false;
                 size[i] = 0;
                 numNodes--;
-                numComponents--;
                 break;
             }
         }
@@ -117,18 +114,18 @@ public class Graph
         int[] newParent = new int[newSize];
         int[] newSizeArray = new int[newSize];
         
-        // Copy existing elements
-        System.arraycopy(vertex, 0, newVertex, 0, vertex.length);
-        System.arraycopy(slotTaken, 0, newFreedSlots, 0, slotTaken.length);
-        System.arraycopy(parent, 0, newParent, 0, parent.length);
-        System.arraycopy(size, 0, newSizeArray, 0, size.length);
-
         // Initialize new slots
         for (int i = vertex.length; i < newSize; i++) {
             newVertex[i] = new DoubleLL<>();
             newParent[i] = i; // New nodes are their own parent
             newSizeArray[i] = 0; // New nodes have size 0
         }
+       
+        // Copy existing elements
+        System.arraycopy(vertex, 0, newVertex, 0, vertex.length);
+        System.arraycopy(slotTaken, 0, newFreedSlots, 0, slotTaken.length);
+        System.arraycopy(parent, 0, newParent, 0, parent.length);
+        System.arraycopy(size, 0, newSizeArray, 0, size.length);
 
         this.vertex = newVertex;
         this.slotTaken = newFreedSlots;
@@ -255,8 +252,9 @@ public class Graph
      */
     public int connectedComponents() {
         int count = 0;
-        for (int i = 0; i < parent.length; i++) {
-            // If the node is its own parent, it's a root, which means it's a component
+        
+        for (int i = 0; i < numNodes; i++) {
+            // If node is own parent, it's a root, meaning it's a component
             if (parent[i] == i) {
                 count++;
             }

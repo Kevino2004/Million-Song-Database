@@ -141,6 +141,8 @@ public class GraphTest extends TestCase
      */
     public void testPrintGraph()
     {
+        graph.addEdge(a, b);
+        graph.addEdge(b, c);
         graph.printGraph();
         assertEquals(3, graph.connectedComponents());
     }
