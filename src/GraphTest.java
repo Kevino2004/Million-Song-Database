@@ -160,7 +160,11 @@ public class GraphTest extends TestCase
         graph.union(0,1);
         graph.union(1,2);
         graph.union(3,4);
-        assertEquals(p, graph.getParent());
+        assertEquals(p[0], graph.getParent(0));
+        assertEquals(p[1], graph.getParent(1));
+        assertEquals(p[2], graph.getParent(2));
+        assertEquals(p[3], graph.getParent(3));
+        assertEquals(p[4], graph.getParent(4));
     }
     
     /**

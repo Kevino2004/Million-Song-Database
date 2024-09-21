@@ -51,9 +51,10 @@ public class Graph
     
     /**
      * Return the number of nodes from parent
+     * @param i index
      * @return number of graph lists
      */
-    public int[] getParent() { return parent; }
+    public int getParent(int i) { return parent[i]; }
     
     /**
      * Set the value of node with index v
@@ -152,6 +153,7 @@ public class Graph
                 {
                     vertex[i].add(w);
                     indexV = i;
+                    size[i]++;
                 }
             }
             if (vertex[i].contains(w))
@@ -180,6 +182,7 @@ public class Graph
                 if (vertex[i].get(0) == v)
                 {
                     vertex[i].remove(w);
+                    size[i]--;
                 }
             }
         }
@@ -269,14 +272,7 @@ public class Graph
         int rootB = find(b);
         
         if (rootA != rootB) {
-            // Attach the smaller tree under the larger tree
-            if (size[rootA] < size[rootB]) {
-                parent[rootA] = rootB;
-                size[rootB] += size[rootA];  // Update size of rootB's component
-            } else {
-                parent[rootB] = rootA;
-                size[rootA] += size[rootB];  // Update size of rootA's component
-            }
+            parent[rootA] = rootB;
         }
     }
 
@@ -288,7 +284,7 @@ public class Graph
     public int find(int i) {
         
         // Path compression to find the root of the component
-        if (parent[i] != i) {
+        if (parent[i] != -1) {
             i = parent[i];
         }
         return i;
