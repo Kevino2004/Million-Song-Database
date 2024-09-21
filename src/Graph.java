@@ -108,17 +108,26 @@ public class Graph
         DoubleLL<Node<String>>[] newVertex = new DoubleLL[newSize];
         boolean[] newFreedSlots = new boolean[newSize];
 
+        int[] newParent = new int[newSize];
+        int[] newSizeArray = new int[newSize];
+        
         // Copy existing elements
         System.arraycopy(vertex, 0, newVertex, 0, vertex.length);
         System.arraycopy(slotTaken, 0, newFreedSlots, 0, slotTaken.length);
+        System.arraycopy(parent, 0, newParent, 0, parent.length);
+        System.arraycopy(size, 0, newSizeArray, 0, size.length);
 
         // Initialize new slots
         for (int i = vertex.length; i < newSize; i++) {
-            newVertex[i] = new DoubleLL<>(); 
+            newVertex[i] = new DoubleLL<>();
+            newParent[i] = i; // New nodes are their own parent
+            newSizeArray[i] = 0; // New nodes have size 0
         }
 
         this.vertex = newVertex;
         this.slotTaken = newFreedSlots;
+        this.parent = newParent;
+        this.size = newSizeArray;
     }
 
     /**
