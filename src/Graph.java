@@ -234,6 +234,10 @@ public class Graph
      */
     public int largestComponentSize() {
         int largest = 0;
+        if (numNodes == 0)
+        {
+            return 0;
+        }
         for (int i = 0; i < size.length; i++) {
             if (size[i] > largest) {
                 largest = size[i];
@@ -249,7 +253,7 @@ public class Graph
     public int connectedComponents() {
         int count = 0;
         
-        for (int i = 0; i < numNodes; i++) {
+        for (int i = 0; i < parent.length; i++) {
             // If node is own parent, it's a root, meaning it's a component
             if (parent[i] == i) {
                 count++;
