@@ -254,8 +254,8 @@ public class Graph
         int count = 0;
         
         // Loop over all possible nodes, checking if slot is taken and if it's a root
-        for (int i = 0; i < parent.length; i++) {
-            if (slotTaken[i] && parent[i] == i) {
+        for (int i = 0; i < numNodes; i++) {
+            if (parent[i] == i) {
                 count++;
             }
         }
