@@ -144,7 +144,7 @@ public class GraphTest extends TestCase
         graph.addEdge(a, b);
         graph.addEdge(b, c);
         graph.printGraph();
-        assertEquals(3, graph.connectedComponents());
+        assertEquals(1, graph.connectedComponents());
     }
     
     /**
