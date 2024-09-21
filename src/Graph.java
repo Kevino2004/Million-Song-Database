@@ -86,7 +86,8 @@ public class Graph
     public void removeNode(Node<String> val) 
     { 
         for (int i = 0; i < vertex.length; i++) {
-            if (vertex[i].contains(val)) {
+            if (vertex[i].contains(val)) 
+            {
                 vertex[i].clear();
                 slotTaken[i] = false;
                 numNodes--;
