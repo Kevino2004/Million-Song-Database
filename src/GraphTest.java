@@ -100,17 +100,17 @@ public class GraphTest extends TestCase
     public void testRemoveEdge() {    
         graph.addEdge(a, b);
         graph.addEdge(b, c);
-        graph.removeEdge(a, b);
+        graph.removeEdge(b);
         
         assertFalse(graph.hasEdge(a, b));
         assertTrue(graph.hasEdge(b, c));
         
-        graph.removeEdge(a, c); 
+        graph.removeEdge(c); 
         assertFalse(graph.hasEdge(a, c));
         
         b.setPrevious(a); 
         graph.addEdge(a, b); 
-        graph.removeEdge(b, a); 
+        graph.removeEdge(a); 
         assertFalse(graph.hasEdge(b, a));
     }
     

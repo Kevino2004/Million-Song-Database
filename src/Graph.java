@@ -169,15 +169,14 @@ public class Graph
 
     /**
      * Removes the edge from the graph.
-     * @param v Parent node
      * @param w Edge node
      */
-    public void removeEdge(Node<String> v, Node<String> w) {
+    public void removeEdge(Node<String> w) {
         for (int i = 0; i < vertex.length; i++)
         {
-            if (vertex[i].contains(v))
+            if (vertex[i].contains(w))
             {
-                if (vertex[i].get(0) == v)
+                if (vertex[i].get(0) != w)
                 {
                     vertex[i].remove(w);
                 }

@@ -97,6 +97,7 @@ public class Controller
         // remove it from the graph
         if (nodeToRemove != null) 
         {
+            graph.removeEdge(nodeToRemove);
             graph.removeNode(nodeToRemove); // Remove the node from graph
             System.out.println("|" + name + "| is removed from the " + 
                 type.substring(0, 1).toUpperCase() + type.substring(1) 
