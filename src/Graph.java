@@ -80,7 +80,6 @@ public class Graph
         int index = findFreeSlot();
         vertex[index].add(0, val); 
         slotTaken[index] = true;
-        size[index]++;
         numNodes++;
     }
     
@@ -95,7 +94,6 @@ public class Graph
             {
                 vertex[i].clear();
                 slotTaken[i] = false;
-                size[i] = 0;
                 numNodes--;
                 break;
             }
@@ -150,7 +148,6 @@ public class Graph
                 {
                     vertex[i].add(w);
                     indexV = i;
-                    size[i]++;
                 }
             }
             if (vertex[i].contains(w))
@@ -179,7 +176,6 @@ public class Graph
                 if (vertex[i].get(0) == v)
                 {
                     vertex[i].remove(w);
-                    size[i]--;
                 }
             }
         }
@@ -238,8 +234,8 @@ public class Graph
      */
     public int largestComponentSize() {
         int largest = 0;
-        for (int i = 0; i < parent.length; i++) {
-            if (parent[i] == i && size[i] > largest) {
+        for (int i = 0; i < size.length; i++) {
+            if (size[i] > largest) {
                 largest = size[i];
             }
         }
@@ -270,16 +266,10 @@ public class Graph
     public void union(int a, int b) {
         int rootA = find(a);
         int rootB = find(b);
-
+        
         if (rootA != rootB) {
-            // Union by size: attach the smaller tree under the larger one
-            if (size[rootA] < size[rootB]) {
-                parent[rootA] = rootB;
-                size[rootB] += size[rootA];  // Update size of the new root
-            } else {
-                parent[rootB] = rootA;
-                size[rootA] += size[rootB];  // Update size of the new root
-            }
+            parent[rootA] = rootB;
+            size[rootA] += size[rootB];
         }
     }
 
@@ -289,10 +279,10 @@ public class Graph
      *  @return int
      */
     public int find(int i) {
-        // Find with path compression
-        if (parent[i] != i) {
-            parent[i] = find(parent[i]);  // Path compression step
-        }
+        
+     // Path compression to find the root of the component
+        if (parent[i] != -1) return i;
+        parent[i] = find(parent[i]);
         return parent[i];
     }
     
