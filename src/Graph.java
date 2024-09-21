@@ -60,17 +60,11 @@ public class Graph
             expand();
         }
         
-        for (int i = 0; i < vertex.length; i++)
-        {
-            if (!vertex[i].contains(val))
-            {
-                int index = findFreeSlot();
-                vertex[index].add(val); 
-                slotTaken[index] = true;
-                numNodes++;
-                numComponents++;
-            }
-        }
+        int index = findFreeSlot();
+        vertex[index].add(val); 
+        slotTaken[index] = true;
+        numNodes++;
+        numComponents++;
     }
     
     /**
