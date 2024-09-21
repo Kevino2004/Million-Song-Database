@@ -89,13 +89,17 @@ public class Graph
      */
     public void removeNode(Node<String> val) 
     { 
-        for (int i = 0; i < vertex.length; i++) {
-            if (vertex[i].contains(val)) 
+        for (int i = 0; i < vertex.length; i++) 
+        {
+            if (vertex[i].contains(val))
             {
-                vertex[i].clear();
-                slotTaken[i] = false;
-                numNodes--;
-                break;
+                if (vertex[i].get(0) == val)
+                {
+                    vertex[i].clear();
+                    slotTaken[i] = false;
+                    numNodes--;
+                    break;
+                }
             }
         }
     }
