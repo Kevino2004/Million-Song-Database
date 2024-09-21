@@ -33,7 +33,7 @@ public class Graph
         
         for (int i = 0; i < init; i++) {
             parent[i] = i;
-            size[i] = 0;
+            size[i] = 1;
         }
     }
     
@@ -58,6 +58,18 @@ public class Graph
         if (numNodes >= vertex.length * LOAD_FACTOR_THRESHOLD)
         {
             expand();
+        }
+        
+        
+        for (int i = 0; i < vertex.length; i++)
+        {
+            if (vertex[i].contains(val))
+            {
+                if (vertex[i].get(find(val)) == val)
+                {
+                    return;
+                }
+            }
         }
         
         int index = findFreeSlot();
@@ -203,31 +215,54 @@ public class Graph
     }
     
     /**
-     * Merge two subtrees if they are different.
+     * Merge two nodes if they are different.
      * @param a key for node a
      * @param b key for node b
      */
-    public void union(int a, int b) {
+    public void union(Node<String> a, Node<String> b) {
         int rootA = find(a);
         int rootB = find(b);
         
-        if (rootA != rootB) 
-        {
-            parent[rootA] = rootB;
-            size[rootA] += size[rootB];
-            numComponents--;
+        if (rootA != rootB) {
+            // Attach the smaller tree under the larger tree
+            if (size[rootA] < size[rootB]) {
+                parent[rootA] = rootB;
+                size[rootB] += size[rootA];  // Update size of rootB's component
+            } else {
+                parent[rootB] = rootA;
+                size[rootA] += size[rootB];  // Update size of rootA's component
+            }
+            numComponents--;  // Reduce the number of components
         }
     }
 
     /**
      *  Find the root of the component that contains node v.
-     *  @param v tree
+     *  @param node Node<String> instance.
      *  @return int
      */
-    public int find(int v) {
-        if (parent[v] != v) {
-            parent[v] = find(parent[v]); 
+    public int find(Node<String> node) {
+        // Find the index of the node in the vertex array
+        int nodeIndex = getNodeIndex(node);
+        
+        // Path compression to find the root of the component
+        if (parent[nodeIndex] != nodeIndex) {
+            parent[nodeIndex] = find(vertex[parent[nodeIndex]].get(0));
         }
-        return parent[v];
+        return parent[nodeIndex];
+    }
+    
+    /**
+     * Helper method to find the index of a node in the vertex array.
+     * @param node Node<String> instance.
+     * @return int - index of the node in the vertex array.
+     */
+    private int getNodeIndex(Node<String> node) {
+        for (int i = 0; i < vertex.length; i++) {
+            if (vertex[i].contains(node)) {
+                return i;
+            }
+        }
+        throw new IllegalArgumentException("Node not found in graph.");
     }
 }
