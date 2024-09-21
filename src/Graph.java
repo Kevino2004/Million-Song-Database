@@ -255,11 +255,13 @@ public class Graph
      */
     public int connectedComponents() {
         int count = 0;
-        for (int i = 0; i < vertex.length; i++)
-        {
-            //if (vertex)
+        for (int i = 0; i < parent.length; i++) {
+            // If the node is its own parent, it's a root, which means it's a component
+            if (parent[i] == i) {
+                count++;
+            }
         }
-        return numComponents;
+        return count;
     }
     
     /**
