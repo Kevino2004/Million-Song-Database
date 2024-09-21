@@ -12,7 +12,7 @@ public class Graph
     private int numNodes;
     private int numComponents;
     private static final double LOAD_FACTOR_THRESHOLD = 0.5;
-    private boolean[] freedSlots;
+    private boolean[] slotTaken;
 
     /**
      * Constructor to initialize the graph with a given size.
@@ -26,7 +26,7 @@ public class Graph
             vertex[i] = new DoubleLL<>();
         }
         this.numNodes = 0;  
-        this.freedSlots = new boolean[init];
+        this.slotTaken = new boolean[init];
         this.parent = new int[init];
         this.size = new int[init];
         this.numComponents = 0;
@@ -60,11 +60,17 @@ public class Graph
             expand();
         }
         
-        int index = findFreeSlot();
-        vertex[index].add(val); 
-        freedSlots[index] = true;
-        numNodes++;
-        numComponents++;
+        for (int i = 0; i < vertex.length; i++)
+        {
+            if (!vertex[i].contains(val))
+            {
+                int index = findFreeSlot();
+                vertex[index].add(val); 
+                slotTaken[index] = true;
+                numNodes++;
+                numComponents++;
+            }
+        }
     }
     
     /**
@@ -76,7 +82,7 @@ public class Graph
         for (int i = 0; i < vertex.length; i++) {
             if (vertex[i].contains(val)) {
                 vertex[i].clear();
-                freedSlots[i] = false;
+                slotTaken[i] = false;
                 numNodes--;
                 numComponents--;
                 break;
@@ -95,7 +101,7 @@ public class Graph
 
         // Copy existing elements
         System.arraycopy(vertex, 0, newVertex, 0, vertex.length);
-        System.arraycopy(freedSlots, 0, newFreedSlots, 0, freedSlots.length);
+        System.arraycopy(slotTaken, 0, newFreedSlots, 0, slotTaken.length);
 
         // Initialize new slots
         for (int i = vertex.length; i < newSize; i++) {
@@ -103,7 +109,7 @@ public class Graph
         }
 
         this.vertex = newVertex;
-        this.freedSlots = newFreedSlots;
+        this.slotTaken = newFreedSlots;
     }
 
     /**
@@ -114,9 +120,9 @@ public class Graph
     public void addEdge(Node<String> v, Node<String> w) {
         for (int i = 0; i < vertex.length; i++)
         {
-            if (vertex[i].contains(v) && v.next() == null) 
+            if (vertex[i].contains(v)) 
             {
-                v.setNext(w);
+                vertex[i].add(w);
             }
         }
     }
@@ -132,12 +138,7 @@ public class Graph
         for (int i = 0; i < vertex.length; i++)
         {
             if (vertex[i].contains(v)) {
-                if (v.next() == w) {
-                    v.setNext(null);
-                }
-                else if (v.previous() == w) {
-                    v.setPrevious(null);
-                }
+                vertex[i].get(v).remove(w);
             }
         }
     }
@@ -153,8 +154,8 @@ public class Graph
         {
             if (vertex[i].contains(v)) 
             {
-                return v.next() == w || v.previous() == w;
-                
+                vertex[i].contains(w);
+                return true;
             }
         }
         return false;
@@ -165,8 +166,8 @@ public class Graph
      * @return next available slot
      */
     private int findFreeSlot() {
-        for (int i = 0; i < freedSlots.length; i++) {
-            if (!freedSlots[i]) {
+        for (int i = 0; i < slotTaken.length; i++) {
+            if (!slotTaken[i]) {
                 return i;
             }
         }
