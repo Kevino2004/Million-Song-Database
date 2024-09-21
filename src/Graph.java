@@ -65,7 +65,7 @@ public class Graph
         {
             if (vertex[i].contains(val))
             {
-                if (vertex[i].get(find(val, i)) == val)
+                if (vertex[i].get(0) == val)
                 {
                     return;
                 }
@@ -73,11 +73,10 @@ public class Graph
         }
         
         int index = findFreeSlot();
-        vertex[index].add(val); 
+        vertex[index].add(0, val); 
         slotTaken[index] = true;
         size[index]++;
         numNodes++;
-        numComponents++;
     }
     
     /**
@@ -132,15 +131,18 @@ public class Graph
 
     /**
      * Adds a new edge
-     * @param v node
-     * @param w node
+     * @param v Parent node
+     * @param w Edge node
      */
     public void addEdge(Node<String> v, Node<String> w) {
         for (int i = 0; i < vertex.length; i++)
         {
-            if (vertex[i].get(find(v, i)) == v) 
+            if (vertex[i].contains(v))
             {
-                vertex[i].add(w);
+                if (vertex[i].get(0) == v)
+                {
+                    vertex[i].add(w);
+                }
             }
         }
     }
@@ -149,14 +151,18 @@ public class Graph
 
     /**
      * Removes the edge from the graph.
-     * @param v node
-     * @param w node
+     * @param v Parent node
+     * @param w Edge node
      */
     public void removeEdge(Node<String> v, Node<String> w) {
         for (int i = 0; i < vertex.length; i++)
         {
-            if (vertex[i].contains(v)) {
-                vertex[i].remove(w);
+            if (vertex[i].contains(v))
+            {
+                if (vertex[i].get(0) == v)
+                {
+                    vertex[i].remove(w);
+                }
             }
         }
     }
@@ -170,10 +176,14 @@ public class Graph
     public boolean hasEdge(Node<String> v, Node<String> w) { 
         for (int i = 0; i < vertex.length; i++)
         {
-            if (vertex[i].contains(v)) 
+            if (vertex[i].contains(v))
             {
-                if (vertex[i].contains(w)) {
-                    return true;
+                if (vertex[i].get(0) == v)
+                {
+                    if (vertex[i].contains(w))
+                    {
+                        return true;
+                    }
                 }
             }
         }
