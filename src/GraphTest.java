@@ -161,7 +161,7 @@ public class GraphTest extends TestCase
     public void testUnion()
     {
         int[] p = new int[5];
-        p[0] = 1; p[1] = 2; p[2] = 2; p[3] = 4; p[4] = 4;
+        p[0] = 0; p[1] = 0; p[2] = 0; p[3] = 3; p[4] = 3;
         graph.union(0,1);
         graph.union(1,2);
         graph.union(3,4);
@@ -179,6 +179,6 @@ public class GraphTest extends TestCase
     {
         graph.addEdge(a, b);
         graph.addEdge(b, c);
-        assertEquals(2, graph.getParent(0));
+        assertEquals(0, graph.getParent(0));
     }
 }

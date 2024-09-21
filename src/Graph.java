@@ -276,7 +276,8 @@ public class Graph
             if (size[rootA] < size[rootB]) {
                 parent[rootA] = rootB;
                 size[rootB] += size[rootA];
-            } else {
+            } 
+            else {
                 parent[rootB] = rootA;
                 size[rootA] += size[rootB];
             }
