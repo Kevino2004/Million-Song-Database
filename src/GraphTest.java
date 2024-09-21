@@ -48,6 +48,8 @@ public class GraphTest extends TestCase
      */
     public void testRemoveNode()
     {        
+        graph.addEdge(a, b);
+        assertTrue(graph.hasEdge(a, b));
         graph.removeNode(a);
         assertEquals(2, graph.nodeCount());
         
@@ -55,6 +57,7 @@ public class GraphTest extends TestCase
         graph.addNode(d);
         graph.removeNode(d);
         assertEquals(2, graph.nodeCount());
+        assertFalse(graph.hasEdge(a, b));
     }
     
     /**
