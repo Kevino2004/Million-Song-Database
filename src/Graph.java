@@ -253,9 +253,9 @@ public class Graph
     public int connectedComponents() {
         int count = 0;
         
+        // Loop over all possible nodes, checking if slot is taken and if it's a root
         for (int i = 0; i < parent.length; i++) {
-            // If node is own parent, it's a root, meaning it's a component
-            if (parent[i] == i) {
+            if (slotTaken[i] && parent[i] == i) {
                 count++;
             }
         }
@@ -270,10 +270,16 @@ public class Graph
     public void union(int a, int b) {
         int rootA = find(a);
         int rootB = find(b);
-        
+
         if (rootA != rootB) {
-            parent[rootA] = rootB;
-            size[rootA] += size[rootB];
+            // Attach the smaller tree under the larger tree
+            if (size[rootA] < size[rootB]) {
+                parent[rootA] = rootB;
+                size[rootB] += size[rootA];
+            } else {
+                parent[rootB] = rootA;
+                size[rootA] += size[rootB];
+            }
         }
     }
 
@@ -283,10 +289,10 @@ public class Graph
      *  @return int
      */
     public int find(int i) {
-        
-     // Path compression to find the root of the component
-        if (parent[i] != -1) return i;
-        parent[i] = find(parent[i]);
+        // Path compression: point node to its root directly
+        if (parent[i] != i) {
+            parent[i] = find(parent[i]);
+        }
         return parent[i];
     }
     
