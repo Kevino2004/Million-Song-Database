@@ -38,6 +38,12 @@ public class GraphTest extends TestCase
     public void testAddNode()
     {
         assertEquals(3, graph.nodeCount());
+        graph.addNode(a);
+        assertEquals(3, graph.nodeCount());
+        
+        Node<String> d = new Node<>("2");
+        graph.addNode(d);
+        assertEquals(4, graph.nodeCount());
     }
     
     /**
