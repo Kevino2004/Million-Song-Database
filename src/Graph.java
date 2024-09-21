@@ -253,7 +253,8 @@ public class Graph
     public int connectedComponents() {
         int count = 0;
         
-        // Loop over all possible nodes, checking if slot is taken and if it's a root
+        // Loop over all possible nodes, 
+        // checking if slot is taken and if it's a root
         for (int i = 0; i < numNodes; i++) {
             if (parent[i] == i) {
                 count++;
