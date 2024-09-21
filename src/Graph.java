@@ -50,6 +50,12 @@ public class Graph
     public int listLength() { return vertex.length; }
     
     /**
+     * Return the number of nodes from parent
+     * @return number of graph lists
+     */
+    public int[] getParent() { return parent; }
+    
+    /**
      * Set the value of node with index v
      * @param val node
      */
@@ -135,6 +141,9 @@ public class Graph
      * @param w Edge node
      */
     public void addEdge(Node<String> v, Node<String> w) {
+        int indexV = -1;
+        int indexW = -1;
+        
         for (int i = 0; i < vertex.length; i++)
         {
             if (vertex[i].contains(v))
@@ -142,9 +151,18 @@ public class Graph
                 if (vertex[i].get(0) == v)
                 {
                     vertex[i].add(w);
+                    indexV = i;
+                }
+            }
+            if (vertex[i].contains(w))
+            {
+                if (vertex[i].get(0) == w)
+                {
+                    indexW = i;
                 }
             }
         }
+        union(indexV, indexW);
     }
 
     
@@ -169,8 +187,8 @@ public class Graph
 
     /**
      * Returns true iff the graph has the edge
-     * @param v node
-     * @param w node
+     * @param v Parent node
+     * @param w Edge node
      * @return T/F
      */
     public boolean hasEdge(Node<String> v, Node<String> w) { 
@@ -246,7 +264,7 @@ public class Graph
      * @param a key for node a
      * @param b key for node b
      */
-    public void union(Node<String> a, Node<String> b) {
+    public void union(int a, int b) {
         int rootA = find(a);
         int rootB = find(b);
         
@@ -259,23 +277,21 @@ public class Graph
                 parent[rootB] = rootA;
                 size[rootA] += size[rootB];  // Update size of rootA's component
             }
-            numComponents--;  // Reduce the number of components
         }
     }
 
     /**
      *  Find the root of the component that contains node v.
-     *  @param node Node<String> instance.
      *  @param i index
      *  @return int
      */
-    public int find(Node<String> node, int i) {
+    public int find(int i) {
         
         // Path compression to find the root of the component
         if (parent[i] != i) {
-            parent[i] = find(vertex[parent[i]].get(0), i);
+            i = parent[i];
         }
-        return parent[i];
+        return i;
     }
     
 }

@@ -155,10 +155,12 @@ public class GraphTest extends TestCase
      */
     public void testUnion()
     {
-        assertEquals(3, graph.connectedComponents());
-        graph.union(a, b);
-        graph.union(b, c);
-        assertEquals(1, graph.connectedComponents());
+        int[] p = new int[5];
+        p[0] = 1; p[1] = 2; p[2] = 2; p[3] = 4; p[4] = 4;
+        graph.union(0,1);
+        graph.union(1,2);
+        graph.union(3,4);
+        assertEquals(p, graph.getParent());
     }
     
     /**
