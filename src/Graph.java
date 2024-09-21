@@ -132,13 +132,13 @@ public class Graph
 
     /**
      * Adds a new edge
-     * @param v node
-     * @param w node
+     * @param v Parent Node
+     * @param w Edge Node
      */
     public void addEdge(Node<String> v, Node<String> w) {
         for (int i = 0; i < vertex.length; i++)
         {
-            if (vertex[i].contains(v)) 
+            if (vertex[i].get(find(v)) == v) 
             {
                 vertex[i].add(w);
             }
@@ -149,13 +149,13 @@ public class Graph
 
     /**
      * Removes the edge from the graph.
-     * @param v node
-     * @param w node
+     * @param v Parent node
+     * @param w Child node
      */
     public void removeEdge(Node<String> v, Node<String> w) {
         for (int i = 0; i < vertex.length; i++)
         {
-            if (vertex[i].contains(v)) {
+            if (vertex[i].get(find(v)) == v) {
                 vertex[i].remove(w);
             }
         }
@@ -163,14 +163,14 @@ public class Graph
 
     /**
      * Returns true iff the graph has the edge
-     * @param v node
-     * @param w node
+     * @param v Parent node
+     * @param w Child node
      * @return T/F
      */
     public boolean hasEdge(Node<String> v, Node<String> w) { 
         for (int i = 0; i < vertex.length; i++)
         {
-            if (vertex[i].contains(v)) 
+            if (vertex[i].get(find(v)) == v) 
             {
                 if (vertex[i].contains(w)) {
                     return true;
