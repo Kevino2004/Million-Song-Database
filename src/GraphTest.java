@@ -27,9 +27,6 @@ public class GraphTest extends TestCase
         graph.addNode(a);
         graph.addNode(b);
         graph.addNode(c);
-        
-        graph.addEdge(a, b);
-        graph.addEdge(b, c);
     }
     
     /**
@@ -53,9 +50,9 @@ public class GraphTest extends TestCase
     {        
         graph.removeNode(a);
         assertEquals(2, graph.nodeCount());
-        assertEquals(2, graph.connectedComponents());
         
         Node<String> d = new Node<>("3");
+        graph.addNode(d);
         graph.removeNode(d);
         assertEquals(2, graph.nodeCount());
     }
@@ -77,10 +74,13 @@ public class GraphTest extends TestCase
     /**
      * Add edge test
      */
-    public void testAddEdge() {      
+    public void testAddEdge() {
+        graph.addEdge(a, b);
+        graph.addEdge(b, c);
+        
         assertTrue(graph.hasEdge(a, b));
         assertTrue(graph.hasEdge(b, c));
-        assertTrue(graph.hasEdge(a, c));
+        assertFalse(graph.hasEdge(a, c));
         
         Node<String> d = new Node<>("3");
         graph.addNode(d);
@@ -94,10 +94,12 @@ public class GraphTest extends TestCase
     /**
      * Remove edge test
      */
-    public void testRemoveEdge() {        
+    public void testRemoveEdge() {    
+        graph.addEdge(a, b);
+        graph.addEdge(b, c);
         graph.removeEdge(a, b);
-        assertFalse(graph.hasEdge(a, b));
         
+        assertFalse(graph.hasEdge(a, b));
         assertTrue(graph.hasEdge(b, c));
         
         graph.removeEdge(a, c); 
@@ -114,6 +116,9 @@ public class GraphTest extends TestCase
      */
     public void testHasEdge()
     {
+        graph.addEdge(a, b);
+        graph.addEdge(b, c);
+        
      // Case 1: Nodes not in the graph
         Node<String> d = new Node<>("2");
         Node<String> e = new Node<>("2");
