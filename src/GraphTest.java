@@ -41,6 +41,12 @@ public class GraphTest extends TestCase
         Node<String> d = new Node<>("2");
         graph.addNode(d);
         assertEquals(4, graph.nodeCount());
+        
+        graph.addEdge(a, d);
+        Node<String> e = new Node<>("3");
+        graph.addEdge(a, e);
+        graph.addNode(e);
+        assertEquals(5, graph.nodeCount());
     }
     
     /**
@@ -50,14 +56,23 @@ public class GraphTest extends TestCase
     {        
         graph.addEdge(a, b);
         assertTrue(graph.hasEdge(a, b));
+        assertEquals(3, graph.nodeCount());
+
         graph.removeNode(a);
+        assertEquals(2, graph.nodeCount()); 
+        assertFalse(graph.hasEdge(a, b));
+
+        Node<String> d = new Node<>("3"); 
+        graph.removeNode(d); 
+        assertEquals(2, graph.nodeCount()); 
+        
+        graph.addNode(d);
+        assertEquals(3, graph.nodeCount()); 
+        graph.removeNode(d); 
         assertEquals(2, graph.nodeCount());
         
-        Node<String> d = new Node<>("3");
-        graph.addNode(d);
-        graph.removeNode(d);
+        graph.removeNode(a);
         assertEquals(2, graph.nodeCount());
-        assertFalse(graph.hasEdge(a, b));
     }
     
     /**
@@ -92,7 +107,6 @@ public class GraphTest extends TestCase
         assertTrue(graph.hasEdge(a, b)); 
         assertTrue(graph.hasEdge(a, d));
     }
-
 
     /**
      * Remove edge test
@@ -153,6 +167,27 @@ public class GraphTest extends TestCase
     public void testLargestComponentSize()
     {
         assertEquals(1, graph.largestComponentSize()); 
+        
+        graph.addEdge(a, b); 
+        assertEquals(2, graph.largestComponentSize()); 
+        
+       
+        graph.addEdge(b, c); 
+        assertEquals(3, graph.largestComponentSize()); 
+        
+        Node<String> d = new Node<>("3");
+        graph.addNode(d); 
+        assertEquals(3, graph.largestComponentSize()); 
+        
+        
+        graph.addEdge(c, d); 
+        assertEquals(4, graph.largestComponentSize());
+        
+        graph.removeEdge(d); 
+        assertEquals(3, graph.largestComponentSize()); 
+        
+        graph.removeNode(d); 
+        assertEquals(3, graph.largestComponentSize()); 
     }
     
     /**
@@ -185,4 +220,22 @@ public class GraphTest extends TestCase
         graph.addEdge(b, c);
         assertEquals(0, graph.getParent(0));
     }
+    
+    /**
+     * tests trav and union
+     */
+    public void testTraverseAndUnion() {
+        graph.addNode(a);
+        graph.addNode(b);
+        graph.addEdge(a, b);
+        
+        graph.traverseAndUnion(a); 
+        assertTrue(graph.hasEdge(a, b));
+
+        Node<String> d = new Node<>("3"); 
+        graph.traverseAndUnion(d); 
+        assertEquals(3, graph.nodeCount()); 
+        assertTrue(graph.hasEdge(a, b)); 
+    }
+    
 }
