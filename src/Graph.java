@@ -162,7 +162,7 @@ public class Graph
                 }
             }
         }
-        union(indexV, indexW);
+        //union(indexV, indexW);
     }
 
     
@@ -208,6 +208,49 @@ public class Graph
     }
     
     /**
+     * Perform DFS traversal starting from the given node, 
+     * and union two nodes if they are the same.
+     * 
+     * @param startNode The node to start the DFS traversal from.
+     */
+    public void traverseAndUnion(Node<String> startNode) {
+        // Find the index of the start node
+        int startIndex = findNodeIndex(startNode);
+        if (startIndex == -1) {
+            return; // Node not found
+        }
+
+        // Array to track visited nodes
+        boolean[] visited = new boolean[vertex.length];
+        
+        // Call DFS starting from the given node
+        dfsUnion(startIndex, visited);
+    }
+
+    /**
+     * DFS helper function that traverses the graph and unions nodes when needed.
+     * 
+     * @param currentIndex The current node index in the traversal.
+     * @param visited Array to track visited nodes.
+     */
+    private void dfsUnion(int currentIndex, boolean[] visited) {
+        visited[currentIndex] = true;  // Mark node as visited
+
+        // Traverse the adjacency list of the current node
+        for (int i = 1; i < vertex[currentIndex].size(); i++) {
+            Node<String> neighborNode = vertex[currentIndex].get(i);
+            int neighborIndex = findNodeIndex(neighborNode);
+
+            // If neighbor node has not been visited, visit it
+            if (!visited[neighborIndex]) {
+                union(currentIndex, neighborIndex);
+                dfsUnion(neighborIndex, visited);  // Recursive DFS
+            }
+        }
+    }
+
+    
+    /**
      * Find the next free slot in the adjacency list
      * @return next available slot
      */
@@ -236,31 +279,60 @@ public class Graph
      * @return largest component size
      */
     public int largestComponentSize() {
+        boolean[] visited = new boolean[vertex.length];
         int largest = 0;
-        if (numNodes == 0)
-        {
-            return 0;
-        }
-        for (int i = 0; i < size.length; i++) {
-            if (size[i] > largest) {
-                largest = size[i];
+
+        // Loop over all nodes to find sizes of connected components
+        for (int i = 0; i < vertex.length; i++) {
+            if (slotTaken[i] && !visited[i]) {
+                int currentSize = dfsComponentSize(i, visited);
+                if (currentSize > largest) {
+                    largest = currentSize;
+                }
             }
         }
         return largest;
     }
 
     /**
+     * Helper method to perform DFS and calculate the size of a component.
+     * @param index The starting index for DFS.
+     * @param visited Array to track visited nodes.
+     * @return The size of the component.
+     */
+    private int dfsComponentSize(int index, boolean[] visited) {
+        visited[index] = true;  // Mark node as visited
+        int size = 1;  // Start with the current node
+
+        // Traverse the adjacency list of the current node
+        for (int i = 1; i < vertex[index].size(); i++) {
+            Node<String> neighborNode = vertex[index].get(i);
+            int neighborIndex = findNodeIndex(neighborNode);
+
+            // If neighbor node has not been visited, visit it
+            if (!visited[neighborIndex]) {
+                size += dfsComponentSize(neighborIndex, visited);  // Recursive DFS
+            }
+        }
+        return size;  // Return the size of the component
+    }
+
+
+    /**
      * Computes and returns the number of connected components.
      * @return number of connected components.
      */
     public int connectedComponents() {
+        boolean[] visited = new boolean[vertex.length];
         int count = 0;
-        
-        // Loop over all possible nodes, 
-        // checking if slot is taken and if it's a root
-        for (int i = 0; i < numNodes; i++) {
-            if (parent[i] == i) {
-                count++;
+
+        // Loop over all nodes
+        for (int i = 0; i < vertex.length; i++) {
+            // Check if the slot is taken and if the node hasn't been visited
+            if (slotTaken[i] && !visited[i]) {
+                // Perform a DFS traversal starting from this node
+                dfsUnion(i, visited);
+                count++;  // Increment the component count only for unvisited components
             }
         }
         return count;
@@ -279,14 +351,14 @@ public class Graph
             // Attach the smaller tree under the larger tree
             if (size[rootA] < size[rootB]) {
                 parent[rootA] = rootB;
-                size[rootB] += size[rootA];
-            } 
-            else {
+                size[rootB] += size[rootA];  // Update size of the root component
+            } else {
                 parent[rootB] = rootA;
-                size[rootA] += size[rootB];
+                size[rootA] += size[rootB];  // Update size of the root component
             }
         }
     }
+
 
     /**
      *  Find the root of the component that contains node v.
@@ -299,6 +371,21 @@ public class Graph
             parent[i] = find(parent[i]);
         }
         return parent[i];
+    }
+    
+    /**
+     * Finds the index of a given node in the graph's vertex list.
+     * 
+     * @param node The node to find.
+     * @return The index of the node if found, otherwise -1.
+     */
+    private int findNodeIndex(Node<String> node) {
+        for (int i = 0; i < vertex.length; i++) {
+            if (vertex[i].size() > 0 && vertex[i].get(0).equals(node)) {
+                return i;  // Return the index if the node is found
+            }
+        }
+        return -1;  // Return -1 if the node is not found
     }
     
 }
