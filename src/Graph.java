@@ -15,21 +15,20 @@ public class Graph
 
     /**
      * Constructor to initialize the graph with a given size.
-     * 
      * @param init The initial size of the vertex list.
      */
     @SuppressWarnings("unchecked")
-    public Graph(int init) {
+    public Graph(int init) 
+    {
         this.vertex = new DoubleLL[init];
-        for (int i = 0; i < init; i++) {
-            vertex[i] = new DoubleLL<>();
-        }
         this.numNodes = 0;  
         this.slotTaken = new boolean[init];
         this.parent = new int[init];
         this.size = new int[init];
         
-        for (int i = 0; i < init; i++) {
+        for (int i = 0; i < init; i++) 
+        {
+            vertex[i] = new DoubleLL<>();
             parent[i] = i;
             size[i] = 1;
         }
@@ -60,12 +59,13 @@ public class Graph
      */
     public void addNode(Node<String> val) 
     { 
+        // Expand DLL if add makes more than half list length
         if (numNodes >= vertex.length * LOAD_FACTOR_THRESHOLD)
         {
             expand();
         }
         
-        
+        // Make sure node isn't already in DLL
         for (int i = 0; i < vertex.length; i++)
         {
             if (vertex[i].contains(val))
@@ -77,6 +77,7 @@ public class Graph
             }
         }
         
+        // Add node
         int index = findFreeSlot();
         vertex[index].add(0, val); 
         slotTaken[index] = true;
@@ -89,12 +90,14 @@ public class Graph
      */
     public void removeNode(Node<String> val) 
     { 
+        // Iterate through vertex searching for node
         for (int i = 0; i < vertex.length; i++) 
         {
             if (vertex[i].contains(val))
             {
                 if (vertex[i].get(0) == val)
                 {
+                    // found node, remove
                     vertex[i].clear();
                     slotTaken[i] = false;
                     numNodes--;
@@ -140,10 +143,9 @@ public class Graph
      * @param v Parent node
      * @param w Edge node
      */
-    public void addEdge(Node<String> v, Node<String> w) {
-        int indexV = -1;
-        int indexW = -1;
-        
+    public void addEdge(Node<String> v, Node<String> w) 
+    {
+        // Iterate through vertex, find parent node then add edge
         for (int i = 0; i < vertex.length; i++)
         {
             if (vertex[i].contains(v))
@@ -151,18 +153,9 @@ public class Graph
                 if (vertex[i].get(0) == v)
                 {
                     vertex[i].add(w);
-                    indexV = i;
-                }
-            }
-            if (vertex[i].contains(w))
-            {
-                if (vertex[i].get(0) == w)
-                {
-                    indexW = i;
                 }
             }
         }
-        //union(indexV, indexW);
     }
 
     
@@ -171,7 +164,9 @@ public class Graph
      * Removes the edge from the graph.
      * @param w Edge node
      */
-    public void removeEdge(Node<String> w) {
+    public void removeEdge(Node<String> w) 
+    {
+     // Iterate through vertex, find parent node then remove edge
         for (int i = 0; i < vertex.length; i++)
         {
             if (vertex[i].contains(w))
@@ -186,11 +181,14 @@ public class Graph
 
     /**
      * Returns true iff the graph has the edge
+     * 
      * @param v Parent node
      * @param w Edge node
      * @return T/F
      */
-    public boolean hasEdge(Node<String> v, Node<String> w) { 
+    public boolean hasEdge(Node<String> v, Node<String> w) 
+    {
+     // Iterate through vertex, find parent node then see if edge exists
         for (int i = 0; i < vertex.length; i++)
         {
             if (vertex[i].contains(v))
@@ -210,13 +208,14 @@ public class Graph
     /**
      * Perform DFS traversal starting from the given node, 
      * and union two nodes if they are the same.
-     * 
      * @param startNode The node to start the DFS traversal from.
      */
-    public void traverseAndUnion(Node<String> startNode) {
+    public void traverseAndUnion(Node<String> startNode) 
+    {
         // Find the index of the start node
         int startIndex = findNodeIndex(startNode);
-        if (startIndex == -1) {
+        if (startIndex == -1) 
+        {
             return; // Node not found
         }
 
@@ -228,21 +227,25 @@ public class Graph
     }
 
     /**
-     * DFS helper function that traverses the graph and unions nodes when needed.
+     * DFS helper function that traverses the graph and unions nodes when 
+     * needed.
      * 
      * @param currentIndex The current node index in the traversal.
      * @param visited Array to track visited nodes.
      */
-    private void dfsUnion(int currentIndex, boolean[] visited) {
+    private void dfsUnion(int currentIndex, boolean[] visited) 
+    {
         visited[currentIndex] = true;  // Mark node as visited
 
-        // Traverse the adjacency list of the current node
-        for (int i = 1; i < vertex[currentIndex].size(); i++) {
+        // Traverse the DLL of the current node
+        for (int i = 1; i < vertex[currentIndex].size(); i++) 
+        {
             Node<String> neighborNode = vertex[currentIndex].get(i);
             int neighborIndex = findNodeIndex(neighborNode);
 
             // If neighbor node has not been visited, visit it
-            if (!visited[neighborIndex]) {
+            if (!visited[neighborIndex]) 
+            {
                 union(currentIndex, neighborIndex);
                 dfsUnion(neighborIndex, visited);  // Recursive DFS
             }
@@ -254,9 +257,13 @@ public class Graph
      * Find the next free slot in the adjacency list
      * @return next available slot
      */
-    private int findFreeSlot() {
-        for (int i = 0; i < slotTaken.length; i++) {
-            if (!slotTaken[i]) {
+    private int findFreeSlot() 
+    {
+        // Iterate through array to see if DLL has free vertex slot
+        for (int i = 0; i < slotTaken.length; i++) 
+        {
+            if (!slotTaken[i]) 
+            {
                 return i;
             }
         }
@@ -266,8 +273,8 @@ public class Graph
     /**
      * Prints the graph along with connected components information.
      */
-    public void printGraph() {
-        
+    public void printGraph() 
+    {
         System.out.println("There are " + connectedComponents() + " connected"
             + " components");
         System.out.println("The largest connected component has " 
@@ -278,15 +285,19 @@ public class Graph
      * Returns the size of the largest connected component.
      * @return largest component size
      */
-    public int largestComponentSize() {
+    public int largestComponentSize() 
+    {
         boolean[] visited = new boolean[vertex.length];
         int largest = 0;
 
         // Loop over all nodes to find sizes of connected components
-        for (int i = 0; i < vertex.length; i++) {
-            if (slotTaken[i] && !visited[i]) {
+        for (int i = 0; i < vertex.length; i++) 
+        {
+            if (slotTaken[i] && !visited[i]) 
+            {
                 int currentSize = dfsComponentSize(i, visited);
-                if (currentSize > largest) {
+                if (currentSize > largest) 
+                {
                     largest = currentSize;
                 }
             }
@@ -300,21 +311,24 @@ public class Graph
      * @param visited Array to track visited nodes.
      * @return The size of the component.
      */
-    private int dfsComponentSize(int index, boolean[] visited) {
-        visited[index] = true;  // Mark node as visited
-        int size = 1;  // Start with the current node
+    private int dfsComponentSize(int index, boolean[] visited) 
+    {
+        visited[index] = true;
+        int size1 = 1;  // Start with current node
 
-        // Traverse the adjacency list of the current node
-        for (int i = 1; i < vertex[index].size(); i++) {
+        // Traverse the DLL of the current node
+        for (int i = 1; i < vertex[index].size(); i++) 
+        {
             Node<String> neighborNode = vertex[index].get(i);
             int neighborIndex = findNodeIndex(neighborNode);
 
             // If neighbor node has not been visited, visit it
-            if (!visited[neighborIndex]) {
-                size += dfsComponentSize(neighborIndex, visited);  // Recursive DFS
+            if (!visited[neighborIndex]) 
+            {
+                size1 += dfsComponentSize(neighborIndex, visited);  // Recursion
             }
         }
-        return size;  // Return the size of the component
+        return size1;  // Return the size of the component
     }
 
 
@@ -322,17 +336,20 @@ public class Graph
      * Computes and returns the number of connected components.
      * @return number of connected components.
      */
-    public int connectedComponents() {
+    public int connectedComponents() 
+    {
         boolean[] visited = new boolean[vertex.length];
         int count = 0;
 
         // Loop over all nodes
-        for (int i = 0; i < vertex.length; i++) {
+        for (int i = 0; i < vertex.length; i++) 
+        {
             // Check if the slot is taken and if the node hasn't been visited
-            if (slotTaken[i] && !visited[i]) {
+            if (slotTaken[i] && !visited[i]) 
+            {
                 // Perform a DFS traversal starting from this node
                 dfsUnion(i, visited);
-                count++;  // Increment the component count only for unvisited components
+                count++;
             }
         }
         return count;
@@ -343,18 +360,22 @@ public class Graph
      * @param a key for node a
      * @param b key for node b
      */
-    public void union(int a, int b) {
+    public void union(int a, int b) 
+    {
         int rootA = find(a);
         int rootB = find(b);
 
         if (rootA != rootB) {
-            // Attach the smaller tree under the larger tree
-            if (size[rootA] < size[rootB]) {
+            // Attach the smaller nodes to the larger nodes
+            if (size[rootA] < size[rootB]) 
+            {
                 parent[rootA] = rootB;
-                size[rootB] += size[rootA];  // Update size of the root component
-            } else {
+                size[rootB] += size[rootA];  // Update size
+            } 
+            else 
+            {
                 parent[rootB] = rootA;
-                size[rootA] += size[rootB];  // Update size of the root component
+                size[rootA] += size[rootB];  // Update size
             }
         }
     }
@@ -365,9 +386,11 @@ public class Graph
      *  @param i index
      *  @return int
      */
-    public int find(int i) {
+    public int find(int i) 
+    {
         // Path compression: point node to its root directly
-        if (parent[i] != i) {
+        if (parent[i] != i) 
+        {
             parent[i] = find(parent[i]);
         }
         return parent[i];
@@ -379,13 +402,15 @@ public class Graph
      * @param node The node to find.
      * @return The index of the node if found, otherwise -1.
      */
-    private int findNodeIndex(Node<String> node) {
-        for (int i = 0; i < vertex.length; i++) {
-            if (vertex[i].size() > 0 && vertex[i].get(0).equals(node)) {
+    private int findNodeIndex(Node<String> node) 
+    {
+        for (int i = 0; i < vertex.length; i++) 
+        {
+            if (vertex[i].size() > 0 && vertex[i].get(0).equals(node)) 
+            {
                 return i;  // Return the index if the node is found
             }
         }
-        return -1;  // Return -1 if the node is not found
+        return -1;
     }
-    
 }

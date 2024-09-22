@@ -17,7 +17,8 @@ public class GraphProjectTest extends TestCase
      * @return the string
      * @throws IOException
      */
-    static String readFile(String path) throws IOException {
+    static String readFile(String path) throws IOException 
+    {
         byte[] encoded = Files.readAllBytes(Paths.get(path));
         return new String(encoded);
     }
@@ -26,8 +27,9 @@ public class GraphProjectTest extends TestCase
     /**
      * Set up the tests that follow.
      */
-    public void setUp() { // Nothing needed yet
-
+    public void setUp() 
+    { 
+        // Nothing needed
     }
 
 
@@ -41,7 +43,7 @@ public class GraphProjectTest extends TestCase
 
 
     /**
-     * Example 2: This method runs on a command sample IO file
+     * This method runs on a command sample IO file
      * You will write similar test cases
      * using different text files
      *

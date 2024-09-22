@@ -8,7 +8,8 @@ import student.TestCase;
  * @author Kevin O'Neill <ckoneill04> Kavian Rahiab <kavianr22>
  * @version 9.20.2024
  */
-public class ControllerTest extends TestCase {
+public class ControllerTest extends TestCase 
+{
     //~ Fields ................................................................
     private Controller controller;
     private final ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -18,7 +19,8 @@ public class ControllerTest extends TestCase {
     /**
      * sets up the controller with a specified table size
      */
-    public void setUp() {
+    public void setUp() 
+    {
         controller = new Controller(5);
         System.setOut(new PrintStream(out));
     }

@@ -10,14 +10,14 @@ import java.util.Scanner;
 public class CommandProcessor
 {
     //~ Fields ................................................................
-    private static boolean check = false;
+    private static boolean check = false; // Used for testing
     /**
      * Main for Command Processor.
      */
     //~ Constructors ..........................................................
     public CommandProcessor() 
     {
-        //Main not needed
+        //Not needed
     }
     //~Public  Methods ........................................................
     /**

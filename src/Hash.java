@@ -5,8 +5,8 @@
  * @version 9.4.2024
  */
 
-public class Hash {
-
+public class Hash 
+{
     private Record[] table;  
     private int numRecords;
     private int tableSize;   
@@ -18,7 +18,8 @@ public class Hash {
      * Create a new Hash object.
      * @param initialSize initial size of the table
      */
-    public Hash(int initialSize) {
+    public Hash(int initialSize) 
+    {
         this.tableSize = initialSize;
         this.table = new Record[initialSize];
         this.numRecords = 0;
@@ -30,19 +31,13 @@ public class Hash {
      * gets the table size
      * @return the tables size
      */
-    public int getTableSize()
-    {
-        return tableSize; 
-    }
+    public int getTableSize() { return tableSize; }
     
     /**
      * gets the table size
      * @return the tables size
      */
-    public int getNumRecords()
-    {
-        return numRecords; 
-    }
+    public int getNumRecords() { return numRecords; }
     
     /**
      * Probing method
@@ -65,15 +60,18 @@ public class Hash {
      */
     public void insert(String key, Node<String> value, String type) 
     {
+        // Expand if capacity reaches more than 50%
         if (numRecords >= tableSize * LOAD_FACTOR_THRESHOLD) 
         {
             expand(type);
             System.out.println(type + " hash table size doubled.");
         }
         
+        // Find hash key using hash function
         int homeSlot = h(key, tableSize);
         int i = 0;
         
+        // Iterate to find insert slot
         while (table[getNextSlot(homeSlot, i)] != null &&
             table[(homeSlot + i * i) % tableSize] != TOMBSTONE) 
             
@@ -81,6 +79,7 @@ public class Hash {
             i++;
         }
         
+        // Insert
         int insertSlot = getNextSlot(homeSlot, i);
         table[insertSlot] = new Record(key, value);
         numRecords++;
@@ -97,6 +96,7 @@ public class Hash {
         int homeSlot = h(key, tableSize);
         int i = 0;
 
+        // Iterate through hash table and find key
         while (table[Math.abs(getNextSlot(homeSlot, i))] != null) 
         {
             Record current = table[Math.abs(getNextSlot(homeSlot, i))];
@@ -119,7 +119,8 @@ public class Hash {
     {
         int homeSlot = h(key, tableSize);
         int i = 0;
-
+        
+        // Iterate through Hash, find key and then remove
         while (table[Math.abs(getNextSlot(homeSlot, i))] != null) 
         {
             Record current = table[Math.abs(getNextSlot(homeSlot, i))];
@@ -139,19 +140,23 @@ public class Hash {
      * 
      * @return The count of printed records
      */
-    public int print() {
+    public int print() 
+    {
         int count = 0;
         
-        for (int i = 0; i < tableSize; i++) {
-            if (table[i] != null && table[i] != TOMBSTONE) {
+        // Iterates through hash table and prints every stored record
+        for (int i = 0; i < tableSize; i++) 
+        {
+            if (table[i] != null && table[i] != TOMBSTONE) 
+            {
                 System.out.println(i + ": |" + table[i].getKey() + "|");
                 count++;
             } 
-            else if (table[i] == TOMBSTONE) {
+            else if (table[i] == TOMBSTONE) 
+            {
                 System.out.println(i + ": TOMBSTONE");
             }
         }
-        
         return count;
     }
     
@@ -160,16 +165,19 @@ public class Hash {
      * valid records.
      * @param type artist or song
      */
-    private void expand(String type) {
+    private void expand(String type) 
+    {
         int newSize = tableSize * 2;
         Record[] oldTable = table;
         table = new Record[newSize];
         tableSize = newSize;
-        numRecords = 0;  // We'll re-insert, so reset count
+        numRecords = 0;  // re-insert, reset count
 
         // Re-insert records from old table into the new table
-        for (int i = 0; i < oldTable.length; i++) {
-            if (oldTable[i] != null && oldTable[i] != TOMBSTONE) {
+        for (int i = 0; i < oldTable.length; i++) 
+        {
+            if (oldTable[i] != null && oldTable[i] != TOMBSTONE) 
+            {
                 insert(oldTable[i].getKey(), oldTable[i].getValue(), type);
             }
         }
@@ -187,7 +195,8 @@ public class Hash {
      * @return
      *         The hash function value (the home slot in the table for this key)
      */
-    public static int h(String s, int length) {
+    public static int h(String s, int length) 
+    {
         int intLength = s.length() / 4;
         long sum = 0;
         for (int j = 0; j < intLength; j++) {
@@ -215,14 +224,17 @@ public class Hash {
      * @param name is name of artist or song
      * @return int is integer
      */
-    public int getIndex(String name) {
+    public int getIndex(String name) 
+    {
         // Loop through the hash table to find the index of the record 
-        for (int i = 0; i < table.length; i++) {
+        for (int i = 0; i < table.length; i++) 
+        {
             Record record = table[i];
-            if (record != null && record.getKey().equals(name)) {
+            if (record != null && record.getKey().equals(name)) 
+            {
                 return i;  // Return the index if the name matches
             }
         }
-        return -1;  // If not found, return -1
+        return -1;
     }
 }

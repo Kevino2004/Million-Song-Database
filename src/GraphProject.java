@@ -35,26 +35,32 @@ public class GraphProject
      * @param args Command line parameters
      * @throws FileNotFoundException 
      */
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) throws FileNotFoundException 
+    {
         
         // Parse the initial hash table size and create controller.
         int initHashSize;
-        try {
+        try 
+        {
             initHashSize = Integer.parseInt(args[0]);
         } 
-        catch (NumberFormatException e) {
+        catch (NumberFormatException e) 
+        {
             System.out.println("Error: {initHashSize} must be an integer.");
             return;
         }
+        
         Controller controller = new Controller(initHashSize);
         
         // Ensure file is entered correctly
-        try {
+        try 
+        {
             File input = new File(args[1]);
             
             CommandProcessor.process(input, controller);
         }
-        catch (FileNotFoundException e) {
+        catch (FileNotFoundException e) 
+        {
             System.out.println("Error: File not found");
         }
     }
