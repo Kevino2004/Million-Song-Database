@@ -73,7 +73,9 @@ public class GraphTest extends TestCase
         
         graph.removeNode(a);
         assertEquals(2, graph.nodeCount());
-    }
+        
+        graph.removeNode(a);
+        assertEquals(2, graph.nodeCount());    }
     
     /**
      * Tests expand
@@ -141,11 +143,9 @@ public class GraphTest extends TestCase
         Node<String> e = new Node<>("2");
         assertFalse(graph.hasEdge(d, e)); 
 
-        // Case 2: Node is in the graph but no edges exist
         graph.addNode(d);
         assertFalse(graph.hasEdge(d, e)); 
 
-        // Case 3: Node has edges, but not to the target node
         Node<String> f = new Node<>("3");
         graph.addNode(f);
     }
@@ -237,5 +237,4 @@ public class GraphTest extends TestCase
         assertEquals(3, graph.nodeCount()); 
         assertTrue(graph.hasEdge(a, b)); 
     }
-    
 }
