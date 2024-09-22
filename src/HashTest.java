@@ -183,4 +183,65 @@ public class HashTest extends TestCase {
 
         assertTrue(hashTable.print() == 2);  // Only Song 1 and 3 should print
     }
+    
+    /**
+     * Test the getIndex method in the Hash class.
+     */
+    public void testGetIndex() {
+        // Insert records into the hash table
+        hashTable.insert("Song1", node1, type);
+        hashTable.insert("Song2", node2, type);
+        hashTable.insert("Song3", node3, type);
+        
+        // Test finding existing records
+        int index1 = hashTable.getIndex("Song1");
+        assertTrue(index1 >= 0); // Ensure the index is non-negative
+        assertEquals(node1.getData(), hashTable.find("Song1").getData());
+        
+        int index2 = hashTable.getIndex("Song2");
+        assertTrue(index2 >= 0);
+        assertEquals(node2.getData(), hashTable.find("Song2").getData());
+        
+        int index3 = hashTable.getIndex("Song3");
+        assertTrue(index3 >= 0);
+        assertEquals(node3.getData(), hashTable.find("Song3").getData());
+        
+        // Test finding a record that doesn't exist
+        int nonExistentIndex = hashTable.getIndex("NonExistentSong");
+        assertEquals(-1, nonExistentIndex); // Ensure -1 is returned
+
+        // Test with an empty hash table
+        Hash emptyHashTable = new Hash(5);
+        int emptyIndex = emptyHashTable.getIndex("AnySong");
+        assertEquals(-1, emptyIndex); // Ensure -1 is returned
+    }
+
+    /**
+     * Test the expand method in the Hash class, specifically checking 
+     * the handling of records when expanding the table.
+     */
+    public void testExpandWithTombstones() {
+        // Check the table size before expansion
+        int initialSize = hashTable.getTableSize();
+        
+        // Initialize the hash table and insert records
+        hashTable.insert("Song1", node1, type);
+        hashTable.insert("Song2", node2, type);
+        hashTable.insert("Song3", node3, type);
+        
+        // Verify the new table size
+        int newSize = hashTable.getTableSize();
+        assertEquals(initialSize, newSize); // Ensure the size has doubled
+        
+        // Remove one record to create a tombstone
+        hashTable.remove("Song2");
+
+        // Verify that "Song1" and "Song3" are still in the hash table
+        assertEquals(node1, hashTable.find("Song1"));
+        assertEquals(node3, hashTable.find("Song3"));
+        
+        // Verify that "Song2" is not found (was removed)
+        assertNull(hashTable.find("Song2"));
+    }
+
 }
